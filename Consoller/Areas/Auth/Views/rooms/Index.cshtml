@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.tblroom>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+    var active = "Active";
+    var Deactive = "Deactive";
+}
+
+<h2><b>Rooms List</b></h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", "", new { @class = "btn btn-primary" })
+</p>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.room)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.status)
+                </th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.room)
+                    </td>
+                    <td>
+                        @if (item.status == true)
+                        {
+                            <span class="label label-success">@active.ToString()</span>
+                        }
+                        else
+                        {
+                            <span class="label label-danger">@Deactive.ToString()</span>
+                        }
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.RoomId }, new { @class = "label label-warning" }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.RoomId }, new { @class = "label label-primary" }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.RoomId }, new { @class = "label label-danger" })
+                    </td>
+                </tr>
+            }
+
+    </table>
+    </div>

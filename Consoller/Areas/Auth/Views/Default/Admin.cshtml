@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.tblreceptionist>
+@using Consoller.Areas.Auth.Models;
+@{
+    ViewBag.Title = "Admin";
+    Layout = "~/Areas/Auth/Views/Shared/Admin.cshtml";
+    DashModel dd = new DashModel();
+
+}
+
+<h2>Dashboard Admin</h2>
+<div class="row">
+    @foreach (var item in Model)
+    {
+        if (item != null)
+        {
+
+            <div class="col-12 col-lg-4">
+                <div class="widget be-loading" style="background-color:#f7f6f3">
+
+                    <div class="widget-head">
+                        <div class="title"><a href="@Url.Action("FullDetails",new { id=item.rid})"> @item.name </a></div>
+                    </div>
+                    <div class="chart-legend">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="chart-legend-color"><span data-color="top-sales-color1" style="background-color: rgb(52, 168, 83);"></span></td>
+                                    <td> Total Student</td>
+                                    <td class="chart-legend-value">@dd.TotalStudent(item.rid.ToString())</td>
+                                </tr>
+                                <tr>
+                                    <td class="chart-legend-color"><span data-color="top-sales-color2" style="background-color: rgb(251, 188, 5);"></span></td>
+                                    <td>Today Income</td>
+                                    <td class="chart-legend-value">@dd.TodayTotalFee(item.rid)</td>
+                                </tr>
+                                <tr>
+                                    <td class="chart-legend-color"><span data-color="top-sales-color3" style="background-color: rgb(66, 133, 244);"></span></td>
+                                    <td>Today Expense</td>
+                                    <td class="chart-legend-value">@dd.TodayExpenses(item.rid)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="be-spinner">
+                        <svg width="40px" height="40px" viewBox="0 0 66 66" xmlns="http://-www.w3.org/2000/svg">
+                            <circle class="circle" fill="none" stroke-width="4" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+        }
+    }
+</div>

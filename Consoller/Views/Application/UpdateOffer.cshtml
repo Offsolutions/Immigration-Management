@@ -1,0 +1,171 @@
+﻿@model Consoller.Areas.Auth.Models.Offerletter
+@using Consoller.Areas.Auth.Models
+@using Consoller.Models
+@{
+    ViewBag.Title = "UpdateOffer";
+    Layout = "~/Views/Shared/main.cshtml";
+    dbcontext db = new dbcontext();
+    List<Country> cc = db.Countries.ToList();
+    List<College> co = db.Colleges.Where(x => x.Cid == Model.Cid).ToList();
+    ViewBag.Mid = new SelectList(db.Months.ToList(), "Mid", "Name",Model.Mid);
+    ViewBag.Yid = new SelectList(db.Years.ToList(), "Yid", "Name",Model.Yid);
+    Offerletter off = new Offerletter();
+}
+
+<h2>UpdateOffer</h2>
+<div class="col-lg-12 col-md-6">
+    <div class="save-draft">
+      
+
+            <div class="row" style="padding:5px">
+                <div class="col-md-12">
+                
+                    <input type="hidden" value="@Model.ApplicationNo" name="application" id="application" />
+                    <input type="hidden" value="@Model.Lid" name="lid" id="lid" />
+                    <select name="country" class="form-control" id="countryid" onchange="getCityList()">
+                        <option>
+                            Select Country
+                        </option>
+                        @foreach (var item in cc)
+                        {
+                            if (item.Cid == Model.Cid)
+                            {
+                                <option selected="selected" value="@item.Cid">@item.CountryName</option>
+                            
+                            }
+                            else
+                            {
+                            <option value="@item.Cid">@item.CountryName</option>
+                            }
+                        }
+                    </select>
+                    
+                </div>
+
+            </div>
+            <div class="row" style="padding:5px">
+                <div class="col-md-6">
+                    <select id="cityDropDown" name="college" class="form-control" onchange="Courses()">
+                        <option>Select College</option>
+                    </select>
+
+                </div>
+                <div class="col-md-6">
+                    <select id="ddlcourse" name="course" class="form-control">
+                        <option>Select Course</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row" style="padding:5px">
+                <div class="col-md-6">
+                    @Html.DropDownListFor(model => off.Yid, (SelectList)ViewBag.Yid, htmlAttributes: new { @class = "form-control",id="Year" })
+                </div>
+                <div class="col-md-6">
+                    @Html.DropDownListFor(model => off.Mid, (SelectList)ViewBag.Mid, htmlAttributes: new { @class = "form-control",id= "Month" })
+
+
+                </div>
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" ,id= "Amount" } })
+
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <input class="red-bg" type="submit" value="Save now" onclick="SaveEmployee()">
+            </div>
+
+
+
+
+
+
+        
+    </div>
+
+</div>
+<script src="https://code.jquery.com/jquery-1.10.2.js"
+        integrity="sha256-it5nQKHTz+34HijZJQkpNBIHsjpV8b6QzMJs9tmOBSo="
+        crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+
+
+    function SaveEmployee() {
+
+        if (Validate() == true) {
+            var Country = $("#countryid").val();
+            var College = $("#cityDropDown").val();
+            var Course = $("#ddlcourse").val();
+            var Amount = $("#Amount").val();
+            var application = $("#application").val();
+            var month = $("#Month").val();
+            var year = $("#Year").val();
+            var Lid = $("#lid").val();
+            var Employee = {
+                "Cid": Country, "Oid": College,
+                "CCid": Course, "Amount": Amount, "ApplicationNo": application,
+                "Mid": month, "Yid": year, "Lid": Lid
+            };
+
+            $.post("/Application/UpdateLetter", Employee,
+            function (data) {
+                debugger;
+                $("#countryid").val("");
+                $("#cityDropDown").val("");
+                $("#ddlcourse").val("");
+                $("#Amount").val("");
+
+                $("#Month").val("");
+                $("#Year").val("");
+                LoadHomeRecentPost()
+                if (data == 0) {
+                    location = location.href;
+                }
+            });
+        }
+        else {
+
+        }
+
+    }
+    </script>
+<script>
+    function Validate() {
+        debugger;
+        var e = document.getElementById("countryid");
+        var strUser = e.options[e.selectedIndex].value;
+        var e = document.getElementById("cityDropDown");
+        var college = e.options[e.selectedIndex].text;
+
+        var e = document.getElementById("ddlcourse");
+        var course = e.options[e.selectedIndex].text;
+
+        if (strUser == "Select Country") {
+            alert("Please select a Country");
+
+            return false;
+        }
+        else if (college == "Select College") {
+            alert("Please select a College");
+            return false;
+        }
+        else if (course == "Select Course") {
+            alert("Please select a Course");
+            return false;
+        }
+        return true;
+    }
+
+</script>
+<script type="text/jscript">
+
+
+    $(document).ready(function () {
+
+       // myFunction()
+        getCityList(@Model.CCid)
+
+    });
+</script>
+<script src="~/Scripts/test.js"></script>

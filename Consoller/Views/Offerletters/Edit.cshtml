@@ -1,0 +1,354 @@
+﻿@model Consoller.Areas.Auth.Models.Offerletter
+@using Consoller.Areas.Auth.Models
+@using Consoller.Models
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/main.cshtml";
+    dbcontext db = new dbcontext();
+    List<Country> cc = db.Countries.ToList();
+    List<College> co = db.Colleges.Where(x => x.Cid == Model.Cid).ToList();
+    ViewBag.Mid = new SelectList(db.Months.ToList(), "Mid", "Name", Model.Mid);
+    ViewBag.Yid = new SelectList(db.Years.ToList(), "Yid", "Name", Model.Yid);
+    Offerletter off = new Offerletter();
+}
+
+
+<div class="card">
+    <div class="card-body">
+
+        @using (Html.BeginForm("Edit", "OfferLetters", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <h4>Offerletter</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Lid)
+                <div class="form-group">
+                    <select name="country" class="form-control" id="countryid" onchange="getCityList()">
+                        <option>
+                            Select Country
+                        </option>
+                        @foreach (var item in cc)
+                        {
+                            if (item.Cid == Model.Cid)
+                            {
+                                <option selected="selected" value="@item.Cid">@item.CountryName</option>
+
+                            }
+                            else
+                            {
+                                <option value="@item.Cid">@item.CountryName</option>
+                            }
+                        }
+                    </select>
+                </div>
+                 <div class="form-group">
+                        <select id="cityDropDown" name="college" class="form-control" onchange="Courses()">
+                            <option>Select College</option>
+                        </select>
+                    </div>
+                <div class="form-group">
+                    <select id="ddlcourse" name="course" class="form-control">
+                        <option>Select Course</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <div class="row" style="padding:5px">
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => off.Yid, (SelectList)ViewBag.Yid, htmlAttributes: new { @class = "form-control", id = "Year" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => off.Mid, (SelectList)ViewBag.Mid, htmlAttributes: new { @class = "form-control", id = "Month" })
+
+
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control", id = "Amount" } })
+
+                        </div>
+                    </div>
+
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ApplicationNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.ApplicationNo, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ApplicationNo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Applied, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Applied, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Applied, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Received, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Received, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Received, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    @Html.HiddenFor(model => model.Cid)
+                    @Html.HiddenFor(model => model.Oid)
+                    @Html.HiddenFor(model => model.CCid)
+                    @Html.HiddenFor(model => model.Yid)
+                    @Html.HiddenFor(model => model.Mid)
+                    @Html.HiddenFor(model => model.Amount)
+                    @*<div class="form-group">
+                @Html.LabelFor(model => model.Cid, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Cid, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Cid, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Oid, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Oid, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Oid, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CCid, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CCid, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CCid, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Yid, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Yid, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Yid, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Mid, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Mid, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Mid, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Files, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <input id="file" type="file" title="search image" class="form-control" name="file" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TT, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <input id="tt" type="file" title="search image" class="form-control" name="tt" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Recipt, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <input id="recipt" type="file" title="search image" class="form-control" name="recipt" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Show, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.Show)
+                                @Html.ValidationMessageFor(model => model.Show, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Update" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+        }
+
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-1.10.2.js"
+        integrity="sha256-it5nQKHTz+34HijZJQkpNBIHsjpV8b6QzMJs9tmOBSo="
+        crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+
+
+    function SaveEmployee() {
+
+        if (Validate() == true) {
+            var Country = $("#countryid").val();
+            var College = $("#cityDropDown").val();
+            var Course = $("#ddlcourse").val();
+            var Amount = $("#Amount").val();
+            var application = $("#application").val();
+            var month = $("#Month").val();
+            var year = $("#Year").val();
+            var Lid = $("#lid").val();
+            var Employee = {
+                "Cid": Country, "Oid": College,
+                "CCid": Course, "Amount": Amount, "ApplicationNo": application,
+                "Mid": month, "Yid": year, "Lid": Lid
+            };
+
+            $.post("/Application/UpdateLetter", Employee,
+            function (data) {
+                debugger;
+                $("#countryid").val("");
+                $("#cityDropDown").val("");
+                $("#ddlcourse").val("");
+                $("#Amount").val("");
+
+                $("#Month").val("");
+                $("#Year").val("");
+                LoadHomeRecentPost()
+                if (data == 0) {
+                    location = location.href;
+                }
+            });
+        }
+        else {
+
+        }
+
+    }
+</script>
+<script>
+    function Validate() {
+        debugger;
+        var e = document.getElementById("countryid");
+        var strUser = e.options[e.selectedIndex].value;
+        var e = document.getElementById("cityDropDown");
+        var college = e.options[e.selectedIndex].text;
+
+        var e = document.getElementById("ddlcourse");
+        var course = e.options[e.selectedIndex].text;
+
+        if (strUser == "Select Country") {
+            alert("Please select a Country");
+
+            return false;
+        }
+        else if (college == "Select College") {
+            alert("Please select a College");
+            return false;
+        }
+        else if (course == "Select Course") {
+            alert("Please select a Course");
+            return false;
+        }
+        return true;
+    }
+
+</script>
+<script type="text/jscript">
+
+
+    $(document).ready(function () {
+ 
+       // myFunction()
+        getCityList(@Model.Oid,@Model.CCid)
+
+    });
+    function getCityList(ccid,offer) {
+
+        var stateId = $("#countryid").val();
+ 
+        $.ajax
+        ({
+            url: '/Application/GetCityList',
+            type: 'POST',
+            datatype: 'application/json',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                stateId: +stateId
+            }),
+            success: function (result) {
+
+                $("#cityDropDown").html("");
+                $("#cityDropDown").append($('<option>Select College</option>'));
+                $.each($.parseJSON(result), function (i, city) {
+
+                    var a = city.id;
+              
+                    if(ccid==city.Oid)
+                    {
+                        $("#cityDropDown").append($('<option selected="selected"></option>').val(city.Oid).html(city.Name))
+                        
+                    }
+                    else
+                    {
+                        $("#cityDropDown").append($('<option></option>').val(city.Oid).html(city.Name))
+                    }
+                    Courses(offer,ccid);
+                })
+               
+            },
+            error: function () {
+                alert("Whooaaa! Something went wrong in ..")
+            },
+        });
+    }
+    function Courses(offer,ccid) {
+       
+        var stateId = ccid;
+      
+        $.ajax
+        ({
+            url: '/Application/Course',
+            type: 'POST',
+            datatype: 'application/json',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                stateId: +stateId
+            }),
+            success: function (result) {
+            
+                $("#ddlcourse").html("");
+                $("#ddlcourse").append($('<option>Select Course</option>'));
+                $.each($.parseJSON(result), function (i, city) {
+
+                    var a = city.id;
+                    debugger;
+                    if(offer==city.Code)
+                    {
+                        $("#ddlcourse").append($('<option selected="selected"></option>').val(city.Code).html(city.Name))
+                    }
+                    else
+                    {
+                        $("#ddlcourse").append($('<option></option>').val(city.Code).html(city.Name))
+                    }
+                })
+
+            },
+            error: function () {
+                alert("Whooaaa! Something went wrong course..")
+            },
+        });
+    }
+
+</script>
+<script src="~/Scripts/test.js"></script>

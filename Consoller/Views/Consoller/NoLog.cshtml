@@ -1,0 +1,85 @@
+﻿@model Consoller.Areas.Auth.Models.online
+@using Consoller.Areas.Auth.Models
+@{
+    ViewBag.Title = "LogHistory";
+    Layout = "~/Views/Shared/main.cshtml";
+    dbcontext db = new dbcontext();
+    IEnumerable<Logs> logs = db.Logs.Where(x => x.inquiryid == Model.inquiryid && x.franchid == Model.franchid);
+  
+}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-5">Discussion</h4>
+                <div class="">
+                    <ul class="verti-timeline list-unstyled">
+                        @if (Model != null)
+                        {
+                            foreach (var item in logs)
+                            {
+                                <li class="event-list">
+                                    <div class="event-timeline-dot">
+                                        <i class="bx bx-right-arrow-circle"></i>
+                                    </div>
+                                    <div class="media">
+                                        <div class="mr-3">
+                                            <i class="bx bx-copy-alt h2 text-primary"></i>
+                                        </div>
+                                        <div class="media-body">
+                                            <div>
+                                                <h5>@db.tblreceptionists.FirstOrDefault(x => x.rid == item.teacher).name <span>@item.Date</span></h5> <a href="javascript:void(0);" onclick="AddBook(@item.Lid)" class="label label-danger">Edit</a>
+                                                <p class="text-muted">@item.Description</p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        }
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade colored-header colored-header-primary" id="form-bp1" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-header-colored">
+                <h3 class="modal-title">Edit Logs</h3>
+
+            </div>
+            <div class="modal-body" id="myModalBodyDiv1">
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary md-close" type="button" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"
+        integrity="sha256-it5nQKHTz+34HijZJQkpNBIHsjpV8b6QzMJs9tmOBSo="
+        crossorigin="anonymous"></script>
+
+<script>
+
+
+    var AddBook=function(Member){
+        debugger;
+        var url = "/Consoller/EditLogs?id=" + Member;
+        // var url = "/Model/EmployeePartial";
+        $("#myModalBodyDiv1").load(url, function () {
+
+            $("#form-bp1").modal("show");
+
+        })
+
+    }
+</script>

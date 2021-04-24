@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.MorningAttendence>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rollno)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Reading)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Speaking)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Role)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Timing)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.franchid)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rollno)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Reading)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Speaking)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Role)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Timing)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.franchid)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Aid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Aid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Aid })
+        </td>
+    </tr>
+}
+
+</table>

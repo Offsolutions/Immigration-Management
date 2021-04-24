@@ -1,0 +1,116 @@
+﻿@model Consoller.Areas.Auth.Models.CollegeCourse
+@using Consoller.Areas.Auth.Models
+@{
+    ViewBag.Title = "ProgramDetails";
+    Layout = "~/Views/Shared/main.cshtml";
+    dbcontext db = new dbcontext();
+    IEnumerable<Intake> take = db.Intakes.Where(x => x.CCid == Model.Code).ToList();
+
+}
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-body">
+                <div class="media">
+                    <img src="~/Uploadfile/@db.Colleges.Find(Model.Oid).Logo" alt="No Image" class="avatar-sm mr-4">
+
+                    <div class="media-body overflow-hidden">
+                        <h5 class="text-truncate font-size-15">@Model.Name</h5>
+                        <p class="text-muted">@db.Colleges.Find(Model.Oid).Name - @db.Colleges.Find(Model.Oid).Address</p>
+                    </div>
+                </div>
+
+               
+
+                <p class="text-muted">
+                    @Html.Raw(Model.Description)
+                </p>
+
+      
+            </div>
+        </div>
+    </div>
+    <!-- end col -->
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Program Fee Details</h4>
+
+                <div class="table-responsive">
+                    <table class="table table-centered table-nowrap">
+                        <tbody>
+                            <tr>
+                                
+                                <td><h5 class="font-size-14 m-0"><a href="" class="text-dark">Length</a></h5></td>
+                                <td>
+                                    <div>
+                                        <a href="#" class="badge badge-primary font-size-11">@Model.ProgramLength</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                              
+                                <td><h5 class="font-size-14 m-0"><a href="" class="text-dark">Application Fee</a></h5></td>
+                                <td>
+                                    <div>
+                                        <a href="#" class="badge badge-primary font-size-11">$@Model.ApplicationFee</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                
+                                <td><h5 class="font-size-14 m-0"><a href="" class="text-dark">Tuition Fee</a></h5></td>
+                                <td>
+                                    <div>
+                                        <a href="#" class="badge badge-primary font-size-11">$@Model.TuitionFee/Year</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                               
+                                <td><h5 class="font-size-14 m-0"><a href="" class="text-dark">Living Cost</a></h5></td>
+                                <td>
+                                    <div>
+                                        <a href="#" class="badge badge-primary font-size-11">$@Model.LivingCost/Year</a>
+                                       
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Intake Details</h4>
+
+                <div class="table-responsive">
+                    <table class="table table-centered table-nowrap">
+                        <tbody>
+                            @foreach (var item in take)
+                            {
+                                <tr>
+
+                                    <td><h5 class="font-size-14 m-0"><a href="" class="text-dark">@item.IntakeName</a></h5></td>
+                                    <td>
+                                        <div>
+                                            <a href="#" class="badge badge-success font-size-11">Open</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            
+                        
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end col -->
+</div>

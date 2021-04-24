@@ -1,0 +1,34 @@
+﻿@model Consoller.Areas.Auth.Models.tblroom
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+}
+<h2><b>Room</b></h2>
+
+<div>
+    <h4>Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.room)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.room)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.status)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.RoomId }, new { @class = "btn btn-danger" }) |
+     @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-danger" })
+</p>

@@ -1,0 +1,161 @@
+﻿@model Consoller.Areas.Auth.Models.tblfill
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+}
+<h2><b>Exam Registration</b></h2>
+<div>
+    <h4>Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.passport)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.passport)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dob)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dob)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.doe)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.doe)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.choice1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.choice1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.choice2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.choice2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.choice3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.choice3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.module)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.module)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.v1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.v1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.v2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.v2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.v3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.v3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.instname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.instname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.uname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.uname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pass)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pass)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-danger" }) |
+     @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-danger" })
+</p>

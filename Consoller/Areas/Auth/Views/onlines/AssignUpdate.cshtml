@@ -1,0 +1,42 @@
+﻿
+@model Consoller.Areas.Auth.Models.online
+@using Consoller.Areas.Auth.Models
+@using onlineportal.Areas.AdminPanel.Models;
+@{
+    dbcontext db = new dbcontext();
+    Helper help = new Helper();
+    string a = help.Permission();
+   
+    ViewBag.Time = new SelectList(db.tblreceptionists.Where(x => x.franchid == a), "rid", "Name", Model.teacher);
+}
+
+
+    <div class="row">
+        @using (Html.BeginForm("UpdateAssignTeacher", "onlines"))
+        {
+            @Html.HiddenFor(model => model.inquiryid)
+            @*@Html.HiddenFor(model => model.Aid)*@
+            <div class="form-group1">
+                <div class="col-md-12">
+
+
+                    <div class="col-md-12">
+                        <label>Update Assign Teacher</label>
+                        @Html.DropDownListFor(model => model.teacher, (SelectList)ViewBag.Time, htmlAttributes: new { @class = "form-control" })
+                        @*@Html.DropDownList("Time", (IEnumerable<=SelectListItem>)ViewBag.Time)*@
+                        <div class="form-group" style="padding-top:20px">
+                            <div class="col-md-10">
+                                <input type="submit" value="Update" class="btn btn-lg btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        }
+    </div>
+
+
+

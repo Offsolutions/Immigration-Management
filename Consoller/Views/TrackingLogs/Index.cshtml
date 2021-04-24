@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.TrackingLogs>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/main.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Tracking)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Files)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Pid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Show)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Submitby)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tracking)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Files)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Pid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Show)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Submitby)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Tid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Tid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Tid })
+        </td>
+    </tr>
+}
+
+</table>

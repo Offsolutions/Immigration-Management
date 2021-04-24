@@ -1,0 +1,57 @@
+﻿@model Consoller.Areas.Auth.Models.Chat
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/main.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Chat</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicationNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApplicationNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Message)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Message)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Consoller)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Consoller)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

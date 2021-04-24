@@ -1,0 +1,102 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.tblfeedback>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.inquiryid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.feedback)
+        </th>
+       
+        <th>
+            @Html.DisplayNameFor(model => model.status)
+        </th>
+     <th>
+
+     </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.inquiryid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.feedback)
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.status)
+        </td>
+       
+        <td>
+            @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
+            @*@Html.ActionLink("Follow Up", "follow", new { id=item.Id }) |*@
+            @*@Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
+            @*@Html.ActionLink("Details", "Detail", new { id=item.Id })*@
+        </td>
+    </tr>
+}
+
+</table>
+
+
+@section scripts
+{
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+
+    var TeamDetailPostBackURL = '/tblfeedbacks/Details';
+    $(function () {
+        $(".anchorDetail").click(function () {
+            
+            var $buttonClicked = $(this);
+            var id = $buttonClicked.attr('data-id');
+            debugger;
+            var options = { "backdrop": "static", keyboard: true };
+            $.ajax({
+                type: "GET",
+                url: TeamDetailPostBackURL,
+                contentType: "application/json; charset=utf-8",
+                data: { "Id": id },
+                datatype: "Html",
+                success: function (data) {
+                    debugger;
+                    //$('#myModalContent').html(data);
+                    //$('#myModal').modal(options);
+                    $('#myModal').modal('show');
+
+                },
+                error: function () {
+                    alert("Dynamic content load failed.");
+                }
+            });
+        });
+        //$("#closebtn").on('click',function(){
+        //    $('#myModal').modal('hide');
+
+        $("#closbtn").click(function () {
+            $('#myModal').modal('hide');
+        });
+    });
+
+    </script>
+
+}  

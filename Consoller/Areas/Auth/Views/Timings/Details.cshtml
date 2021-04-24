@@ -1,0 +1,35 @@
+﻿@model Consoller.Areas.Auth.Models.Timing
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Timing</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BatchTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BatchTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.franchid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.franchid)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Tid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

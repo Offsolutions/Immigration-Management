@@ -1,0 +1,79 @@
+﻿@model Consoller.Areas.Auth.Models.Medicals
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/Process.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Medicals</h4>
+    <hr />
+    <table class="table table-nowrap mb-0">
+        <tbody>
+            <tr>
+                <th scope="row">@Html.DisplayNameFor(model => model.Date)</th>
+                <td> @Html.DisplayFor(model => model.Date)</td>
+
+            </tr>
+            @*<tr>
+                    <th scope="row">@Html.DisplayNameFor(model => model.Applied)</th>
+                    <td>
+                        @if (Model.Applied == null)
+                        {
+                            <a href="@Url.Action("Edit","Offerletters",new { id=Model.Lid})">Click Here Update Applied Date</a>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(model => model.Applied)
+                        }
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <th scope="row">@Html.DisplayNameFor(model => model.Received)</th>
+                    <td>
+                        @if (Model.Received == null)
+                        {
+                            <a href="@Url.Action("Edit","Offerletters",new { id=Model.Lid})" class="badge badge-danger">Click Here Update Received Date</a>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(model => model.Received)
+                        }
+                    </td>
+
+                </tr>*@
+            <tr>
+                <th scope="row">Hospital Name</th>
+                <td> @Html.DisplayFor(model => model.HospitalName)</td>
+
+            </tr>
+            <tr>
+                <th scope="row">Note</th>
+                <td> @Html.DisplayFor(model => model.Note)</td>
+
+            </tr>
+            <tr>
+                <th scope="row">Medical</th>
+                @if (Model.Files != null)
+                {
+                    <td> <a href="~/Uploadfile/@Model.Files"><i class="far fa-file-pdf" style="font-size: 30px;"></i></a></td>
+                }
+                else
+                {
+                    <td>File Not Found</td>
+                }
+
+            </tr>
+            
+        </tbody>
+    </table>
+
+    
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Create", "Application", new { id = Model.ApplicationNo })
+</p>

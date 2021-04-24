@@ -1,0 +1,466 @@
+﻿@model Consoller.Models.online
+@using Consoller.Models
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/main.cshtml";
+    dbcontext db = new dbcontext();
+    Data dd = new Data();
+    ViewBag.Mid = new SelectList(db.Months.ToList(), "Mid", "Name");
+    ViewBag.Yid = new SelectList(db.Years.ToList(), "Yid", "Name");
+    Offerletter off = new Offerletter();
+    ApplicationRecipt ledgers = new ApplicationRecipt();
+    Application app = db.Applications.FirstOrDefault(x => x.InquiryId == Model.inquiryid);
+    IEnumerable<ApplicationRecipt> Recipt = db.ApplicationRecipts.Where(x => x.ApplicationNo == app.ApplicationNo);
+    Document doc = new Document();
+}
+
+<div class="row">
+    <div class="col-lg-4 col-md-6">
+
+        <div class="card overflow-hidden">
+            <div class="bg-soft-primary">
+                <div class="row">
+                    <div class="col-7">
+                        <div class="text-primary p-3">
+                            <h5 class="text-primary">Welcome Back !</h5>
+                            <p>@Model.Country</p>
+                        </div>
+                    </div>
+                    <div class="col-5 align-self-end">
+                        <img src="assets/images/profile-img.png" alt="" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="avatar-md profile-user-wid mb-4">
+                            <img src="assets/images/users/avatar-1.jpg" alt="" class="img-thumbnail rounded-circle">
+                        </div>
+                        <h5 class="font-size-15 text-truncate" title="@Model.Name">@Model.Name</h5>
+                        <p class="text-muted mb-0 text-truncate" title="@Model.City">@Model.City</p>
+                    </div>
+
+                    <div class="col-sm-8">
+                        <div class="pt-4">
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <h5 class="font-size-15">125</h5>
+                                    <p class="text-muted mb-0">Projects</p>
+                                </div>
+                                <div class="col-6">
+                                    <h5 class="font-size-15">$1245</h5>
+                                    <p class="text-muted mb-0">Revenue</p>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <a href="#" class="btn btn-primary waves-effect waves-light btn-sm">View Profile <i class="mdi mdi-arrow-right ml-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="widget">
+            <div class="ribbon-wrapper">
+                <div class="ribbon-design red-bg">Application</div>
+            </div>
+            <div class="full-report">
+                <div class="user">
+                    <span><img src="https://via.placeholder.com/150" alt=""></span>
+                    <h3>@Model.Name</h3>
+                    <i>@Model.City</i>
+                </div>
+                <ul>
+                    <li><span class="fa fa-tasks"></span>Qualification<i>@Model.Qualification</i></li>
+                    <li><span class="fa fa-bell-o"></span>Percentage<i>@Model.Percentage</i></li>
+                    <li><span class="fa fa-bolt"></span>Refusal<i>@Model.RefusalCountry</i></li>
+                    <li><span class="fa fa-inbox"></span>Applied<i>@Model.Country</i></li>
+                    <li><span class="fa fa-user"></span>Ielts<i>@Model.Band</i></li>
+                    <li><span class="fa fa-envelope"></span>Spam Emails<i>23</i></li>
+                    <li><span class="fa fa-cogs"></span>Pending Users<i>55</i></li>
+                </ul>
+            </div>
+        </div>
+        <!-- Widget Area -->
+    </div>
+
+    <div class="col-lg-8 col-md-6">
+        <div class="widget blank no-padding">
+            <div class="bootstrap-tabs classic">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item"><a class="active" data-toggle="tab" data-target="#bootstrap1">Offer Letter</a></li>
+                    <li class="nav-item"><a data-toggle="tab" data-target="#bootstrap2" class="">Payment</a></li>
+                    <li class="nav-item"><a data-toggle="tab" data-target="#bootstrap3" class="">Documents</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="bootstrap1" class="tab-pane fade active show">
+                        <h3>Offer Letter</h3>
+                        <div class="save-draft">
+
+                            <div class="row">
+
+
+                                @*<a href="javascript:void(0);" onclick="AddBook(@Model.inquiryid)" class="red-bg">Add Offer Letter</a>*@
+
+                                @*@using (Html.BeginForm())
+            {*@
+
+                                <div class="col-md-4">
+                                    <select name="country" class="form-control" id="countryid" onchange="getCityList()">
+                                        <option>
+                                            Select Country
+                                        </option>
+                                        @foreach (var item in dd.counrtry)
+                                        {
+                                            <option value="@item.Cid">@item.CountryName</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <select id="cityDropDown" name="college" class="form-control" onchange="Courses()">
+                                        <option>Select College</option>
+                                    </select>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <select id="ddlcourse" name="course" class="form-control">
+                                        <option>Select Course</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="row" style="padding:15px 0px">
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(model => off.Yid, (SelectList)ViewBag.Yid, htmlAttributes: new { @class = "form-control",id="Year" })
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(model => off.Mid, (SelectList)ViewBag.Mid, htmlAttributes: new { @class = "form-control",id="Month" })
+
+
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="hidden" value="@app.ApplicationNo" name="application" id="application" />
+                                    @Html.EditorFor(model =>off.Amount , new { htmlAttributes = new { @class = "form-control",id="Amount" } })
+
+
+                                </div>
+                            </div>
+                                <div class="col-md-3">
+                                    <input class="red-bg btn" type="submit" value="Submit" onclick="SaveEmployee()">
+
+                                </div>
+
+
+
+
+
+
+                                @*}*@
+
+
+
+                      
+
+                        </div>
+                        <div class="panel panel-default text-left">
+                            <div class="panelheaderGreen">
+                                Popular Articles
+                            </div>
+                            <div class="panel-body">
+                                <div id="dvHomePopularPostBind">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="bootstrap2" class="tab-pane fade">
+                        <h3>Payment Details</h3>
+                        @Html.Partial("~/Views/Application/FeeDetails.cshtml", Recipt)
+                        
+                        
+                    </div>
+                    <div id="bootstrap3" class="tab-pane fade">
+                        <h3>Documents</h3>
+                        <div class="row">
+
+
+                            @*<a href="javascript:void(0);" onclick="AddBook(@Model.inquiryid)" class="red-bg">Add Offer Letter</a>*@
+
+                            @*@using (Html.BeginForm())*@
+
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => doc.FileName, new { htmlAttributes = new { @class = "form-control", id = "FileName" } })
+
+                            </div>
+                            <div class="col-md-4">
+                                <input type="file" id="UploadImg" />
+
+                            </div>
+                            <div class="col-md-4">
+                                <input class="red-bg btn" type="submit" value="Submit" onclick="Savedocument()">
+
+                            </div>
+
+                        </div>
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<div class="modal fade colored-header colored-header-primary" id="form-bp1" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-header-colored">
+                <h3 class="modal-title">Assign Consoller</h3>
+
+            </div>
+            <div class="modal-body" id="myModalBodyDiv1">
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary md-close" type="button" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"
+        integrity="sha256-it5nQKHTz+34HijZJQkpNBIHsjpV8b6QzMJs9tmOBSo="
+        crossorigin="anonymous"></script>
+
+<script>
+
+
+    var AddBook = function (Member) {
+        debugger;
+        var url = "/Application/AddOffer?id=" + Member;
+        // var url = "/Model/EmployeePartial";
+        $("#myModalBodyDiv1").load(url, function () {
+
+            $("#form-bp1").modal("show");
+
+        })
+
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"
+        integrity="sha256-it5nQKHTz+34HijZJQkpNBIHsjpV8b6QzMJs9tmOBSo="
+        crossorigin="anonymous"></script>
+<script>
+    function getCityList() {
+
+        var stateId = $("#countryid").val();
+        debugger;
+        $.ajax
+        ({
+            url: '/Application/GetCityList',
+            type: 'POST',
+            datatype: 'application/json',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                stateId: +stateId
+            }),
+            success: function (result) {
+
+                $("#cityDropDown").html("");
+                $("#cityDropDown").append($('<option>Select College</option>'));
+                $.each($.parseJSON(result), function (i, city) {
+
+                    var a = city.id;
+                    $("#cityDropDown").append($('<option></option>').val(city.Oid).html(city.Name))
+                })
+
+            },
+            error: function () {
+                alert("Whooaaa! Something went wrong..")
+            },
+        });
+    }
+</script>
+<script>
+    function Courses() {
+
+        var stateId = $("#cityDropDown").val();
+
+        $.ajax
+        ({
+            url: '/Application/Course',
+            type: 'POST',
+            datatype: 'application/json',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                stateId: +stateId
+            }),
+            success: function (result) {
+
+                $("#ddlcourse").html("");
+                $("#ddlcourse").append($('<option>Select Course</option>'));
+                $.each($.parseJSON(result), function (i, city) {
+
+                    var a = city.id;
+                    $("#ddlcourse").append($('<option></option>').val(city.Oid).html(city.Name))
+                })
+
+            },
+            error: function () {
+                alert("Whooaaa! Something went wrong..")
+            },
+        });
+    }
+</script>
+
+<script type="text/javascript">
+
+    
+    function SaveEmployee() {
+      
+       if (Validate() == true)
+       {
+           var Country = $("#countryid").val();
+           var College = $("#cityDropDown").val();
+           var Course = $("#ddlcourse").val();
+           var Amount = $("#Amount").val();
+           var application = $("#application").val();
+           var month = $("#Month").val();
+           var year= $("#Year").val();
+           var Employee = {
+               "Cid": Country, "Oid": College,
+               "CCid": Course,"Amount":Amount,"ApplicationNo":application,
+               "Mid":month,"Yid":year
+           };
+
+           $.post("/Application/InsertOffer", Employee,
+           function (data) {
+               debugger;
+              $("#countryid").val("");
+              $("#cityDropDown").val("");
+                $("#ddlcourse").val("");
+               $("#Amount").val("");
+             
+               $("#Month").val("");
+               $("#Year").val("");
+               LoadHomeRecentPost()
+               if (data == 0) {
+                   location = location.href;
+               }
+           }, 'json');
+       }
+       else
+       {
+          
+       }
+       
+    }
+    function Savedocument() {
+        debugger;
+        var data = new FormData();
+        var files = $("#UploadImg").get(0).files;
+        var filename = $("#FileName").val();
+        var application = $("#application").val();
+        if (files.length > 0) {
+            data.append("MyImages", files[0]);
+            data.append("FileName", filename);
+            data.append("ApplicationNo", application);
+        }
+
+        $.ajax({
+            url: "/Application/UploadDocs",
+            type: "POST",
+            processData: false,
+            contentType: false,
+            data: data,
+            success: function (response) {
+                //code after success
+                $("#FileName").val("");
+            //    $("#imgPreview").attr('src', '/Upload/' + response);
+            },
+            error: function (er) {
+                alert(er);
+            }
+
+        });
+
+    }
+</script>
+
+<script type="text/jscript">
+    function LoadHomeRecentPost() {
+
+        var application = $("#application").val();
+        debugger;
+        var url = "/Application/GetOfferLetter?id=" + application;
+        // var url = "/Model/EmployeePartial";
+        $("#dvHomePopularPostBind").load(url, function () {
+
+            //$("#form-bp1").modal("show");
+
+        })
+
+    };
+
+    function LoadHomePopularPost() {
+        $.ajax
+        ({
+            url: "/Recents/PopularPosts",
+            contentType: "application/html; charset=utf-8",
+            type: "GET",
+            cache: !0,
+            datatype: "html",
+            success: function (t) {
+                $("#dvHomePopularPostBind").html(t)
+            },
+            error: function () {
+                $("#dvHomePopularPostBind").html("Post Not Found")
+            }
+        })
+    }
+
+    $(document).ready(function () {
+        debugger;
+        LoadHomeRecentPost()
+    });
+</script>
+
+<script>
+    function Validate() {
+        debugger;
+        var e = document.getElementById("countryid");
+        var strUser = e.options[e.selectedIndex].value;
+        var e = document.getElementById("cityDropDown");
+        var college = e.options[e.selectedIndex].text;
+
+        var e = document.getElementById("ddlcourse");
+        var course = e.options[e.selectedIndex].text;
+       
+        if (strUser == "Select Country") {
+            alert("Please select a Country");
+
+            return false;
+        }
+        else if (college == "Select College")
+        {
+            alert("Please select a College");
+            return false;
+        }
+        else if (course == "Select Course")
+        {
+            alert("Please select a Course");
+            return false;
+        }
+        return true;
+    }
+
+</script>

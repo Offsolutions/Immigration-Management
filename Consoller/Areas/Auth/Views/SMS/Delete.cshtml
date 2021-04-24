@@ -1,0 +1,72 @@
+﻿@model Consoller.Areas.Auth.Models.tblsms
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+}
+<h2><b>SMS</b></h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Delete</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Username)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Senderid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Senderid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Api)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Api)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.alertno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.alertno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+	    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-danger" })
+        </div>
+    }
+</div>

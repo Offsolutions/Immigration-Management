@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.CollegeCourse>
+@using Consoller.Areas.Auth.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+    dbcontext db = new dbcontext();
+    string b = "";
+}
+
+<h2>Index</h2>
+<div class="card">
+    <div class="card-body">
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+        <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Cid)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Oid)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        Intake
+                    </th>
+                    <th></th>
+                </tr>
+                </thead>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                           @{ var a = db.Countries.Find(item.Cid).CountryName;}
+                               @if(a=="Canada")
+                               {
+                                   <img src="~/image/canada.png" width="32" />
+                               }
+                        </td>
+                        <td>
+                            @db.Colleges.Find(item.Oid).Name
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @*@{IEnumerable<Intake> take = db.Intakes.Where(x => x.CCid == item.Code && x.Status == true).ToList();}
+                            @if(take!=null)
+                            {
+                                foreach(var tt in take)
+                                {
+                                    
+                                    b= tt.IntakeName+','+b;
+                                }
+                                @b
+                            }*@
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.CCid }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.CCid }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.CCid })
+                        </td>
+                    </tr>
+                }
+
+        </table>
+    </div>
+</div>

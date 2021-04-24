@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.SubmitFile>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Process.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SubmitDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubmitBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FileDoc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApplicationNo)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SubmitDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SubmitBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FileDoc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApplicationNo)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Sid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Sid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Sid })
+        </td>
+    </tr>
+}
+
+</table>

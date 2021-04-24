@@ -1,0 +1,95 @@
+﻿@model Consoller.Areas.Auth.Models.tblfeedback
+
+@{
+    ViewBag.Title = "follow";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+}
+
+<h2>follow</h2>
+
+@using (Html.BeginForm("followCreate","tblfeedbacks"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>tblfeedback</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.date, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group" style="display:none">
+            @Html.LabelFor(model => model.inquiryid, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.inquiryid, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.inquiryid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.type, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.type,
+                    new SelectList(Enum.GetValues(typeof(Consoller.Areas.Auth.Models.InquiryType))),
+                    "Select Type",
+                    new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.type, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.days, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.days, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.days, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.feedback, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.feedback, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.feedback, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group" style="display:none">
+            @Html.LabelFor(model => model.nextfollow, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.nextfollow, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.nextfollow, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.status, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.status, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group" style="display:none">
+            @Html.LabelFor(model => model.loginid, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.loginid, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.loginid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

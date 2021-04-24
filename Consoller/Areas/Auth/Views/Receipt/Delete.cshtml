@@ -1,0 +1,65 @@
+﻿@model Consoller.Areas.Auth.Models.tblReceipt
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+}
+
+<h2><b>Receipt</b></h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Delete</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Start_no)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Start_no)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.End_no)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.End_no)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Current_Recipt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Current_Recipt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+	    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-danger" })
+        </div>
+    }
+</div>

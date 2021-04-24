@@ -1,0 +1,108 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.Expense>
+@using Consoller.Areas.Auth.Models
+@{
+    ViewBag.Title = "ExpenseReport";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+    Expense ex = new Expense();
+}
+
+<h2>ExpenseReport</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-inline">
+                        <label class="sr-only" for="inlineFormInputName2">Date</label>
+                        @Html.EditorFor(model => ex.Date, new { htmlAttributes = new { @class = "form-control" } })
+
+
+
+
+
+
+                        
+                    </div>
+                   
+                    <div class="input-group mb-2 mr-sm-4">
+                        <input type="submit" class="btn btn-primary mb-2" name="Search" />
+                        <a href="@Url.Action("DayEnd","DailyReports")" class="btn btn-primary mb-2">Day End</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (Model != null)
+{
+
+    <div class="card">
+        <div class="card-body">
+            <div class="panel-body table-responsive">
+                <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Date)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Item)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Amount)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Method)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Ref)
+                            </th>
+
+                          
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Date)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Item)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Amount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Method)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Ref)
+                            </td>
+
+                        </tr>
+                    }
+
+                </table>
+            </div>
+            </div>
+    </div>
+ }
+
+
+@*<script>
+    function printData() {
+        var divToPrint = document.getElementById("datatable-buttons");
+        newWin = window.open("");
+        newWin.document.write(divToPrint.outerHTML);
+        newWin.print();
+        newWin.close();
+    }
+
+    $('button').on('click', function () {
+        printData();
+    })
+</script>*@

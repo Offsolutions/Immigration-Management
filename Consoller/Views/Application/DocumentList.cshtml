@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.Document>
+
+
+<div class="col-xl-12">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4">
+                <div class="card mini-stats-wid">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="text-muted font-weight-medium" >@item.FileName</p>
+                                <h4 class="mb-0"><a href="~/Uploadfile/@item.Doc" target="_blank" title="Download"><i class="fas fa-cloud-download-alt"></i></a></h4>
+                                <a href="@Url.Action("DeleteDocument", "Application",new {id=item.Did })">Delete</a>
+                            </div>
+
+                            <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
+                                <span class="avatar-title">
+                                    <i class="bx bxs-file-pdf font-size-24"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        
+     
+    </div>
+    <!-- end row -->
+
+    
+</div>

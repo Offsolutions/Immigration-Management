@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.tblstudentdata>
+
+@{
+    ViewBag.Title = "DeactiveStudents";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+    var active = "Active";
+    var Deactive = "Deactive";
+}
+<div class="card">
+    <div class="card-body">
+        <h2><b>Deactive Students</b></h2>
+
+        <div class="table-responsive">
+            <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.rollno)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.fathername)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.phone)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.image)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.Status)
+                        </th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model)
+            {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.rollno)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fathername)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.phone)
+            </td>
+            <td>
+                <img src="~/UploadedFiles/@item.image" width="70" />
+            </td>
+            <td>
+
+                @if (item.Status == true)
+                    {
+                    <span class="label label-success">@active.ToString()</span>
+                    }
+                    else
+                    {
+                    <span class="label label-danger">@Deactive.ToString()</span>
+                    }
+            </td>
+            <td>
+                @Html.ActionLink("Active", "Edit", new { id = item.Id }, new { @class = "label label-success" })
+            </td>
+        </tr>
+        }
+
+            </table>
+        </div>
+</div>
+</div>

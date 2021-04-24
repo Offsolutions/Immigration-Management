@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.Expense>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+}
+
+
+
+<div class="card">
+    <div class="card-body">
+
+        <div class="col-md-12 padding-l-0">
+            <p>
+                @Html.ActionLink("Create New", "Create")
+            </p>
+            <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Date)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Item)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Amount)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Method)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Ref)
+                        </th>
+
+                        <th></th>
+                    </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Date)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Item)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Amount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Method)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Ref)
+                            </td>
+
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                            </td>
+                        </tr>
+                    }
+
+            </table>
+        </div>
+
+
+        </div>
+
+    </div>
+
+

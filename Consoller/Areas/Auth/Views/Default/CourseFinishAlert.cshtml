@@ -1,0 +1,137 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.StudentCourse>
+@using Consoller.Areas.Auth.Models
+@using onlineportal.Areas.AdminPanel.Models;
+@{
+    ViewBag.Title = "CourseFinishAlert";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+    dbcontext db = new dbcontext();
+    Helper help = new Helper();
+    string a = User.IsInRole("Franchisee") ? help.Franchisee() : help.Receptionist();
+}
+<div class="card">
+    <div class="card-body">
+        <h2><b>CourseFinishAlert</b></h2>
+
+        <div class="table-responsive">
+            <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.RollNo)
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Father Name
+                        </th>
+                        <th>
+                            Teacher
+                        </th>
+                        <th>
+                            Contact No.
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CourseId)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.enddate)
+                        </th>
+                        <th>
+                            Day Left
+                        </th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RollNo)
+                        </td>
+                        <td>
+                            @{var name = db.tblstudentdata.FirstOrDefault(x => x.rollno == item.RollNo && x.uid == a && x.Status==true).name;}
+                            @name
+                        </td>
+                        <td>
+                            @{var father = db.tblstudentdata.FirstOrDefault(x => x.rollno == item.RollNo && x.uid == a).fathername;}
+                            @father
+                        </td>
+                        <td>
+                            @{var teach = db.tblstudentdata.FirstOrDefault(x => x.rollno == item.RollNo && x.uid == a).UserId;
+                                tblreceptionist teacher = db.tblreceptionists.FirstOrDefault(x => x.Id == teach);
+                            }
+                            @teacher.name
+                        </td>
+                        <td>
+                            @{var Contact = db.tblstudentdata.FirstOrDefault(x => x.rollno == item.RollNo && x.uid == a).phone;}
+                            @Contact
+                        </td>
+                        <td>
+                            @{var coursename = db.Courses.Where(x => x.CourseId == item.CourseId && x.franchid == a).ToList();}
+                            @coursename[0].CourseName
+                        </td>
+                        <td>
+                            @Convert.ToDateTime(@item.enddate).ToString("dd-MM-yyyy")
+                        </td>
+                        <td>
+                            @{
+                                var left = (System.DateTime.Now - item.enddate);
+                                DateTime start = System.DateTime.Now;
+                                DateTime end = Convert.ToDateTime(item.enddate);
+                                TimeSpan dd = end - start;
+                            }
+                            @dd.Days
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);" onclick="AddEditEmployee(@item.Id)" class="badge-info badge">Continuous</a>
+                            @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                        </td>
+                    </tr>
+                                }
+
+            </table>
+        </div>
+
+        <div class="modal fade colored-header colored-header-primary" id="form-bp1" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header modal-header-colored">
+                        <h3 class="modal-title">Add Days</h3>
+                        <button class="close md-close" type="button" data-dismiss="modal" aria-hidden="true"><span class="mdi mdi-close">       </span></button>
+                    </div>
+                    <div class="modal-body" id="myModalBodyDiv1">
+
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+</div>
+    </div>
+
+        <script src="https://code.jquery.com/jquery-1.10.2.js"
+                integrity="sha256-it5nQKHTz+34HijZJQkpNBIHsjpV8b6QzMJs9tmOBSo="
+                crossorigin="anonymous"></script>
+        @section scripts
+{
+            <script>
+
+
+                var AddEditEmployee=function(employeeId){
+                    debugger;
+                    var url = "../Default/increasedays?id=" + employeeId;
+                    // var url = "/Model/EmployeePartial";
+                    $("#myModalBodyDiv1").load(url, function () {
+
+                        $("#form-bp1").modal("show");
+
+                    })
+
+                }
+            </script>
+        }

@@ -1,0 +1,930 @@
+﻿@model Consoller.Areas.Auth.Models.DashModel
+@using Consoller.Areas.Auth.Models;
+@using onlineportal.Areas.AdminPanel.Models;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+    dbcontext db = new dbcontext();
+    Helper help = new Helper();
+    var ab = System.DateTime.Now.AddDays(3);
+    DateTime date = System.DateTime.Now.Date;
+    DateTime c = Convert.ToDateTime(ab);
+    string a = "";
+    if (User.IsInRole("Franchisee"))
+    {
+        a = help.Franchisee();
+    }
+    else
+    {
+        a = help.Receptionist();
+    }
+    tblreceptionist rr = db.tblreceptionists.Where(x => x.rid == a).First();
+    var totalcourse = db.StudentCourses.Where(x => x.Status == true && x.enddate <= c && x.Status == true && x.Uid == a).Count();
+    var student = db.tblstudentdata.Where(x => x.Status == true && x.uid == a).Count();
+    var feealert = db.Fees_Master.Where(x => x.AlertDate <= date && x.franchid == a && x.Status == true).Count();
+    IEnumerable<tblinquiry> dd = db.tblinquiries.Where(x => x.franchid == a).Take(5).ToList();
+    IEnumerable<tblfeedback> feed = db.tblfeedback.Where(x => x.loginid == a && x.nextfollow <= date && x.status == true).ToList();
+
+}
+
+<h2>DashBoard</h2>
+
+<div class="row">
+    <div class="col-xl-4">
+        <div class="card overflow-hidden">
+            <div class="bg-soft-primary">
+                <div class="row">
+                    <div class="col-7">
+                        <div class="text-primary p-3">
+                            <h5 class="text-primary">Welcome Back !</h5>
+                            <p>Skote Dashboard</p>
+                        </div>
+                    </div>
+                    <div class="col-5 align-self-end">
+                        <img src="assets/images/profile-img.png" alt="" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="avatar-md profile-user-wid mb-4">
+                            <img src="assets/images/users/avatar-1.jpg" alt="" class="img-thumbnail rounded-circle">
+                        </div>
+                        <h5 class="font-size-15 text-truncate">Henry Price</h5>
+                        <p class="text-muted mb-0 text-truncate">UI/UX Designer</p>
+                    </div>
+
+                    <div class="col-sm-8">
+                        <div class="pt-4">
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <h5 class="font-size-15">125</h5>
+                                    <p class="text-muted mb-0">Projects</p>
+                                </div>
+                                <div class="col-6">
+                                    <h5 class="font-size-15">$1245</h5>
+                                    <p class="text-muted mb-0">Revenue</p>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <a href="#" class="btn btn-primary waves-effect waves-light btn-sm">View Profile <i class="mdi mdi-arrow-right ml-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Monthly Earning</h4>
+                <div class="row">
+                    <div id="chartContainer2" style="height: 370px; width: 100%;"></div>
+                </div>
+                <p class="text-muted mb-0">We craft digital, graphic and dimensional thinking.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-8">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mini-stats-wid">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="text-muted font-weight-medium">Total Student</p>
+                                <h4 class="mb-0">@student</h4>
+                            </div>
+
+                            <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
+                                <span class="avatar-title">
+                                    <i class="bx bx-copy-alt font-size-24"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mini-stats-wid">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="text-muted font-weight-medium">Course Finish</p>
+                                <h4 class="mb-0"><a href="@Url.Action("CourseFinishAlert", "Default")">@totalcourse</a> </h4>
+                            </div>
+
+                            <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
+                                <span class="avatar-title rounded-circle bg-primary">
+                                    <i class="bx bx-archive-in font-size-24"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mini-stats-wid">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="text-muted font-weight-medium">Fee Alert</p>
+                                <h4 class="mb-0"> <a href="@Url.Action("Index", "Logs")">@feealert</a> </h4>
+                            </div>
+
+                            <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
+                                <span class="avatar-title rounded-circle bg-primary">
+                                    <i class="bx bx-purchase-tag-alt font-size-24"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+
+        <div class="card">
+            <div class="card-body" style="position: relative;">
+                <h4 class="card-title mb-4 float-sm-left">Last Six Month Report</h4>
+                <div class="float-sm-right">
+                 
+                </div>
+                <div class="clearfix"></div>
+
+                <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+                <div class="resize-triggers"><div class="expand-trigger"><div style="width: 694px; height: 442px;"></div></div><div class="contract-trigger"></div></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-widget" style="display:none">
+
+    <!-- Start Top Stats -->
+    <div class="col-md-12">
+        <ul class="topstats clearfix">
+            <li class="arrow"></li>
+            <li class="col-xs-3 col-lg-3">
+                <a href="@Url.Action("StudentDatas", "Index")">
+                    <span class="title"><i class="fa fa-dot-circle-o"></i> Total Student</span>
+                    <h3></h3>
+                    <span class="diff"><b class="color-down"><i class="fa fa-caret-down"></i> </b></span>
+                </a>
+            </li>
+            <li class="col-xs-3 col-lg-3">
+                <a href="@Url.Action("CourseFinishAlert", "Default")">
+                    <span class="title"><i class="fa fa-calendar-o"></i> Course Finish</span>
+                    <h3>@totalcourse</h3>
+                    <span class="diff"><b class="color-up"><i class="fa fa-caret-up"></i></b></span>
+                </a>
+            </li>
+            <li class="col-xs-3 col-lg-3">
+                <a href="@Url.Action("Index", "Logs")">
+                    <span class="title"><i class="fa fa-shopping-cart"></i> Fee Alert</span>
+                    <h3 class="color-up">@feealert</h3>
+                    <span class="diff"><b class="color-up"><i class="fa fa-caret-up"></i> %</b> </span>
+                </a>
+            </li>
+            <li class="col-xs-3 col-lg-3">
+                <span class="title"><i class="fa fa-users"></i> Visitors</span>
+                <h3>960</h3>
+                <span class="diff"><b class="color-down"><i class="fa fa-caret-down"></i> 26%</b> from yesterday</span>
+            </li>
+
+        </ul>
+    </div>
+    <!-- End Top Stats -->
+    <!-- Start First Row -->
+    <div class="row">
+
+        <!-- Start Chart Daily -->
+        <!-- End Chart Daily -->
+        <!-- Start Files -->
+        @*<div class="col-md-12 col-lg-5">
+                <div class="panel panel-widget" style="height:450px;">
+                    <div class="panel-title">
+                        Top 5 Inquiries <span class="label label-danger">5</span>
+                        <ul class="panel-tools">
+                            <li><a class="icon"><i class="fa fa-refresh"></i></a></li>
+                            <li><a class="icon closed-tool"><i class="fa fa-times"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="panel-body table-responsive">
+
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Contact
+                                </th>
+                                <th>
+                                    Category
+                                </th>
+
+                            </tr>
+
+                            @foreach (var item in dd)
+                {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.contact)
+                                    </td>
+                                    <td>
+                                        @{ Category cc = db.Categories.FirstOrDefault(x => x.Categoryid == item.Categoryid);}
+                                        @cc.Name
+                                    </td>
+
+                                </tr>
+                                            }
+
+                        </table>
+
+                    </div>
+                </div>
+            </div>*@
+        <!-- End Files -->
+
+    </div>
+    <!-- End First Row -->
+    <!-- Start Second Row -->
+    <div class="row">
+
+
+
+        <!-- Start Today Activity -->
+        <div class="col-md-12 col-lg-3">
+            <div class="panel panel-widget" style="height:380px;">
+                <div class="panel-title">
+                    TODAY ACTIVITY <span class="label label-success">9</span>
+                    <ul class="panel-tools panel-tools-hover">
+                        <li><a class="icon"><i class="fa fa-refresh"></i></a></li>
+                        <li><a class="icon closed-tool"><i class="fa fa-times"></i></a></li>
+                    </ul>
+                </div>
+                <div class="panel-body">
+
+                    <ul class="widget-inline-list clearfix">
+                        <li class="col-4"><span>1:52:22</span>Active Time</li>
+                        <li class="col-4"><span>60%</span>Completed</li>
+                        <li class="col-4"><span>0:11:46</span>Break Time</li>
+                    </ul>
+
+                    <div id="todayactivity" class="chart-on-bottom rickshaw_graph"><svg width="254" height="250"><g><path d="M0,14.576921753429843Q4.492517006802722,16.178314475251884,5.183673469387756,15.371536193340063C6.220408163265307,14.16136877047233,9.330612244897962,3.5359156064895356,10.367346938775512,2.4752475247525183S14.514285714285716,3.777722496086685,15.551020408163266,4.764855375969887S19.697959183673472,12.00458778644357,20.734693877551024,12.346576323584543S24.881632653061224,8.385766279173765,25.918367346938776,8.184740747379607S30.06530612244898,8.968853794414665,31.102040816326532,10.336321005642958S35.24897959183674,21.40472321212625,36.28571428571429,21.85941285966254S40.4326530612245,14.182765951709237,41.46938775510205,14.883217481005858S45.61632653061225,28.358585447352898,46.6530612244898,28.863928152628745S50.800000000000004,22.103642251860187,51.83673469387755,19.936644533764337S55.98367346938777,5.980121674063085,57.020408163265316,7.193950971670233S61.167346938775516,29.85371823636551,62.204081632653065,32.07493750983582S66.35102040816328,30.26899875553628,67.38775510204083,29.406143706373342S71.53469387755104,22.65052549625344,72.57142857142858,23.446387018206423S76.71836734693878,35.869517967710024,77.75510204081633,37.364758925903175S81.90204081632655,38.69467807285198,82.9387755102041,38.39879660013793S87.0857142857143,34.96705685645004,88.12244897959185,34.40594419876268S92.26938775510204,33.16451743515132,93.3061224489796,32.787670023264326S97.45306122448982,30.222734523060154,98.48979591836736,30.63747007989278S102.63673469387756,34.49459296055093,103.6734693877551,36.93502559159057S107.82040816326531,51.792108983077696,108.85714285714286,55.04179639028919S113.00408163265308,70.53398624567696,114.04081632653063,69.43189966370556S118.18775510204082,45.48737813484957,119.22448979591837,44.020930570575274S123.37142857142858,53.334333115621625,124.40816326530613,54.76742402096258S128.55510204081634,59.02695169188524,129.59183673469389,58.35183962398483S133.7387755102041,49.040779994459484,134.77551020408166,48.01630334195852S138.92244897959185,47.06064907723635,139.9591836734694,48.10707309897518S144.10612244897962,59.73921680464931,145.14285714285717,58.480543559346785S149.2897959183674,35.807775789526005,150.32653061224494,35.520340645949915S154.4734693877551,54.324379204749924,155.51020408163265,55.606192123585856S159.65714285714287,49.167384996947725,160.69387755102042,48.33846983430922S164.84081632653064,47.706617985652315,165.8775510204082,47.31704049720082S170.02448979591838,41.877341530735215,171.06122448979593,44.442694949794316S175.20816326530615,72.01394618257274,176.2448979591837,72.97057468779184S180.3918367346939,57.791816666742335,181.42857142857144,54.00898000198538S185.57551020408164,35.95849359314223,186.6122448979592,35.14220804022224S190.7591836734694,44.422346256836306,191.79591836734696,45.84612447278553S195.94285714285718,50.113883988515575,196.97959183673473,49.37999019971451S201.12653061224492,40.949566887162874,202.16326530612247,38.5071865847749S206.31020408163266,27.293865325534032,207.3469387755102,24.956187175834742S211.49387755102043,14.131341575893149,212.53061224489798,15.130405087782009S216.67755102040817,32.92809170892393,217.71428571428572,34.94682229472335S221.86122448979594,34.6346545069116,222.8979591836735,35.317710945776156S227.04489795918371,41.87942938638346,228.08163265306126,41.77738668336892S232.22857142857146,33.03393258157767,233.265306122449,34.29728391563077S237.4122448979592,53.8420190760727,238.44897959183675,54.41090002389987S242.59591836734697,40.646157486644235,243.63265306122452,39.98609339390242S247.7795918367347,45.37540982664457,248.81632653061226,47.81025909648176Q249.5074829931973,49.43349194303988,254,64.33458609227426L254,148.42475482695107Q249.5074829931973,137.32150272506078,248.81632653061226,136.49064942322468C247.7795918367347,135.24436947047053,244.66938775510206,134.78110581520482,243.63265306122452,135.96195529940957S239.4857142857143,147.97974161498854,238.44897959183675,148.29914426527208S234.30204081632655,140.34758355680995,233.265306122449,139.15598180224487S229.1183673469388,136.62320259186444,228.08163265306126,136.38312671962115S223.93469387755104,136.63295330589236,222.8979591836735,136.75522307981203S218.75102040816327,138.25315176301638,217.71428571428572,137.60582445881778S213.56734693877553,130.55007308774174,212.53061224489798,130.281950037826S208.38367346938776,134.24071045567374,207.3469387755102,134.9245939596604S203.20000000000002,136.07323014755497,202.16326530612247,137.12078507769257S198.01632653061228,145.15426516418455,196.97959183673473,145.40014326103653S192.8326530612245,139.32736219358839,191.79591836734696,139.57956604621253S187.64897959183673,147.69668989282712,186.6122448979592,147.92218178727813S182.465306122449,140.72992834569254,181.42857142857144,141.83448499072256S177.28163265306125,158.51781810742077,176.2448979591837,158.96774823757832S172.09795918367348,148.22305711395106,171.06122448979593,146.3337862922982S166.91428571428574,139.88103604192196,165.8775510204082,140.07504002104986S161.73061224489797,146.3379795738642,160.69387755102042,148.27382608357718S156.5469387755102,160.4865655646995,155.51020408163265,159.43350511817965S151.36326530612249,138.52058724691196,150.32653061224494,137.7432216183787S146.17959183673472,149.60557808479965,145.14285714285717,151.65984883284696S140.99591836734695,158.04848762296044,139.9591836734694,158.285929098852S135.8122448979592,154.18112161786323,134.77551020408166,154.03426359176248S130.62857142857143,157.7387476783467,129.59183673469389,156.81734883784452S125.44489795918368,146.54259869020382,124.40816326530613,144.8202751867407S120.26122448979592,138.17187002628756,119.22448979591837,139.59411380321328S115.07755102040818,157.49742215894904,114.04081632653063,159.04271295599779S109.89387755102041,156.85514585813672,108.85714285714286,155.04702177370078S104.71020408163265,142.9643618120381,103.6734693877551,140.96147211163827S99.52653061224491,134.85425514209257,98.48979591836736,135.01812476970235S94.34285714285714,141.17178284571082,93.3061224489796,142.60016838773618S89.1591836734694,148.20424435364657,88.12244897959185,149.30198018995577S83.97551020408164,153.1488693894015,82.9387755102041,153.57752675082804S78.79183673469387,154.61895464765936,77.75510204081633,153.58855380422096S73.60816326530613,144.9058487521617,72.57142857142858,143.2735183164439S68.42448979591838,137.84471586364975,67.38775510204083,137.26524944704292S63.24081632653061,138.37210030921236,62.204081632653065,137.47885415037547S58.057142857142864,128.20070432767815,57.020408163265316,128.33278785867392S52.8734693877551,138.26770802421493,51.83673469387755,138.79968946033318S47.689795918367345,134.74071161896816,46.6530612244898,133.65260221985665S42.506122448979596,127.63787699269612,41.46938775510205,127.91859546921792S37.32244897959184,135.79027334247047,36.28571428571429,136.45978698507463S32.138775510204084,136.10154566653011,31.102040816326532,134.6137318952596S26.955102040816328,121.44443578431706,25.918367346938776,121.58164927236939S21.771428571428576,135.10276449287946,20.734693877551024,135.98586677578282S16.587755102040816,131.6197530381252,15.551020408163266,130.4126721014032S11.404081632653062,123.73054634877342,10.367346938775512,123.91505740856287S6.220408163265307,130.72117463769192,5.183673469387756,132.25778269929776Q4.492517006802722,133.28218807370166,0,139.28113802462138Z" class="area" fill="#CDC0DC"></path></g><g><path d="M0,139.28113802462138Q4.492517006802722,133.28218807370166,5.183673469387756,132.25778269929776C6.220408163265307,130.72117463769192,9.330612244897962,124.09956846835233,10.367346938775512,123.91505740856287S14.514285714285716,129.20559116468118,15.551020408163266,130.4126721014032S19.697959183673472,136.8689690586862,20.734693877551024,135.98586677578282S24.881632653061224,121.71886276042171,25.918367346938776,121.58164927236939S30.06530612244898,133.1259181239891,31.102040816326532,134.6137318952596S35.24897959183674,137.1293006276788,36.28571428571429,136.45978698507463S40.4326530612245,128.1993139457397,41.46938775510205,127.91859546921792S45.61632653061225,132.56449282074513,46.6530612244898,133.65260221985665S50.800000000000004,139.33167089645144,51.83673469387755,138.79968946033318S55.98367346938777,128.4648713896697,57.020408163265316,128.33278785867392S61.167346938775516,136.58560799153858,62.204081632653065,137.47885415037547S66.35102040816328,136.68578303043608,67.38775510204083,137.26524944704292S71.53469387755104,141.6411878807261,72.57142857142858,143.2735183164439S76.71836734693878,152.55815296078256,77.75510204081633,153.58855380422096S81.90204081632655,154.00618411225457,82.9387755102041,153.57752675082804S87.0857142857143,150.39971602626497,88.12244897959185,149.30198018995577S92.26938775510204,144.02855392976153,93.3061224489796,142.60016838773618S97.45306122448982,135.18199439731214,98.48979591836736,135.01812476970235S102.63673469387756,138.95858241123844,103.6734693877551,140.96147211163827S107.82040816326531,153.23889768926483,108.85714285714286,155.04702177370078S113.00408163265308,160.58800375304654,114.04081632653063,159.04271295599779S118.18775510204082,141.016357580139,119.22448979591837,139.59411380321328S123.37142857142858,143.09795168327759,124.40816326530613,144.8202751867407S128.55510204081634,155.89594999734234,129.59183673469389,156.81734883784452S133.7387755102041,153.88740556566174,134.77551020408166,154.03426359176248S138.92244897959185,158.52337057474355,139.9591836734694,158.285929098852S144.10612244897962,153.71411958089428,145.14285714285717,151.65984883284696S149.2897959183674,136.96585598984544,150.32653061224494,137.7432216183787S154.4734693877551,158.3804446716598,155.51020408163265,159.43350511817965S159.65714285714287,150.20967259329015,160.69387755102042,148.27382608357718S164.84081632653064,140.26904400017776,165.8775510204082,140.07504002104986S170.02448979591838,144.44451547064537,171.06122448979593,146.3337862922982S175.20816326530615,159.41767836773587,176.2448979591837,158.96774823757832S180.3918367346939,142.93904163575257,181.42857142857144,141.83448499072256S185.57551020408164,148.14767368172915,186.6122448979592,147.92218178727813S190.7591836734694,139.83176989883668,191.79591836734696,139.57956604621253S195.94285714285718,145.64602135788851,196.97959183673473,145.40014326103653S201.12653061224492,138.16834000783018,202.16326530612247,137.12078507769257S206.31020408163266,135.60847746364706,207.3469387755102,134.9245939596604S211.49387755102043,130.01382698791025,212.53061224489798,130.281950037826S216.67755102040817,136.95849715461918,217.71428571428572,137.60582445881778S221.86122448979594,136.8774928537317,222.8979591836735,136.75522307981203S227.04489795918371,136.14305084737785,228.08163265306126,136.38312671962115S232.22857142857146,137.96438004767978,233.265306122449,139.15598180224487S237.4122448979592,148.6185469155556,238.44897959183675,148.29914426527208S242.59591836734697,137.1428047836143,243.63265306122452,135.96195529940957S247.7795918367347,135.24436947047053,248.81632653061226,136.49064942322468Q249.5074829931973,137.32150272506078,254,148.42475482695107L254,250Q249.5074829931973,250,248.81632653061226,250C247.7795918367347,250,244.66938775510206,250,243.63265306122452,250S239.4857142857143,250,238.44897959183675,250S234.30204081632655,250,233.265306122449,250S229.1183673469388,250,228.08163265306126,250S223.93469387755104,250,222.8979591836735,250S218.75102040816327,250,217.71428571428572,250S213.56734693877553,250,212.53061224489798,250S208.38367346938776,250,207.3469387755102,250S203.20000000000002,250,202.16326530612247,250S198.01632653061228,250,196.97959183673473,250S192.8326530612245,250,191.79591836734696,250S187.64897959183673,250,186.6122448979592,250S182.465306122449,250,181.42857142857144,250S177.28163265306125,250,176.2448979591837,250S172.09795918367348,250,171.06122448979593,250S166.91428571428574,250,165.8775510204082,250S161.73061224489797,250,160.69387755102042,250S156.5469387755102,250,155.51020408163265,250S151.36326530612249,250,150.32653061224494,250S146.17959183673472,250,145.14285714285717,250S140.99591836734695,250,139.9591836734694,250S135.8122448979592,250,134.77551020408166,250S130.62857142857143,250,129.59183673469389,250S125.44489795918368,250,124.40816326530613,250S120.26122448979592,250,119.22448979591837,250S115.07755102040818,250,114.04081632653063,250S109.89387755102041,250,108.85714285714286,250S104.71020408163265,250,103.6734693877551,250S99.52653061224491,250,98.48979591836736,250S94.34285714285714,250,93.3061224489796,250S89.1591836734694,250,88.12244897959185,250S83.97551020408164,250,82.9387755102041,250S78.79183673469387,250,77.75510204081633,250S73.60816326530613,250,72.57142857142858,250S68.42448979591838,250,67.38775510204083,250S63.24081632653061,250,62.204081632653065,250S58.057142857142864,250,57.020408163265316,250S52.8734693877551,250,51.83673469387755,250S47.689795918367345,250,46.6530612244898,250S42.506122448979596,250,41.46938775510205,250S37.32244897959184,250,36.28571428571429,250S32.138775510204084,250,31.102040816326532,250S26.955102040816328,250,25.918367346938776,250S21.771428571428576,250,20.734693877551024,250S16.587755102040816,250,15.551020408163266,250S11.404081632653062,250,10.367346938775512,250S6.220408163265307,250,5.183673469387756,250Q4.492517006802722,250,0,250Z" class="area" fill="#9A80B9"></path></g></svg><div class="detail"></div></div>
+
+                </div>
+            </div>
+        </div>
+        <!-- End Today Activity -->
+        <!-- Start Server Status -->
+        <div class="col-md-12 col-lg-6">
+            <div class="panel panel-widget" style="height:380px;">
+                <div class="panel-title">
+                    SERVER STATUS <span class="label label-default">196</span>
+                    <ul class="panel-tools panel-tools-hover">
+                        <li><a class="icon"><i class="fa fa-refresh"></i></a></li>
+                        <li><a class="icon closed-tool"><i class="fa fa-times"></i></a></li>
+                    </ul>
+                </div>
+                <div class="panel-body">
+
+                    <ul class="widget-inline-list clearfix">
+                        <li class="col-3 color10"><span>28.9GB</span>Total Usage</li>
+                        <li class="col-3"><span>92%</span>Space Left</li>
+                        <li class="col-3 color7"><span>22%</span>CPU</li>
+                        <li class="col-3"><span>512MB</span>Total RAM</li>
+                    </ul>
+
+                    <div id="realtime" class="flotchart-placeholder" style="height: 190px; padding: 0px; position: relative;"><canvas class="flot-base" width="480" height="190" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 480px; height: 190px;"></canvas><div class="flot-text" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; font-size: smaller; color: inherit;"><div class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; display: block;"><div class="flot-tick-label tickLabel" style="position: absolute; top: 175px; left: 12px; text-align: right;">0</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 131px; left: 6px; text-align: right;">25</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 88px; left: 6px; text-align: right;">50</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 44px; left: 6px; text-align: right;">75</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 1px; left: 0px; text-align: right;">100</div></div></div><canvas class="flot-overlay" width="480" height="190" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 480px; height: 190px;"></canvas></div>
+
+                </div>
+            </div>
+        </div>
+        <!-- End Server Status -->
+        <!-- Start Profile Widget -->
+        <div class="col-md-12 col-lg-3">
+            <div class="widget profile-widget" style="height:380px;">
+                <img src="img/profileimg.png" class="profile-image" alt="img">
+                <h1>Jonathan Doe</h1>
+                <p><i class="fa fa-map-marker"></i> London</p>
+                <a href="#" class="btn btn-sm">Follow</a>
+                <ul class="stats widget-inline-list clearfix">
+                    <li class="col-4"><span>2.109</span>Followers</li>
+                    <li class="col-4"><span>596</span>Photos</li>
+                    <li class="col-4"><span>902</span>Like</li>
+                </ul>
+            </div>
+        </div>
+        <!-- End Profile Widget -->
+
+
+    </div>
+    <!-- End Second Row -->
+    <!-- Start Third Row -->
+    <div class="row">
+
+
+        <!-- Start General Stats -->
+        <div class="col-md-12 col-lg-6">
+            <div class="panel panel-widget" style="height:205px;">
+                <div class="panel-title">
+                    General Stats
+                </div>
+                <div class="panel-body">
+
+                    <div class="easypie margin-b-50" data-percent="82"><span>82%</span>New Visit<canvas height="110" width="110"></canvas></div>
+                    <div class="easypie margin-b-50" data-percent="30"><span>30%</span>Order<canvas height="110" width="110"></canvas></div>
+                    <div class="easypie margin-b-50 margin-b-40" data-percent="62"><span>62%</span>Page View<canvas height="110" width="110"></canvas></div>
+                    <div class="easypie margin-b-50" data-percent="15"><span>15%</span>Client<canvas height="110" width="110"></canvas></div>
+                    <div class="easypie margin-b-50" data-percent="45"><span>45%</span>Storage<canvas height="110" width="110"></canvas></div>
+                    <div class="easypie margin-b-50" data-percent="75"><span>76%</span>Comments<canvas height="110" width="110"></canvas></div>
+
+                </div>
+            </div>
+        </div>
+        <!-- End General Stats -->
+        <!-- Start TwitterBox -->
+        <div class="col-md-6 col-lg-3">
+            <div class="widget socialbox" style="background:#02A8F3; height:205px;">
+
+                <p class="text">
+                    Never in all their history have men been able truly...
+                </p>
+                <p class="text-info">22 May, 2015 via mobile</p>
+
+                <div class="logo"><i class="fa fa-twitter"></i></div>
+
+                <ul class="info">
+                    <li><i class="fa fa-retweet"></i>694</li>
+                    <li><i class="fa fa-star-o"></i>2.192</li>
+                </ul>
+
+            </div>
+        </div>
+        <!-- End TwitterBox -->
+        <!-- Start FacebookBox -->
+        <div class="col-md-6 col-lg-3">
+            <div class="widget socialbox" style="background:#47639E; height:205px;">
+
+                <p class="text">
+                    Science has not yet mastered prophecy.
+                </p>
+                <p class="text-info">22 May, 2015 via mobile</p>
+
+                <div class="logo"><i class="fa fa-facebook"></i></div>
+
+                <ul class="info">
+                    <li><i class="fa fa-thumbs-up"></i>694</li>
+                    <li><i class="fa fa-comment"></i>2.192</li>
+                </ul>
+
+            </div>
+        </div>
+        <!-- End FacebookBox -->
+
+    </div>
+    <!-- End Third Row -->
+    <!-- Start Fourth Row -->
+    <div class="row">
+
+        <!-- Start Browser Stats -->
+        <div class="col-md-12 col-lg-3">
+            <div class="panel panel-widget">
+                <div class="panel-title">
+                    Browser Stats
+                    <ul class="panel-tools panel-tools-hover">
+                        <li><a class="icon"><i class="fa fa-refresh"></i></a></li>
+                        <li><a class="icon minimise-tool"><i class="fa fa-minus"></i></a></li>
+                        <li><a class="icon expand-tool"><i class="fa fa-expand"></i></a></li>
+                        <li><a class="icon closed-tool"><i class="fa fa-times"></i></a></li>
+                    </ul>
+                </div>
+                <div class="panel-body">
+
+                    <ul class="basic-list">
+                        <li>Google Chrome <span class="right label label-default">42.8%</span></li>
+                        <li>Firefox <span class="right label label-danger">16.9%</span></li>
+                        <li>Safari <span class="right label label-success">15.5%</span></li>
+                        <li>Opera <span class="right label label-primary">11.8%</span></li>
+                        <li>Internet Explorer <span class="right label label-danger">3.2%</span></li>
+                        <li>Mobile <span class="right label label-warning">3%</span></li>
+                        <li>Others <span class="right label label-warning">0%</span></li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+        <!-- End Browser Stats -->
+        <!-- Start Orders -->
+        <div class="col-md-12 col-lg-6">
+            <div class="panel panel-widget">
+                <div class="panel-title">
+                    LAST ORDERS <span class="label label-warning">196</span>
+                    <ul class="panel-tools">
+                        <li><a class="icon search-tool"><i class="fa fa-search"></i></a></li>
+                        <li><a class="icon minimise-tool"><i class="fa fa-minus"></i></a></li>
+                        <li><a class="icon expand-tool"><i class="fa fa-expand"></i></a></li>
+                        <li><a class="icon closed-tool"><i class="fa fa-times"></i></a></li>
+                    </ul>
+                </div>
+
+                <div class="panel-search">
+                    <form>
+                        <input type="text" class="form-control" placeholder="Search...">
+                        <i class="fa fa-search icon"></i>
+                    </form>
+                </div>
+
+
+                <div class="panel-body table-responsive">
+
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <td class="text-center"><i class="fa fa-trash"></i></td>
+                                <td>Order ID</td>
+                                <td>Product</td>
+                                <td>Buyer</td>
+                                <td>Date</td>
+                                <td>Payment</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center"><div class="checkbox margin-t-0"><input id="checkbox1" type="checkbox"><label for="checkbox1"></label></div></td>
+                                <td># <b>9652</b></td>
+                                <td>Kode Gaming Laptop</td>
+                                <td>John Doe</td>
+                                <td>12/10/2015</td>
+                                <td>Credit Card</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center"><div class="checkbox margin-t-0"><input id="checkbox2" type="checkbox"><label for="checkbox2"></label></div></td>
+                                <td># <b>1963</b></td>
+                                <td>New Season Jacket</td>
+                                <td>Jane Doe</td>
+                                <td>12/10/2015</td>
+                                <td>Paypal</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center"><div class="checkbox margin-t-0"><input id="checkbox3" type="checkbox"><label for="checkbox3"></label></div></td>
+                                <td># <b>9652</b></td>
+                                <td>IO Mouse</td>
+                                <td>Jonathan Doe</td>
+                                <td>12/10/2015</td>
+                                <td>Credit Card</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center"><div class="checkbox margin-t-0"><input id="checkbox4" type="checkbox"><label for="checkbox4"></label></div></td>
+                                <td># <b>9651</b></td>
+                                <td>Doe Bike</td>
+                                <td>Jonathan Doe</td>
+                                <td>12/10/2015</td>
+                                <td>Credit Card</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <!-- End Orders -->
+        <!-- Start Inbox -->
+        <div class="col-md-12 col-lg-3">
+            <div class="panel panel-widget">
+                <div class="panel-title">
+                    Inbox <span class="label label-danger">9</span>
+                    <ul class="panel-tools">
+                        <li><a class="icon minimise-tool"><i class="fa fa-minus"></i></a></li>
+                        <li><a class="icon expand-tool"><i class="fa fa-expand"></i></a></li>
+                        <li><a class="icon closed-tool"><i class="fa fa-times"></i></a></li>
+                    </ul>
+                </div>
+                <div class="panel-body">
+
+                    <ul class="mailbox-inbox">
+
+                        <li>
+                            <a href="#" class="item clearfix">
+                                <img src="img/profileimg.png" alt="img" class="img">
+                                <span class="from">Jonathan Doe</span>
+                                Hello, m8 how is goin ?
+                                <span class="date">22 May</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#" class="item clearfix">
+                                <img src="img/profileimg2.png" alt="img" class="img">
+                                <span class="from">Egemem Ka</span>
+                                Problems look mighty small...
+                                <span class="date">22 May</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#" class="item clearfix">
+                                <img src="img/profileimg3.png" alt="img" class="img">
+                                <span class="from">James Throwing</span>
+                                New job offer ?
+                                <span class="date">22 May</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#" class="item clearfix">
+                                <img src="img/profileimg4.png" alt="img" class="img">
+                                <span class="from">Timmy Jefsin</span>
+                                Tonight Party
+                                <span class="date">22 May</span>
+                            </a>
+                        </li>
+
+
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+        <!-- End Inbox -->
+
+    </div>
+    <!-- End Fourth Row -->
+    <!-- Start Fifth Row -->
+    <div class="row">
+
+
+        <!-- Start Project Stats -->
+        <div class="col-md-12 col-lg-6">
+            <div class="panel panel-widget">
+                <div class="panel-title">
+                    Projects Stats <span class="label label-info">62</span>
+                    <ul class="panel-tools">
+                        <li><a class="icon minimise-tool"><i class="fa fa-minus"></i></a></li>
+                        <li><a class="icon expand-tool"><i class="fa fa-expand"></i></a></li>
+                        <li><a class="icon closed-tool"><i class="fa fa-times"></i></a></li>
+                    </ul>
+                </div>
+
+                <div class="panel-search">
+                    <form>
+                        <input type="text" class="form-control" placeholder="Search...">
+                        <i class="fa fa-search icon"></i>
+                    </form>
+                </div>
+
+
+                <div class="panel-body table-responsive">
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <td>ID</td>
+                                <td>Project</td>
+                                <td>Status</td>
+                                <td class="text-right">Progress</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>965</td>
+                                <td>Kode Dashboard Template</td>
+                                <td><span class="label label-default">Developing</span></td>
+                                <td class="text-right"><span class="demo-project-stats"><canvas width="100" height="20" style="display: inline-block; width: 100px; height: 20px; vertical-align: top;"></canvas></span></td>
+                            </tr>
+                            <tr>
+                                <td>620</td>
+                                <td>EBI iOS Application</td>
+                                <td><span class="label label-warning">Design</span></td>
+                                <td class="text-right"><span class="demo-project-stats"><canvas width="100" height="20" style="display: inline-block; width: 100px; height: 20px; vertical-align: top;"></canvas></span></td>
+                            </tr>
+                            <tr>
+                                <td>621</td>
+                                <td>Kode Landing Page</td>
+                                <td><span class="label label-info">Testing</span></td>
+                                <td class="text-right"><span class="demo-project-stats"><canvas width="100" height="20" style="display: inline-block; width: 100px; height: 20px; vertical-align: top;"></canvas></span></td>
+                            </tr>
+                            <tr>
+                                <td>621</td>
+                                <td>John Coffe Shop Logo</td>
+                                <td><span class="label label-danger">Canceled</span></td>
+                                <td class="text-right"><span class="demo-project-stats"><canvas width="100" height="20" style="display: inline-block; width: 100px; height: 20px; vertical-align: top;"></canvas></span></td>
+                            </tr>
+                            <tr>
+                                <td>621</td>
+                                <td>BKM Website Design</td>
+                                <td><span class="label label-primary">Reply waiting</span></td>
+                                <td class="text-right"><span class="demo-project-stats"><canvas width="100" height="20" style="display: inline-block; width: 100px; height: 20px; vertical-align: top;"></canvas></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <!-- Start Project Stats -->
+        <!-- Start BlogPost -->
+        <div class="col-md-12 col-lg-3">
+            <div class="panel panel-widget blog-post">
+                <div class="panel-body">
+
+                    <div class="image-div color10-bg">
+                        <img src="img/example1.jpg" class="image" alt="img">
+                        <h1 class="title"><a href="#">Across the sea of space, the stars are other suns.</a></h1>
+                    </div>
+                    <p class="text">There can be no thought of finishing for ‘aiming for the stars.’ Both figuratively and literally...</p>
+                    <a href="#">Read More</a>
+                    <p class="author">
+                        <img src="img/profileimg.png" alt="img">
+                        <span>Jonathan Doe</span>
+                        Designer
+                    </p>
+
+
+                </div>
+            </div>
+        </div>
+        <!-- End BlogPost -->
+        <!-- Start Teammates -->
+        <div class="col-md-12 col-lg-3">
+            <div class="panel panel-info panel-widget">
+                <div class="panel-title">
+                    Teammates
+                </div>
+                <div class="panel-body">
+                    <ul class="basic-list image-list">
+                        <li><img src="img/profileimg.png" alt="img" class="img"><b>Jonathan Doe</b><span class="desc">Designer</span></li>
+                        <li><img src="img/profileimg2.png" alt="img" class="img"><b>Egemem Ka</b><span class="desc">Front-End Developer</span></li>
+                        <li><img src="img/profileimg3.png" alt="img" class="img"><b>Timmy Jefsin</b><span class="desc">Back-End Developer</span></li>
+                        <li><img src="img/profileimg4.png" alt="img" class="img"><b>James K. Throwing</b><span class="desc">Marketing</span></li>
+                        <li><img src="img/profileimg5.png" alt="img" class="img"><b>John Doe</b><span class="desc">iOS Developer</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Teammates -->
+
+
+    </div>
+    <!-- End Fifth Row -->
+
+
+
+
+</div>
+@*<div class="row" style="margin:66px 20px 40px 20px;padding:10px;">
+
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box ">
+                <div class="icon bg-light-green">
+                    <i class="material-icons">people</i>
+                </div>
+                <a href="@Url.Action("StudentDatas", "Index")">
+                    <div class="content">
+
+                        <div class="text">Student's</div>
+
+                        <div class="number count-to" data-from="0" data-to="117" data-speed="1000" data-fresh-interval="20">
+                            @student
+                        </div>
+
+                    </div>
+                </a>
+    </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <a href="@Url.Action("CourseFinishAlert", "Default")">
+                    <div class="icon bg-purple">
+                        <i class="material-icons">file_copy</i>
+                    </div>
+                    <div class="content">
+                        <div class="text">Course Alert</div>
+
+                        <div class="number count-to" data-from="0" data-to="117" data-speed="1000" data-fresh-interval="20"><span id="ctl00_cpmain_lblins">@totalcourse</span></div>
+
+                    </div>
+                </a>
+    </div>
+
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <div class="icon bg-indigo">
+                    <i class="material-icons">aspect_ratio</i>
+                </div>
+                <div class="content">
+                    <a href="@Url.Action("Index", "Logs")">
+                        <div class="text">Fee Alert</div>
+                        <div class="number count-to" data-from="0" data-to="257" data-speed="1000" data-fresh-interval="20"> <span id="ctl00_cpmain_lblpair">@feealert</span></div>
+                    </a>
+                        </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header card-header-divider">Top 5 Inquiry<span class="card-subtitle">This is the Current Inquries</span></div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Contact
+                            </th>
+                            <th>
+                               Category
+                            </th>
+
+                        </tr>
+
+                        @foreach (var item in dd)
+                {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.contact)
+                                </td>
+                                <td>
+                                    @{ Category cc = db.Categories.FirstOrDefault(x => x.Categoryid == item.Categoryid);}
+                                    @cc.Name
+                                </td>
+
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header card-header-divider">Inquiry Alert<span class="card-subtitle">This is the Alert for Inquries</span></div>
+                <div class="card-body">
+                    <table class="table table-striped table-bordered table-hover" id="table1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Contact
+                                </th>
+                                <th>
+                                    Last Feedback
+                                </th>
+                                <th>
+
+                                </th>
+                            </tr>
+                            </thead>
+                            @foreach (var item in feed)
+                            {
+                                <tr>
+                                    <td>
+                                        @{ tblinquiry cc = db.tblinquiries.FirstOrDefault(x => x.inquiryid == item.inquiryid);}
+                                        @cc.name
+
+                                    </td>
+                                    <td>
+                                        @cc.contact
+                                    </td>
+                                    <td>
+                                        @item.feedback
+                                    </td>
+                                    <td>
+
+                                        <a href="javascript:void(0);" onclick="AddEditEmployee(@item.Id)">Follow Up</a>
+
+                                    </td>
+
+                                </tr>
+                                            }
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        @*<div class="modal fade" id="myModal1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <a href="#" class="close" data-dismiss="modal">&times;</a>
+
+                    </div>
+                    <div class="modal-body" id="myModalBodyDiv1">
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>*@
+<div class="modal fade colored-header colored-header-primary" id="form-bp1" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-header-colored">
+                <h3 class="modal-title">Update Follow Up</h3>
+                <button class="close md-close" type="button" data-dismiss="modal" aria-hidden="true"><span class="mdi mdi-close">       </span></button>
+            </div>
+            <div class="modal-body" id="myModalBodyDiv1">
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary md-close" type="button" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary md-close" type="button" data-dismiss="modal">Proceed</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"
+        integrity="sha256-it5nQKHTz+34HijZJQkpNBIHsjpV8b6QzMJs9tmOBSo="
+        crossorigin="anonymous"></script>
+@section scripts
+{
+    <script>
+
+
+        var AddEditEmployee = function (employeeId) {
+            debugger;
+            var url = "/Default/Follow?id=" + employeeId;
+            // var url = "/Model/EmployeePartial";
+            $("#myModalBodyDiv1").load(url, function () {
+
+                $("#form-bp1").modal("show");
+
+            })
+
+        }
+    </script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script>
+window.onload = function () {
+
+
+var chart2 = new CanvasJS.Chart("chartContainer2", {
+    theme: "light1", // "light1", "light2", "dark1", "dark2"
+    exportEnabled: true,
+    animationEnabled: true,
+    title: {
+        text: "Today Profit/Loss"
+    },
+    subtitles: [{
+        text: ""
+    }],
+    data: [{
+        type: "pie",
+        startAngle: 180,
+        toolTipContent: "<b>{label}</b>: {y}",
+        showInLegend: "true",
+        legendText: "{label}",
+        indexLabel: "{label} - {y}",
+        dataPoints: @Html.Raw(ViewBag.Report)
+    }]
+});
+chart2.render();
+    
+var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	title: {
+		text: "Six Month Report"
+	},
+	toolTip: {
+		shared: true
+	},
+	data: [{
+		type: "line",
+		name: "Expense",
+		showInLegend: true,
+		dataPoints: @Html.Raw(ViewBag.DataPoints1)
+	}, {
+		type: "line",
+		name: "Immigration",
+		showInLegend: true,
+		dataPoints: @Html.Raw(ViewBag.DataPoints2)
+	}, {
+		type: "line",
+		name: "Ielts",
+		showInLegend: true,
+		dataPoints: @Html.Raw(ViewBag.DataPoints3)
+	}]
+});
+chart.render();
+        }
+
+
+    </script>
+}

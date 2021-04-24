@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.tblsms>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+}
+
+<h2><b>SMS</b></h2>
+
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+
+<div class="panel panel-default">
+
+    <div class="panel-title">General</div>
+
+    <div class="panel-body">
+
+        <div class="col-md-12 padding-l-0">
+            <div class="table-responsive">
+                <table id="example0" class="table display">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Username)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Senderid)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Type)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Api)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.alertno)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Status)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Username)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Senderid)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Type)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Api)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.alertno)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Status)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.id }, new { @class = "label label-warning" }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.id }, new { @class = "label label-primary" })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+</div>

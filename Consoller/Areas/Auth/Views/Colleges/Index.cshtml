@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.College>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Countries.CountryName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Countries.CountryName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Oid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Oid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Oid })
+        </td>
+    </tr>
+}
+
+</table>

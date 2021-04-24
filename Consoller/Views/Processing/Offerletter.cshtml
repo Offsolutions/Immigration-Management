@@ -1,0 +1,100 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.Process>
+@using Consoller.Areas.Auth.Models
+@{
+    ViewBag.Title = "Offerletter";
+    Layout = "~/Views/Shared/Process.cshtml";
+    dbcontext db = new dbcontext();
+    var i=0;
+}
+
+
+
+<div class="card">
+    <div class="card-body">
+        <h4>Offer Letter</h4>
+        <hr />
+        <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+            <thead>
+                <tr>
+                    <th>
+                        S.No
+                    </th>
+                    <th>
+                        Application No
+                    </th>
+                    <th>
+                        Date
+                    </th>
+
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Mobile
+                    </th>
+
+                    <th>
+                        City
+                    </th>
+                    <th>
+                        Status
+                    </th>
+
+                    <th>
+                        Application
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                Application app = db.Applications.FirstOrDefault(x => x.ApplicationNo == item.ApplicationNo);
+                online on = db.onlines.FirstOrDefault(x => x.inquiryid == app.InquiryId && x.franchid == app.Franchid);
+                <tr>
+                    <td>
+                        @{
+
+                            i = i + 1;
+                        }
+                        @i
+
+                    </td>
+                    <td>
+                        @item.ApplicationNo
+
+                    </td>
+                    <td>
+                        @Convert.ToDateTime(app.Date).ToString("dd/MM/yyyy")
+                    </td>
+
+                    <td>
+                        @on.Name
+                    </td>
+                    <td>
+                        @on.Mobile
+                    </td>
+
+                    <td>
+                        @on.City
+                    </td>
+                    <td>
+                        <span class="badge badge-pill badge-soft-danger font-size-12">@app.Status</span>
+                    </td>
+                    <td>
+                        @Html.ActionLink("DashBoard", "Create", "Application", new { id = app.InquiryId }, new { @class = "btn btn-primary btn-sm" })
+                    </td>
+                    <td>
+                        @*@Html.ActionLink("Edit", "Edit", new { id = item.Oid }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.Oid }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Oid }) |*@
+
+                        <a href="javascript:void(0);" onclick="AddBook(@app.InquiryId)" class="btn btn-success btn-sm">Profile</a>
+                        <a href="@Url.Action("Profile","Application",new { id=item.ApplicationNo})" class="btn btn-danger btn-sm">Full Detail</a>
+                    </td>
+                </tr>
+                            }
+
+        </table>
+
+    </div>
+</div>

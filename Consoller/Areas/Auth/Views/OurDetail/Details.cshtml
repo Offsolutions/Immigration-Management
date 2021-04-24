@@ -1,0 +1,56 @@
+﻿@model Consoller.Areas.Auth.Models.tbldetail
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+}
+
+<h2><b>Institute Details</b></h2>
+<div>
+    <h4>Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.phone)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.logo)
+        </dt>
+
+        <dd>
+            <img src="~/UploadedFiles/@Model.logo" width="150" />
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }, new { @class = "btn btn-danger" }) |
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-danger" })
+</p>

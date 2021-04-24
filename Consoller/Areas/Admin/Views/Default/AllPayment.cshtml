@@ -1,0 +1,82 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.ApplicationRecipt>
+@using Consoller.Areas.Auth.Models
+@using Consoller.Areas.Admin.Models
+@{
+    ViewBag.Title = "AllPayment";
+    Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
+    dbcontext db = new dbcontext();
+    AdminData ad = new AdminData();
+
+}
+
+<h2>AllPayment</h2>
+
+<div class="card">
+    <div class="card-body">
+        <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Date)
+                    </th>
+                    <th>
+                        Applicant Name
+                    </th>
+                    <th>
+                        City
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Type)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ReciptNo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Amount)
+                    </th>
+                    <th>
+                        Recived By
+                    </th>
+
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                int inq = ad.inquiry(item.ApplicationNo);
+                <tr>
+                    <td>
+                        @Convert.ToDateTime(item.Date).ToString("dd/MM/yyyy")
+                    </td>
+                    <td>
+                        @db.onlines.FirstOrDefault(x => x.inquiryid == inq).Name
+                    </td>
+                    <td>
+                        @db.onlines.FirstOrDefault(x => x.inquiryid == inq).City
+                    </td>
+                    <td>
+                        @if (item.Type == "Offer Letter")
+                        {
+                            @item.Type
+                        }
+                        else
+                        {
+                            int id =Convert.ToInt32(item.Type);
+                            @db.PaymentSteps.FirstOrDefault(x => x.Pid == id).Name
+                        }
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReciptNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        @db.tblreceptionists.FirstOrDefault(x => x.rid == item.RecivedBy).name
+                    </td>
+                </tr>
+            }
+
+        </table>
+</div>
+</div>

@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.ApplicationRecipt>
+@using Consoller.Areas.Auth.Models
+@{
+    dbcontext db = new dbcontext();
+}
+
+<table class="table table-striped table-hover table-fw-widget" id="table3">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReciptNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @Convert.ToDateTime(item.Date).ToString("dd/MM/yyyy")
+                </td>
+                <td>
+                    @if (item.Type == "Offer Letter")
+                    {
+                        @Html.DisplayFor(modelItem => item.Type)
+                    }
+                    else
+                    {
+                        int id = Convert.ToInt32(item.Type);
+                        @db.PaymentSteps.FirstOrDefault(x=>x.Pid==id).Name
+                    }
+                </td>
+                <td>
+                    
+                    @Html.DisplayFor(modelItem => item.ReciptNo)
+                </td>
+                <td>
+                    Rs.@Html.DisplayFor(modelItem => item.Amount)
+                </td>
+
+                <td>
+                <a href="@Url.Action("Invoice","Application",new { id=item.Rid})">Print Invoice</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

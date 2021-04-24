@@ -1,0 +1,58 @@
+﻿
+@model Consoller.Areas.Auth.Models.online
+@using Consoller.Areas.Auth.Models
+@using onlineportal.Areas.AdminPanel.Models;
+@{
+    dbcontext db = new dbcontext();
+    Helper help = new Helper();
+    string a = help.Permission();
+    Logs log = new Logs();
+}
+
+
+    <div class="panel panel-default">
+
+        <div class="panel-title"> Logs</div>
+
+        <div class="panel-body">
+
+            <div class="col-md-12 padding-l-0">
+                @using (Html.BeginForm("InsertLogs", "Consoller"))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => model.inquiryid)
+                    <div class="form-horizontal">
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group1 col-md-12">
+                         
+                                @Html.LabelFor(model => log.Description, htmlAttributes: new { @class = "control-label" })
+
+                                @Html.EditorFor(model => log.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => log.Description, "", new { @class = "text-danger" })
+                           
+
+
+                        </div>
+
+
+
+                        <div class="form-group1" style="padding-top:20px">
+                            <div class="col-md-10">
+                                <input type="submit" value="Create" class="btn btn-danger" />
+                                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-danger" })
+
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+
+
+
+        </div>
+
+    </div>
+        
+

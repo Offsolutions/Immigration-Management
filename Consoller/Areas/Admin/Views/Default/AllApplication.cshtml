@@ -1,0 +1,151 @@
+﻿@model  IEnumerable<Consoller.Areas.Auth.Models.Application>
+@using Consoller.Areas.Auth.Models
+@{
+    ViewBag.Title = "AllApplication";
+    Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
+    dbcontext db = new dbcontext();
+    var a = 0;
+}
+
+<h2>AllApplication</h2>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="">
+            <div class="table-responsive">
+                <table class="table project-list-table table-nowrap table-centered table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 100px">#</th>
+                            <th scope="col">Applicant Name</th>
+                            <th scope="col">City</th>
+                            <th scope="col">Intake</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">File Status</th>
+                            <th scope="col">Consoller</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            online on = db.onlines.FirstOrDefault(x => x.inquiryid == item.InquiryId);
+                            <tr>
+                                <td>
+                                    @{
+                                        
+                                        a =a+ 1;
+                                     }
+                                    @a
+                                </td>
+                                <td>
+                                    <h5 class="text-truncate font-size-14"><a href="#" class="text-dark">@on.Name</a></h5>
+                                    <p class="text-muted mb-0">@on.Mobile</p>
+                                </td>
+                                <td>@on.City</td>
+                                <td>
+                                    @if (item.Month != 0)
+                                    {
+                                        @db.Months.Find(item.Month).Name <span>-</span>
+                                        @db.Years.Find(item.Year).Name
+                                    }
+                                
+                                </td>
+                                <td><span class="badge badge-primary">@item.Status</span></td>
+                                <td>
+                                    @{ 
+                                        Process pp = db.Process.FirstOrDefault(x => x.ApplicationNo == item.ApplicationNo);
+                                    }
+                                    @if (pp != null)
+                                    {<div class="team">
+                                        @if (pp.Offerletter == true)
+                                        {
+                                            <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="" data-original-title="Offer Letter">
+                                                <div class="avatar-xs m-1">
+                                                    <span class="avatar-title rounded-circle bg-soft-success text-success font-size-16">
+                                                        O
+                                                    </span>
+                                                </div>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="" data-original-title="Offer Letter">
+                                                <div class="avatar-xs m-1">
+                                                    <span class="avatar-title rounded-circle bg-soft-danger text-danger font-size-16">
+                                                        O
+                                                    </span>
+                                                </div>
+                                            </a>
+                                        }
+                                        @if (pp.Gic == true)
+                                        {
+                                            <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="" data-original-title="Gic">
+                                                <div class="avatar-xs m-1">
+                                                    <span class="avatar-title rounded-circle bg-soft-success text-success font-size-16">
+                                                        G
+                                                    </span>
+                                                </div>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="" data-original-title="Gic">
+                                                <div class="avatar-xs m-1">
+                                                    <span class="avatar-title rounded-circle bg-soft-danger text-danger font-size-16">
+                                                        G
+                                                    </span>
+                                                </div>
+                                            </a>
+                                        }
+                                        @if (pp.Medical == true)
+                                        {
+                                            <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="" data-original-title="Medical">
+                                                <div class="avatar-xs m-1">
+                                                    <span class="avatar-title rounded-circle bg-soft-success text-success font-size-16">
+                                                        M
+                                                    </span>
+                                                </div>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="" data-original-title="Medical">
+                                                <div class="avatar-xs m-1">
+                                                    <span class="avatar-title rounded-circle bg-soft-danger text-danger font-size-16">
+                                                        M
+                                                    </span>
+                                                </div>
+                                            </a>
+                                        }
+
+
+                                    </div>
+                                    }
+
+                                    
+                                </td>
+                                <td>
+                                    <h5 class="text-truncate font-size-14"><a href="#" class="text-dark">@db.tblreceptionists.FirstOrDefault(x=>x.rid==item.DealBy).name</a></h5>
+                                    
+                                </td>
+                                <td>
+                                    <div class="dropdown">
+                                        <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="@Url.Action("Profile","Default",new { id=item.ApplicationNo})">Details</a>
+                                           
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        }
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

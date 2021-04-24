@@ -1,0 +1,96 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.Offerletter>
+@using Consoller.Areas.Auth.Models
+@{ 
+    dbcontext db = new dbcontext();
+}
+
+<table class="table table-striped table-hover table-fw-widget" id="table3">
+    <thead>
+        <tr>
+           
+            <th>
+               Country
+            </th>
+            <th>
+               College
+            </th>
+            <th>
+               Course
+            </th>
+            <th>
+                Intake
+            </th>
+         
+           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                
+                <td>
+                    @db.Countries.Find(item.Cid).CountryName
+                </td>
+                <td>
+                    @db.Colleges.Find(item.Oid).Name
+                </td>
+                <td>
+                    @db.CollegeCourses.FirstOrDefault(x=>x.Code==item.CCid).Name
+                </td>
+                <td>
+                    @db.Months.Find(item.Mid).Name - @db.Years.Find(item.Yid).Name
+                </td>
+              
+               
+                <td>
+                    @Html.ActionLink("Edit", "UpdateOffer","Application", new { id = item.Lid }, new { @class = " badge badge-primary" }) |
+                    @Html.ActionLink("Preview", "Details","Offerletters", new { id = item.Lid }, new { @class = " badge badge-warning" }) |
+                    @*@Html.ActionLink("Delete", "Delete", new { id = item.Lid }, new { @class = " badge badge-danger" })*@
+                    @Html.ActionLink("Update", "Edit", "Offerletters", new { id = item.Lid }, new { @class = " badge badge-primary" })
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="modal fade colored-header colored-header-primary" id="form-bp1" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-header-colored">
+                <h3 class="modal-title">Assign Consoller</h3>
+
+            </div>
+            <div class="modal-body" id="myModalBodyDiv1">
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary md-close" type="button" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+@*<script src="https://code.jquery.com/jquery-1.10.2.js"
+        integrity="sha256-it5nQKHTz+34HijZJQkpNBIHsjpV8b6QzMJs9tmOBSo="
+        crossorigin="anonymous"></script>*@
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script>
+
+
+    var updateoffer=function(Member){
+        debugger;
+        var url = "/Application/UpdateOffer?id=" + Member;
+        // var url = "/Model/EmployeePartial";
+        $("#myModalBodyDiv1").load(url, function () {
+
+            $("#form-bp1").modal("show");
+
+        })
+
+    }
+</script>
+
+
+

@@ -1,0 +1,68 @@
+﻿
+@model Consoller.Areas.Auth.Models.Offerletter
+@using Consoller.Areas.Auth.Models
+@using onlineportal.Areas.AdminPanel.Models;
+@{
+    dbcontext db = new dbcontext();
+    Helper help = new Helper();
+    string a = help.Permission();
+    IEnumerable<tblreceptionist> reception = db.tblreceptionists.Where(x => x.franchid == a);
+
+}
+
+
+    @using (Html.BeginForm("ApplyOfferletters", "Processing"))
+    {
+      
+        <div class="form-group1">
+            <div class="col-md-12">
+                @Html.HiddenFor(model=>Model.CCid)
+                @Html.HiddenFor(model => Model.Cid)
+                @Html.HiddenFor(model => Model.Oid)
+                @Html.HiddenFor(model => Model.Yid)
+                @Html.HiddenFor(model => Model.Mid)
+                @Html.HiddenFor(model => Model.ApplicationNo)
+                @Html.HiddenFor(model => Model.Lid)
+                @Html.HiddenFor(model => Model.Amount)
+                <div class="form-group1">
+                    @Html.LabelFor(model => model.Applied, htmlAttributes: new { @class = "control-label" })
+
+                    @Html.EditorFor(model => model.Applied, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                    @Html.ValidationMessageFor(model => model.Applied, "", new { @class = "text-danger" })
+
+                </div>
+                <div class="form-group1">
+                    @Html.LabelFor(model => model.Received, htmlAttributes: new { @class = "control-label" })
+
+                    @Html.EditorFor(model => model.Received, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                   
+                    @Html.ValidationMessageFor(model => model.Received, "", new { @class = "text-danger" })
+
+                </div>
+                <div class="form-group1">
+                    @Html.EditorFor(model => model.Sms) Sms | @Html.EditorFor(model => model.Email) Email | @Html.EditorFor(model => model.Show) View
+
+                </div>
+                <div class="col-md-12">
+                    
+                    
+                    <div class="form-group" style="padding-top:20px">
+                        <div class="col-md-10">
+                            <input type="submit" value="Create" class="btn btn-lg btn-primary" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    }
+
+
+
+<script>
+  $( function() {
+      $(".datepicker").datepicker({ dateFormat: 'dd-mm-yy' });
+  } );
+</script>

@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.MorningAttendence>
+@using Consoller.Areas.Auth.Models
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+    dbcontext db = new dbcontext();
+}
+
+<div class="table-responsive">
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="form-group col-md-4">
+
+
+                    <input type="date" class="form-control" name="date" />
+
+                </div>
+                <div class="form-group col-md-4">
+
+
+                    <input type="submit" class="form-control" value="Submit" />
+
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (Model != null)
+    {
+        <form action="/Attend/Create" method="post">
+            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                <thead>
+                    <tr>
+                        <th>
+                            RollNo
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Reading
+                        </th>
+                        <th>
+                            Speaking
+                        </th>
+
+
+                    </tr>
+                </thead>
+                @foreach (var item in Model)
+                    {
+
+                        <tr>
+                            <td>
+                                
+                                @db.tblstudentdata.FirstOrDefault(x=>x.rollno==item.Rollno).rollno
+                            </td>
+                            <td>
+                                @db.Timings.FirstOrDefault(x => x.Tid == item.Timing).BatchTime
+                            </td>
+                            <td>
+                              @item.Reading
+                            </td>
+                            <td>
+                                @item.Speaking
+                            </td>
+
+                        </tr>
+                    }
+
+            </table>
+
+            <input type="submit" name="submit" value="submit" /><br>
+        </form>
+    }
+
+
+</div>
+

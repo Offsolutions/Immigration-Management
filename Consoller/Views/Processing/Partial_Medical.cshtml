@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.Medicals>
+
+<table class="table">
+    <tr>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HospitalName)
+        </th>
+       
+        <th>
+            @Html.DisplayNameFor(model => model.Note)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HospitalName)
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.Note)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Mid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Mid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Mid })
+        </td>
+    </tr>
+}
+
+</table>

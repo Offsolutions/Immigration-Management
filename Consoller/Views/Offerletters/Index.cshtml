@@ -1,0 +1,94 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.Offerletter>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/main.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ApplicationNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Applied)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Received)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Oid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CCid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Yid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Show)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Files)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApplicationNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Applied)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Received)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Oid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CCid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Yid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Mid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Amount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Show)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Files)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Lid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Lid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Lid })
+        </td>
+    </tr>
+}
+
+</table>

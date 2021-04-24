@@ -1,0 +1,158 @@
+﻿@model Consoller.Areas.Auth.Models.tblinquiry
+@using Consoller.Areas.Auth.Models
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+    dbcontext db = new dbcontext();
+    tblfeedback tblfeedback = new tblfeedback();
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="panel panel-default">
+
+            <div class="panel-title">Inquiry</div>
+
+            <div class="panel-body">
+
+                <div class="col-md-12 padding-l-0">
+                    @using (Html.BeginForm("Create", "Inquiry", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            <h4>Create</h4>
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="row">
+                                <div class="form-group1 col-md-12">
+                                    @Html.Label("Date", htmlAttributes: new { @class = "control-label ]" })
+
+                                    @Html.EditorFor(model => model.date, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.date, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="form-group1 col-md-4">
+                                    @Html.Label("Name", htmlAttributes: new { @class = "control-label " })
+
+                                    @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                                </div>
+
+
+                                <div class="form-group1 col-md-4">
+                                    @Html.Label("Father Name", htmlAttributes: new { @class = "control-label " })
+
+                                    @Html.EditorFor(model => model.fname, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.fname, "", new { @class = "text-danger" })
+
+                                </div>
+                                <div class="form-group1 col-md-4">
+                                    @Html.Label("Contact", htmlAttributes: new { @class = "control-label " })
+
+                                    @Html.EditorFor(model => model.contact, new { htmlAttributes = new { @class = "form-control", onkeypress = "return ValidateMobile(event);", @id = "txtmob" } })
+                                    @Html.ValidationMessageFor(model => model.contact, "", new { @class = "text-danger" })
+
+                                </div>
+                                </div>
+                            <div class="row">
+
+                                <div class="form-group1 col-md-12">
+                                    @Html.Label("Address", htmlAttributes: new { @class = "control-label " })
+
+                                    @Html.EditorFor(model => model.address, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.address, "", new { @class = "text-danger" })
+
+                                </div>
+                                </div>
+                            <div class="row">
+                                <div class="form-group1 col-md-4">
+                                    @Html.Label("Category", htmlAttributes: new { @class = "control-label " })
+
+                                    @Html.DropDownList("Categoryid", null, "Select Category", htmlAttributes: new { @class = "form-control", @id = "cat" })
+
+                                    @Html.ValidationMessageFor(model => model.Categoryid, "", new { @class = "text-danger" })
+
+                                </div>
+
+                                <div class="form-group1 col-md-4">
+                                    @Html.Label("Follow Up", htmlAttributes: new { @class = "control-label " })
+
+                                    @Html.DropDownListFor(model => tblfeedback.type,
+                            new SelectList(Enum.GetValues(typeof(Consoller.Areas.Auth.Models.InquiryType))),
+                            "Select Type",
+                            new { @class = "form-control" })
+
+                                </div>
+                                <div class="form-group1 col-md-4">
+                                    @Html.Label("Days", htmlAttributes: new { @class = "control-label " })
+
+                                    @Html.EditorFor(model => tblfeedback.days, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => tblfeedback.days, "", new { @class = "text-danger" })
+
+                                </div>
+                                </div>
+                            <div class="row">
+
+                                <div class="form-group1 col-md-12">
+                                    @Html.Label("Refered By", htmlAttributes: new { @class = "control-label " })
+
+                                    @Html.EditorFor(model => model.referedby, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.referedby, "", new { @class = "text-danger" })
+
+                                </div>
+                                </div>
+                            <div class="row">
+                                <div class="form-group1 col-md-12">
+                                    @Html.Label("Feed Back", htmlAttributes: new { @class = "control-label " })
+
+                                    @Html.EditorFor(model => tblfeedback.feedback, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => tblfeedback.feedback, "", new { @class = "text-danger" })
+
+                                </div>
+                                </div>
+                            <div class="row">
+                                <div class="form-group1 col-md-12">
+                                    @Html.Label("Status", htmlAttributes: new { @class = "control-label " })
+
+                                    @Html.EditorFor(model => model.status)
+
+                                </div>
+                                </div>
+                                <div class="form-group1">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Create" class="btn btn-danger" onclick="Validate();" />
+                                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-danger" })
+
+                                    </div>
+                                </div>
+                            </div>
+                    }
+                </div>
+
+
+
+
+            </div>
+
+        </div>
+        </div>
+    </div>
+
+
+
+        <script type="text/javascript">
+            function Validate() {
+                debugger;
+                var ddlFruits = document.getElementById("cat");
+                if (ddlFruits.value == "Select Category") {
+                    //If the "Please Select" option is selected display error.
+                    alert("Please select an category!");
+                    return false;
+                }
+                return true;
+            }
+        </script>

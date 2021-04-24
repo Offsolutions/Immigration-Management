@@ -1,0 +1,140 @@
+﻿@model Consoller.Areas.Auth.Models.StudentCourse
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+    //int rol = ViewBag.rollno;
+}
+
+
+
+<div class="panel panel-default">
+
+    <div class="panel-title">Assign Course</div>
+
+    <div class="panel-body">
+
+        <div class="col-md-12 padding-l-0">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    <h4>Create</h4>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.Label("RollNo", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.RollNo, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.RollNo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Course", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("CourseId", (IEnumerable<SelectListItem>)ViewBag.CourseId, "Select Course", htmlAttributes: new { @class = "form-control", @onchange = "Courses()", @id = "cityDropDown" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Fees, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Fees, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Fees, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Days, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Days, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Days, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Addmission Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Admitdate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Admitdate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="display:none">
+                        @Html.Label("End Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.enddate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.enddate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="display:none">
+                        @Html.Label("Room", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("RoomId", null, htmlAttributes: new { @class = "form-control" })
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.Status)
+                                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Create" class="btn btn-danger" />
+                            @*@Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-danger" })*@
+
+                        </div>
+                    </div>
+                </div>
+            }
+            <script src="https://code.jquery.com/jquery-1.10.2.js"
+                    integrity="sha256-it5nQKHTz+34HijZJQkpNBIHsjpV8b6QzMJs9tmOBSo="
+                    crossorigin="anonymous"></script>
+
+            <script>
+                function Courses() {
+                    debugger;
+                    var stateId = $("#cityDropDown").val();
+
+                    $.ajax
+                        ({
+                            url: '/studentdatas/Fee',
+                            type: 'POST',
+                            datatype: 'application/json',
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                                stateId: +stateId
+                            }),
+                            success: function (result) {
+                                debugger;
+
+                                $.each($.parseJSON(result), function (i, city) {
+                                    debugger;
+                                    var a = city.id;
+                                    $("#Fees").val(city.Fees)
+                                })
+
+                            },
+                            error: function () {
+                                alert("Whooaaa! Something went wrong..")
+                            },
+                        });
+                }
+            </script>
+        </div>
+
+
+
+
+    </div>
+
+</div>
+

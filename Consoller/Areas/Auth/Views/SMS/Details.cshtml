@@ -1,0 +1,66 @@
+﻿@model Consoller.Areas.Auth.Models.tblsms
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+}
+<h2><b>SMS</b></h2>
+
+<div>
+    <h4>Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Username)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Senderid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Senderid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Api)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Api)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.alertno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.alertno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }, new { @class = "btn btn-danger" }) |
+     @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-danger" })
+</p>

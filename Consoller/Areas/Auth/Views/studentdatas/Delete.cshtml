@@ -1,0 +1,217 @@
+﻿@model Consoller.Areas.Auth.Models.tblstudentdata
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+}
+
+<h2><b>Student Registration</b></h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Delete</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.rollno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.rollno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dob)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dob)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fathername)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fathername)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fatherphn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fatherphn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.language)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.language)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.board)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.board)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.qualification)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.qualification)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.coaching)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.coaching)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.institutename)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.institutename)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.refferedby)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.refferedby)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.image)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.image)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.uid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.uid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.username)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.password)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.password)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.gender)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.gender)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.remarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.discount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.discount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+	    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-danger" })
+        </div>
+    }
+</div>

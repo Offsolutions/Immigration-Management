@@ -1,0 +1,275 @@
+﻿@model Consoller.Areas.Auth.Models.Recipt_Details
+@using onlineportal.Areas.AdminPanel.Models;
+@using Consoller.Areas.Auth.Models;
+
+@{
+    ViewBag.Title = "invoice";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+    dbcontext db = new dbcontext();
+    tbldetail tbldetail = new tbldetail();
+    Helper help = new Helper();
+    string franch= User.IsInRole("Franchisee") ? help.Franchisee() : help.Receptionist();
+    if (User.IsInRole("Franchisee"))
+    {
+        int a = Convert.ToInt32(help.Franchisee());
+        tbldetail = db.tbldetails.FirstOrDefault(x => x.franchid == a);
+    }
+    else
+    {
+        int a = Convert.ToInt32(help.Receptionist());
+        tbldetail = db.tbldetails.FirstOrDefault(x => x.franchid == a);
+    }
+    string fr = User.IsInRole("Franchisee") ? help.Franchisee() : help.Receptionist();
+    int roll = Convert.ToInt32(Session["roll"].ToString());
+    tblstudentdata tblstudent = db.tblstudentdata.FirstOrDefault(x => x.rollno == roll && x.uid==franch && x.Status==true);
+    var courseid = ViewData["courseid"].ToString();
+    int cid = Convert.ToInt32(courseid);
+
+    Course course = db.Courses.FirstOrDefault(a => a.CourseId == cid && a.franchid==fr);
+    StudentCourse sc = db.StudentCourses.FirstOrDefault(x => x.RollNo == roll && x.Uid == fr && x.CourseId==course.CourseId && x.Status==true);
+    Fees_Master feemaster = db.Fees_Master.FirstOrDefault(x => x.RollNo == roll && x.franchid==fr && x.Status==true && x.CourseId==Model.CourseId);
+
+    int total = 0;
+}
+
+<button id="print" class="btn btn-primary" type="button"> <span><i class="fa fa-print"></i> Print</span> </button>
+<div>
+    <div class="printableArea">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="invoice-title">
+                    <h2>Invoice</h2><h3 class="pull-right">Recipt No. @Model.ReciptNo</h3>
+                </div>
+                <hr>
+
+
+            </div>
+        </div>
+        <div class="row">
+            <div style="float:left;width:500px;padding-left: 24px;">
+                <address>
+                    <strong>Billed To:</strong><br>
+                    Name: @tblstudent.name <br />
+                    S.O/D.O/W.O : @tblstudent.fathername<br />
+                    Phone No. : @tblstudent.phone<br />
+                    City/Village : @tblstudent.address
+                </address>
+            </div>
+            <div style="float:left;width:540px;text-align:right">
+                <address>
+                    <strong>Billed from:</strong><br />
+                    @tbldetail.name<br />
+                    @tbldetail.address<br />
+                    @tbldetail.phone<br />
+                    @tbldetail.email<br />
+                    www.bluebirdimmigrations.com
+                </address>
+            </div>
+            
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <address>
+                    <strong>Payment Method:</strong>
+                    Cash
+                </address>
+            </div>
+            <div class="col-md-6 text-right">
+                <address>
+                    <strong>Date:</strong>
+                    @Convert.ToDateTime(Model.Date).ToString("dd/MM/yyyy")<br><br>
+                </address>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><strong>Installments Details</strong></h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <td><strong>Course Name</strong></td>
+                                            <td><strong>Joining</strong></td>
+                                            <td class="text-right"><strong>Total Fee</strong></td>
+                                            <td class="text-center"><strong>Paid Fee</strong></td>
+                                            <td class="text-center"><strong>Discount</strong></td>
+                                            <td class="text-center"><strong>Pending</strong></td>
+                                           
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- foreach ($order->lineItems as $line) or some such thing here -->
+                                        <tr>
+                                            <td>@course.CourseName</td>
+                                            <td>@Convert.ToDateTime(sc.Admitdate).ToString("dd/MM/yyyy")</td>
+                                            <td class="text-right">Rs. @feemaster.TotalFees</td>
+                                            <td class="text-center">Rs. @Model.Amount</td>
+                                            @{  total = (feemaster.TotalFees - (feemaster.PaidFees + feemaster.discount));
+                                                
+                                                }
+                                            <td class="text-center">Rs.@feemaster.discount</td>
+                                            <td class="text-center">Rs.@total</td>
+                                           
+                                        </tr>
+                                        <tr>
+
+                                            <td class="no-line text-center"><strong>In Words :</strong>@help.ConvertNumbertoWords(Model.Amount)</td>
+                                            <td class="no-line"></td>
+                                            <td class="no-line"></td>
+                                            <td class="no-line"></td>
+                                            @*<td class="no-line text-right"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>*@
+                                        </tr>
+                                        <tr>
+
+                                            <td class="no-line">
+                                                <h3 style="margin:0px"><strong>Terms & Conditions</strong></h3>
+                                                <ul style="padding: 0px; margin: 0px; list-style: none;font-size:13px">
+                                                    <li>1. Fee will not be refundable at any cost.</li>
+                                                    <li>2. Maintain the discipline in class.</li>
+                                                    <li>3. Use of mobile phone is prohibited in the class. </li>
+                                                    <li>4. All the dues must be cleared within 15 days of admission.</li>
+
+                                                </ul>
+                                            </td>
+                                            <td class="no-line"><strong>For @tbldetail.name</strong></td>
+                                        <td class="no-line text-center"><strong>Candidate Signature</strong></td>
+                                        <td class="no-line text-right"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <br /><br /><br />
+        <div class="row">
+            <div class="col-md-12">
+                <div class="invoice-title">
+                    <h2>Invoice</h2><h3 class="pull-right">Recipt No. @Model.ReciptNo</h3>
+                </div>
+                <hr>
+
+
+            </div>
+        </div>
+        <div class="row">
+            <div style="float:left;width:500px;padding-left: 24px;">
+                <address>
+                    <strong>Billed To:</strong><br>
+                    Name: @tblstudent.name <br />
+                    S.O/D.O/W.O : @tblstudent.fathername<br />
+                    Phone No. : @tblstudent.phone<br />
+                    City/Village : @tblstudent.address
+                </address>
+            </div>
+            <div style="float:left;width:540px;text-align:right">
+                <address>
+                    <strong>Billed from:</strong><br />
+                    @tbldetail.name<br />
+                    @tbldetail.address<br />
+                    @tbldetail.phone<br />
+                    @tbldetail.email<br />
+                    www.bluebirdimmigrations.com
+                </address>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <address>
+                    <strong>Payment Method:</strong>
+                    Cash
+                </address>
+            </div>
+            <div class="col-md-6 text-right">
+                <address>
+                    <strong>Date:</strong>
+                    @Convert.ToDateTime(Model.Date).ToString("dd/MM/yyyy")<br><br>
+                </address>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><strong>Installments Details</strong></h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <td><strong>Course Name</strong></td>
+                                            <td><strong>joining</strong></td>
+                                            <td class="text-right"><strong>Total Fee</strong></td>
+                                            <td class="text-center"><strong>Paid Fee</strong></td>
+                                            <td class="text-center"><strong>Discount</strong></td>
+                                            <td class="text-center"><strong>Pending</strong></td>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- foreach ($order->lineItems as $line) or some such thing here -->
+                                        <tr>
+                                            <td>@course.CourseName</td>
+                                            <td>@Convert.ToDateTime(sc.Admitdate).ToString("dd/MM/yyyy")</td>
+                                            <td class="text-right">Rs. @feemaster.TotalFees</td>
+                                            <td class="text-center">Rs. @Model.Amount</td>
+                                            @{  total = (feemaster.TotalFees - (feemaster.PaidFees + feemaster.discount));
+
+                                            }
+                                            <td class="text-center">Rs.@feemaster.discount</td>
+                                            <td class="text-center">Rs.@total</td>
+
+                                        </tr>
+                                        <tr>
+
+                                            <td class="no-line text-center"><strong>In Words :</strong>@help.ConvertNumbertoWords(Model.Amount)</td>
+                                            <td class="no-line"></td>
+                                            <td class="no-line"></td>
+                                            <td class="no-line"></td>
+                                            @*<td class="no-line text-right"></td>
+                                            <td class="no-line"></td>
+                                            <td class="no-line"></td>*@
+                                        </tr>
+                                        <tr>
+
+                                            <td class="no-line">
+                                                <h3 style="margin:0px"><strong>Terms & Conditions</strong></h3>
+                                                <ul style="padding: 0px; margin: 0px; list-style: none;font-size:13px">
+                                                    <li>1. Fee will not be refundable at any cost.</li>
+                                                    <li>2. Maintain the discipline in class.</li>
+                                                    <li>3. Use of mobile phone is prohibited in the class. </li>
+                                                    <li>4. All the dues must be cleared within 15 days of admission.</li>
+
+                                                </ul>
+                                            </td>
+                                            <td class="no-line"><strong>For @tbldetail.name</strong></td>
+                                            <td class="no-line text-center"><strong>Candidate Signature</strong></td>
+                                            <td class="no-line text-right"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+</div>
+</div>

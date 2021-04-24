@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.Category>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+}
+
+
+<div class="panel panel-default">
+
+    <div class="panel-title">Inquiry Category</div>
+
+    <div class="panel-body">
+
+        <div class="col-md-12 padding-l-0">
+            <p>
+                @Html.ActionLink("Create New", "Create", "", new { @class = "btn btn-primary" })
+            </p>
+            <div class="table-responsive">
+                <table id="example0" class="table display">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Categoryid }, new { @class = "label label-warning" }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.Categoryid }, new { @class = "label label-primary" }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Categoryid }, new { @class = "label label-danger" })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+</div>

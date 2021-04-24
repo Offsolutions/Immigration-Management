@@ -1,0 +1,112 @@
+﻿@model Consoller.Areas.Auth.Models.Chat
+@using Consoller.Areas.Auth.Models
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/main.cshtml";
+    dbcontext db = new dbcontext();
+    IEnumerable<Chat> cc = db.Chats.Where(x => x.ApplicationNo == Model.ApplicationNo).ToList();
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="card">
+        <div class="card-body">
+            <div class="form-horizontal">
+                <h4>Chat</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => Model.ApplicationNo)
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Message, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Message, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default" /> |     @Html.ActionLink("Back to List", "Index")
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (cc != null)
+{
+    <div class="card">
+        <div class="card-body">
+          
+                <div class="row">
+                    <ul class="list-group col-md-12">
+                        @foreach (var item in cc)
+                        {
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-xs-2 col-md-1">
+                                        <img src="http://placehold.it/80" class="img-circle img-responsive" alt="" />
+                                    </div>
+                                    <div class="col-xs-10 col-md-11">
+                                        <div>
+
+                                            <div class="mic-info">
+                                                @if (item.Consoller != null)
+                                                {
+                                                    <span> By:@db.tblreceptionists.FirstOrDefault(x => x.rid == item.Consoller).name </span> <small>@Convert.ToDateTime(item.Date).ToString("dd/MM/yyyy")</small>
+                                                }
+                                                else
+                                                {
+
+                                                    var inquiry = db.Applications.FirstOrDefault(x => x.ApplicationNo == item.ApplicationNo).InquiryId;
+
+                                                    <span> By:@db.onlines.FirstOrDefault(x => x.inquiryid == inquiry).Name </span> <small>@Convert.ToDateTime(item.Date).ToString("dd/MM/yyyy")</small>
+                                                }
+                                            </div>
+
+                                        </div>
+
+                                        <div class="comment-text">
+                                            @Html.Raw(item.Message)
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </li>
+                        }
+
+
+                    </ul>
+
+                    @*<div class="panel panel-default widget">
+                        <div class="panel-heading">
+                            <span class="glyphicon glyphicon-comment"></span>
+                            <h3 class="panel-title">
+                                Recent Comments
+                            </h3>
+                            <span class="label label-info">
+                                78
+                            </span>
+                        </div>
+                        <div class="panel-body">
+
+                            
+                            <a href="#" class="btn btn-primary btn-sm btn-block" role="button"><span class="glyphicon glyphicon-refresh"></span> More</a>
+                        </div>
+                    </div>*@
+                </div>
+          
+        </div>
+    </div>
+}
+
+

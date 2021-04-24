@@ -1,0 +1,129 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.tblstudentdata>
+@using Consoller.Areas.Auth.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+    dbcontext db = new dbcontext();
+    int i = 0;
+}
+<div class="card">
+    <div class="card-body">
+
+        <div class="col-md-12 padding-l-0">
+            <p>
+                @Html.ActionLink("Create New", "Create", "", new { @class = "btn btn-primary" })
+            </p>
+            <div class="panel-body table-responsive">
+                <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>
+                                S.No
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.rollno)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.fathername)
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.phone)
+                            </th>
+
+                            <th>
+                                Teacher
+                            </th>
+                            <th>
+                                Doj
+                            </th>
+                            <th>
+                                Course
+                            </th>
+                            <th>
+                                Address
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.image)
+                            </th>
+
+
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @{
+
+                                    i = i + 1;
+                                }
+                                @i
+
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.rollno)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.fathername)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.phone)
+                            </td>
+
+                            <td>
+                              @{ int a = item.Id;}
+                                @db.tblreceptionists.FirstOrDefault(x => x.Id == item.UserId).name
+                            </td>
+                            <td>
+                                @{
+                                    StudentCourse ab= db.StudentCourses.FirstOrDefault(x => x.RollNo == item.rollno && x.Status == true && x.Uid == "1010");
+                                  
+                                   }
+                                @if(ab!=null)
+                                {
+                                    @Convert.ToDateTime(ab.Admitdate).ToString("dd/MM/yyyy");
+                                }
+                            </td>
+                            <td>
+                                @if (ab != null)
+                                {
+                                    @db.Courses.FirstOrDefault(x => x.CourseId == ab.CourseId).CourseName
+                                }
+                                </td>
+                            <td>
+                                @item.address
+                            </td>
+                            <td>
+                                <img src="~/UploadedFiles/@item.image" width="70" alt="No Image" />
+                            </td>
+
+
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "label label-warning" }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "label label-danger" }) |
+                                @Html.ActionLink("Profile", "View", new { roll = item.rollno }, new { @class = "label label-primary" }) |
+                                @Html.ActionLink("Pay", "Deposit", new { roll = item.rollno }, new { @class = "label label-success" })
+                            </td>
+                        </tr>
+                                    }
+
+                </table>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+</div>
+

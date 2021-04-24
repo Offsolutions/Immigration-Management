@@ -1,0 +1,44 @@
+﻿@model Consoller.Areas.Auth.Models.tblinquiry
+@using Consoller.Areas.Auth.Models
+@using onlineportal.Areas.AdminPanel.Models;
+@{ 
+    dbcontext db = new dbcontext();
+    Helper help = new Helper();
+    string a = help.Permission();
+    IEnumerable<tblreceptionist> reception = db.tblreceptionists.Where(x => x.franchid == a);
+    
+}
+
+
+    <div class="row">
+        @using (Html.BeginForm("UpdateAssign", "Inquiry"))
+        {
+            @Html.HiddenFor(model => model.inquiryid)
+            <div class="form-group1">
+                <div class="col-md-12">
+
+
+                    <div class="col-md-12">
+                        <label>Assign Teacher</label>
+                        <select name="assign" class="form-control">
+                            <option>Select Teacher</option>
+                            @foreach (var item in reception)
+                            {
+                                <option value="@item.rid">@item.name</option>
+                            }
+                        </select>
+                        <div class="form-group" style="padding-top:20px">
+                            <div class="col-md-10">
+                                <input type="submit" value="Create" class="btn btn-lg btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        }
+    </div>
+
+    

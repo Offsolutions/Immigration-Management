@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.DailyAttendence>
+@using Consoller.Areas.Auth.Models
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+    DailyAttendence dm = new DailyAttendence();
+}
+
+<h2>Create</h2>
+@using (Html.BeginForm("check", "CheckStatus"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Enter Library Card Number</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label>Enter Library CardNumber</label>
+            @Html.EditorFor(model => dm.Date, new { htmlAttributes = new { @class = "form-control" } })
+            @*<input type="text" name="id" class="form-control" />*@
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-space btn-primary" />
+
+            </div>
+        </div>
+    </div>
+}
+
+@if (Model != null)
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rollno)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Attendence)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.franchid)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rollno)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Attendence)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.franchid)
+                    @Html.RadioButtonFor(m => item.AnswerType, item.Attendence)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Aid }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Aid }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Aid })
+                </td>
+            </tr>
+        }
+
+    </table>
+}

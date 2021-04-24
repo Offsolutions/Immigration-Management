@@ -1,0 +1,506 @@
+﻿@model dynamic
+@using Consoller.Areas.Auth.Models
+@{
+    ViewBag.Title = "DateWise";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+    dbcontext db = new dbcontext();
+    Expense ex = new Expense();
+    DateTime date1 = Convert.ToDateTime(TempData["Date1"]);
+    DateTime date2 = Convert.ToDateTime(TempData["Date2"]);
+
+}
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h2>Date Wise Report</h2>
+                    <div class="row">
+                        <div class="form-inline col-md-2">
+                            <label class="sr-only" for="inlineFormInputName2">From Date</label>
+                            @Html.EditorFor(model => ex.Date1, new { htmlAttributes = new { @class = "form-control" } })
+
+
+
+
+
+
+
+                        </div>
+                        <div class="form-inline col-md-2">
+                            <label class="sr-only" for="inlineFormInputName2">To Date</label>
+                            @Html.EditorFor(model => ex.Date2, new { htmlAttributes = new { @class = "form-control" } })
+
+
+
+
+
+
+
+                        </div>
+                        <div class="input-group mb-2 col-md-2">
+
+                            <input type="submit" value="Search" class="btn btn-danger" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="card">
+    <div class="card-body">
+        @if (Session["Status"].ToString() == "True")
+        {<div class="row">
+            <div class="col-sm-6 mt-3">
+                <h2>Daily Inquiry</h2>
+                <hr />
+                <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Father Name
+                            </th>
+                            <th>
+                                Contact
+                            </th>
+
+                            <th>
+                                Category
+                            </th>
+
+
+                        </tr>
+                    </thead>
+                    @foreach (tblinquiry item in Model.dailyinquiry)
+                {
+                        <tr>
+
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.fname)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.contact)
+                            </td>
+
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Category.Name)
+                            </td>
+
+                        </tr>
+                    }
+
+                </table>
+            </div>
+            <div class="col-sm-6 mt-3 text-sm-right">
+                <h2>Immigration Inquiry</h2>
+                <hr />
+                <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+
+
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Mobile
+                            </th>
+
+                            <th>
+                                From
+                            </th>
+                            <th>
+                                Leads
+                            </th>
+
+
+                        </tr>
+                    </thead>
+                    @foreach (online item in Model.immgrationinquiry)
+                {
+                        <tr>
+
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Mobile)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.City)
+                            </td>
+                            <td style="text-align:center">
+                                @if (item.Country == "Canada" || item.Country == "CANADA")
+                                {
+                                    <img src="~/image/canada.png" />
+                                }
+                            </td>
+
+
+
+                        </tr>
+                    }
+
+                </table>
+                @*<table id="example0" class="table display">
+                        <tr>
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                              Item
+                            </th>
+                            <th>
+                                Amount
+                            </th>
+                            <th>
+                               Method
+                            </th>
+                            <th>
+                                Ref
+                            </th>
+
+                        </tr>
+
+                        @foreach (var item in Model.AllExpense)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Date)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Item)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Amount)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Method)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Ref)
+                                </td>
+
+
+                            </tr>
+                        }
+
+                    </table>*@
+            </div>
+        </div>
+        <hr />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2>Ielts Fees</h2>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Sno.
+                                            </th>
+                                            <th>
+                                                RollNo
+                                            </th>
+                                            <th>
+                                                Name
+                                            </th>
+                                            <th>
+                                                Course
+                                            </th>
+                                            <th>
+                                                Teacher
+                                            </th>
+                                            <th>
+                                                Today Paid
+                                            </th>
+                                            <th>
+                                                Balance
+                                            </th>
+                                            <th>
+                                                Joining Date
+                                            </th>
+                                            <th>
+                                                End Date
+                                            </th>
+
+
+                                        </tr>
+                                    </thead>
+                                    @{
+                                        int sno3 = 0;
+                                    }
+                                    @foreach (Recipt_Details item in Model.ieltsfee)
+                                    {
+                                        
+                                        <tr>
+                                            <td>
+                                                @{ sno3++; }
+                                                @sno3
+
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.RollNo)
+                                            </td>
+                                            <td>
+                                                @{
+                                                    tblstudentdata stu = db.tblstudentdata.FirstOrDefault(x => x.rollno == item.RollNo && x.uid == item.franchid && x.Status == true);
+                                                }
+                                                @stu.name
+                                            </td>
+                                            <td>
+                                                @{
+                                                    Course course = db.Courses.FirstOrDefault(x => x.CourseId == item.CourseId && x.franchid == stu.uid);
+                                                }
+                                                @course.CourseName
+                                            </td>
+                                            <td>
+                                                @{
+
+                                                    tblreceptionist re = db.tblreceptionists.FirstOrDefault(x => x.Id == stu.UserId);
+                                                }
+                                                @re.name
+                                            </td>
+
+                                            <td>
+                                                @item.Amount
+                                            </td>
+                                            <td>
+                                                @{
+                                                    Fees_Master fee = db.Fees_Master.FirstOrDefault(x => x.RollNo == item.RollNo && x.franchid == item.franchid && x.Status == true);
+                                                    var balance = (Convert.ToInt32(fee.TotalFees) - (Convert.ToInt32(fee.PaidFees) + Convert.ToInt32(fee.discount)));
+                                                }
+                                                @balance
+                                            </td>
+                                            <td>
+                                                @{
+                                                    StudentCourse sc = db.StudentCourses.FirstOrDefault(x => x.RollNo == item.RollNo && x.Uid == item.franchid && x.Status == true);
+                                                }
+                                                @Convert.ToDateTime(sc.Admitdate).ToString("dd/MM/yyyy")
+                                            </td>
+                                            <td>
+                                                
+                                                @Convert.ToDateTime(sc.enddate).ToString("dd/MM/yyyy")
+                                            </td>
+
+
+                                        </tr>
+                                                    }
+                                    <tr>
+
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            Total:  @db.Recipt_Details.Where(x => x.Date >= date1 && x.Date <= date2).Select(x => x.Amount).DefaultIfEmpty(0).Sum()
+
+                                        </td>
+                                        <td>
+                                                                        
+                                             
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+
+
+                                    </tr>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h2>Confirm Cases</h2>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Name
+                                            </th>
+                                            <th>
+                                                Country
+                                            </th>
+                                            <th>
+                                                Tracking Id
+                                            </th>
+                                            <th>
+                                                Teacher
+                                            </th>
+
+
+                                        </tr>
+                                    </thead>
+                                    @foreach (Application item in Model.ConfirmCase)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @{
+                                                    online on = db.onlines.FirstOrDefault(x => x.inquiryid == item.InquiryId);
+                                                }
+                                                @on.Name
+                                            </td>
+                                            <td>
+                                                @on.Country
+                                            </td>
+                                            <td>
+                                                @item.TrackingId
+                                            </td>
+                                            <td>
+                                                @{
+                                                    tblreceptionist rr = db.tblreceptionists.FirstOrDefault(x => x.rid == item.DealBy);
+                                                }
+                                                @rr.name
+                                            </td>
+
+
+                                        </tr>
+                                                    }
+
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h2>Cases Payment</h2>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Name
+                                            </th>
+                                            <th>
+                                                Type
+                                            </th>
+                                            <th>
+                                                Amount
+                                            </th>
+                                            <th>
+                                                Recived
+                                            </th>
+                                            <th>
+                                                Method
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    @foreach (ApplicationRecipt item in Model.CasePayment)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @{
+                                                    Application app = db.Applications.FirstOrDefault(x => x.ApplicationNo == item.ApplicationNo);
+                                                    online on = db.onlines.FirstOrDefault(x => x.inquiryid == app.InquiryId);
+                                                }
+                                                @on.Name
+                                            </td>
+                                            <td>
+                                                @if (item.Type == "Offer Letter")
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.Type)
+                                                }
+                                                else
+                                                {
+                                                    int id = Convert.ToInt32(item.Type);
+                                                    @db.PaymentSteps.FirstOrDefault(x => x.Pid == id).Name
+                                                }
+                                            </td>
+                                            <td>
+                                                @item.Amount
+                                            </td>
+                                            <td>
+                                                @{
+                                                    tblreceptionist rr = db.tblreceptionists.FirstOrDefault(x => x.rid == item.RecivedBy);
+                                                }
+                                                @rr.name
+                                            </td>
+                                            <td>
+                                                @item.Method
+                                            </td>
+
+                                        </tr>
+                                                    }
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2>Expense</h2>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Date
+                                            </th>
+                                            <th>
+                                                Item
+                                            </th>
+                                            <th>
+                                                Amount
+                                            </th>
+                                            <th>
+                                                Method
+                                            </th>
+                                            <th>
+                                                Ref
+                                            </th>
+
+
+
+                                        </tr>
+                                    </thead>
+                                    @foreach (Expense item in Model.expense)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Convert.ToDateTime(item.Date).ToString("dd/MM/yyyy")
+                                            </td>
+                                            <td>
+                                                @item.Item
+                                            </td>
+                                            <td>
+                                                @item.Amount
+                                            </td>
+                                            <td>
+                                                @item.Method
+                                            </td>
+                                            <td>
+                                                @item.Ref
+                                            </td>
+
+
+                                        </tr>
+                                    }
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                                                    }
+    </div>
+</div>

@@ -1,0 +1,476 @@
+﻿@model Consoller.Areas.Admin.Models.AdminData
+@using Consoller.Areas.Auth.Models;
+@using onlineportal.Areas.AdminPanel.Models;
+@{
+    ViewBag.Title = "Dashaboard";
+    Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
+    var increment = 0;
+
+}
+
+
+
+<h2>DashBoard</h2>
+
+<div class="row">
+    <div class="col-xl-4">
+        <div class="card overflow-hidden">
+            <div id="chartContainer" style="height: 370px; width: 100%;"></div><br />
+            <div id="chartContainer2" style="height: 370px; width: 100%;"></div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Monthly Earning</h4>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p class="text-muted">This month</p>
+                        <h3>Rs.@Model.Sale()</h3>
+                        <p class="text-muted">Today Earning</p>
+                        <h3>Rs.@Model.Todayearning()</h3>
+
+                        <div class="mt-4">
+                            <a href="@Url.Action("AllPayment","Default")" class="btn btn-primary waves-effect waves-light btn-sm">View More <i class="mdi mdi-arrow-right ml-1"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="mt-4 mt-sm-0" style="position: relative;">
+                            <div id="radialBar-chart" class="apex-charts" style="min-height: 171.348px;"><div id="apexcharts4oakkb9ej" class="apexcharts-canvas apexcharts4oakkb9ej apexcharts-theme-light" style="width: 135px; height: 171.348px;"><svg id="SvgjsSvg1139" width="135" height="171.34756469726562" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" class="apexcharts-svg" xmlns:data="ApexChartsNS" transform="translate(0, -10)" style="background: transparent;"><g id="SvgjsG1141" class="apexcharts-inner apexcharts-graphical" transform="translate(-3, 0)"><defs id="SvgjsDefs1140"><clipPath id="gridRectMask4oakkb9ej"><rect id="SvgjsRect1142" width="149" height="167" x="-3" y="-1" rx="0" ry="0" fill="#ffffff" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0"></rect></clipPath><clipPath id="gridRectMarkerMask4oakkb9ej"><rect id="SvgjsRect1143" width="145" height="167" x="-1" y="-1" rx="0" ry="0" fill="#ffffff" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0"></rect></clipPath><linearGradient id="SvgjsLinearGradient1149" x1="0" y1="1" x2="2" y2="2"><stop id="SvgjsStop1150" stop-opacity="1" stop-color="rgba(242,242,242,1)" offset="0"></stop><stop id="SvgjsStop1151" stop-opacity="1" stop-color="rgba(206,206,206,1)" offset="0.5"></stop><stop id="SvgjsStop1152" stop-opacity="1" stop-color="rgba(206,206,206,1)" offset="0.65"></stop><stop id="SvgjsStop1153" stop-opacity="1" stop-color="rgba(242,242,242,1)" offset="0.91"></stop></linearGradient><linearGradient id="SvgjsLinearGradient1161" x1="0" y1="1" x2="2" y2="2"><stop id="SvgjsStop1162" stop-opacity="1" stop-color="rgba(85,110,230,1)" offset="0"></stop><stop id="SvgjsStop1163" stop-opacity="1" stop-color="rgba(72,94,196,1)" offset="0.5"></stop><stop id="SvgjsStop1164" stop-opacity="1" stop-color="rgba(72,94,196,1)" offset="0.65"></stop><stop id="SvgjsStop1165" stop-opacity="1" stop-color="rgba(85,110,230,1)" offset="0.91"></stop></linearGradient></defs><g id="SvgjsG1145" class="apexcharts-radialbar"><g id="SvgjsG1146"><g id="SvgjsG1147" class="apexcharts-tracks"><g id="SvgjsG1148" class="apexcharts-radialbar-track apexcharts-track" rel="1"><path id="apexcharts-radialbarTrack-0" d="M 41.555752467435525 101.44424753256448 A 42.34756097560976 42.34756097560976 0 1 1 101.44424753256448 101.44424753256448" fill="none" fill-opacity="1" stroke="rgba(242,242,242,0.85)" stroke-opacity="1" stroke-linecap="butt" stroke-width="10.61085365853659" stroke-dasharray="0" class="apexcharts-radialbar-area" data:pathOrig="M 41.555752467435525 101.44424753256448 A 42.34756097560976 42.34756097560976 0 1 1 101.44424753256448 101.44424753256448"></path></g></g><g id="SvgjsG1155"><g id="SvgjsG1160" class="apexcharts-series apexcharts-radial-series" seriesName="SeriesxA" rel="1" data:realIndex="0"><path id="SvgjsPath1166" d="M 41.555752467435525 101.44424753256448 A 42.34756097560976 42.34756097560976 0 1 1 101.96228605702399 42.0829122997699" fill="none" fill-opacity="0.85" stroke="url(#SvgjsLinearGradient1161)" stroke-opacity="1" stroke-linecap="butt" stroke-width="10.939024390243906" stroke-dasharray="4" class="apexcharts-radialbar-area apexcharts-radialbar-slice-0" data:angle="181" data:value="67" index="0" j="0" data:pathOrig="M 41.555752467435525 101.44424753256448 A 42.34756097560976 42.34756097560976 0 1 1 101.96228605702399 42.0829122997699"></path></g><circle id="SvgjsCircle1156" r="32.04213414634147" cx="71.5" cy="71.5" class="apexcharts-radialbar-hollow" fill="transparent"></circle><g id="SvgjsG1157" class="apexcharts-datalabels-group" transform="translate(0, 0) scale(1)" style="opacity: 1;"><text id="SvgjsText1158" font-family="Helvetica, Arial, sans-serif" x="71.5" y="131.5" text-anchor="middle" dominant-baseline="auto" font-size="13px" font-weight="regular" fill="#556ee6" class="apexcharts-text apexcharts-datalabel-label" style="font-family: Helvetica, Arial, sans-serif;">Series A</text><text id="SvgjsText1159" font-family="Helvetica, Arial, sans-serif" x="71.5" y="109.5" text-anchor="middle" dominant-baseline="auto" font-size="16px" font-weight="regular" fill="#373d3f" class="apexcharts-text apexcharts-datalabel-value" style="font-family: Helvetica, Arial, sans-serif;">67%</text></g></g></g></g><line id="SvgjsLine1167" x1="0" y1="0" x2="143" y2="0" stroke="#b6b6b6" stroke-dasharray="0" stroke-width="1" class="apexcharts-ycrosshairs"></line><line id="SvgjsLine1168" x1="0" y1="0" x2="143" y2="0" stroke-dasharray="0" stroke-width="0" class="apexcharts-ycrosshairs-hidden"></line></g></svg><div class="apexcharts-legend"></div></div></div>
+                            <div class="resize-triggers"><div class="expand-trigger"><div style="width: 136px; height: 172px;"></div></div><div class="contract-trigger"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+           
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-8">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mini-stats-wid">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="text-muted font-weight-medium">Total Student</p>
+                                <h4 class="mb-0">@Model.totalstudent
+                            </div>
+
+                            <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
+                                <span class="avatar-title">
+                                    <i class="bx bx-copy-alt font-size-24"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mini-stats-wid">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="text-muted font-weight-medium">Total Files</p>
+                                <h4 class="mb-0"><a href="@Url.Action("Index", "Logs")">@Model.Totalcase</a> </h4>
+                            </div>
+
+                            <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
+                                <span class="avatar-title rounded-circle bg-primary">
+                                    <i class="bx bx-archive-in font-size-24"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mini-stats-wid">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="text-muted font-weight-medium">Confirm Files</p>
+                                <h4 class="mb-0"> <a href="@Url.Action("Index", "Logs")">@Model.Confirmcase</a> </h4>
+                            </div>
+
+                            <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
+                                <span class="avatar-title rounded-circle bg-primary">
+                                    <i class="bx bx-purchase-tag-alt font-size-24"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mini-stats-wid">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <h5>Expenses</h5>
+                                <p class="text-muted font-weight-medium">Today : <span>@Model.TodayExpenses()</span></p>
+                                <p class="text-muted font-weight-medium">Yesterday : <span>@Model.yesterdayExpenses()</span></p>
+                                <p class="text-muted font-weight-medium">This Month : <span>@Model.ThisMonthExpenses()</span></p>
+                                <p class="text-muted font-weight-medium">Last Month : <span>@Model.LastMonthExpenses()</span></p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mini-stats-wid">
+                    <div class="card-body">
+                        <div class="media-body">
+                            <h5>IELTS Income</h5>
+                            <p class="text-muted font-weight-medium">Today : <span>@Model.TodayIelts()</span></p>
+                            <p class="text-muted font-weight-medium">Yesterday : <span>@Model.yesterdayIelts()</span></p>
+                            <p class="text-muted font-weight-medium">This Month : <span>@Model.ThisMonthIelts()</span></p>
+                            <p class="text-muted font-weight-medium">Last Month : <span>@Model.LastMonthIelts()</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mini-stats-wid">
+                    <div class="card-body">
+                        <div class="media-body">
+                            <h5>Immigration Income</h5>
+                            <p class="text-muted font-weight-medium">Today : <span>@Model.TodayImmigration()</span></p>
+                            <p class="text-muted font-weight-medium">Yesterday : <span>@Model.yesterdayImmigration()</span></p>
+                            <p class="text-muted font-weight-medium">This Month : <span>@Model.ThisMonthImmgration()</span></p>
+                            <p class="text-muted font-weight-medium">Last Month : <span>@Model.LastMonthImmgration()</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- end row -->
+
+        <div class="card">
+            <div class="card-body" style="position: relative;">
+                <h4 class="card-title mb-4 float-sm-left">Daily Inquiry</h4>
+                <div class="table-responsive">
+                    <table class="table table-centered table-nowrap mb-0">
+                        <thead class="thead-light">
+                            <tr>
+
+                                <th>Order ID</th>
+                                <th>Date</th>
+                                <th>Name</th>
+                                <th>City</th>
+                                <th>Enqyiry For</th>
+                                <th>View Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.online)
+                            {
+                                <tr>
+                                    <td>
+                                        @{ increment = increment + 1;}
+                                        @increment
+                                    </td>
+                                    <td>@Convert.ToDateTime(item.Date).ToString("dd/MM/yyyy")</td>
+                                    <td>@item.Name</td>
+                                    <td>
+                                        @item.City
+                                    </td>
+                                    <td>
+                                        @if (item.VisaType == "Student")
+                                        {
+                                            <span class="badge badge-pill badge-soft-success font-size-12">Student</span>
+                                        }
+
+                                    </td>
+
+
+                                    <td>
+                                        <a href="javascript:void(0);" onclick="AddBook(@item.inquiryid)" class="btn btn-success btn-sm">View Details</a>
+                                        <!-- Button trigger modal -->
+
+                                    </td>
+                                </tr>
+                            }
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="clearfix"></div>
+
+
+                <div class="resize-triggers"><div class="expand-trigger"><div style="width: 694px; height: 442px;"></div></div><div class="contract-trigger"></div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div class="row" style="margin:66px 20px 40px 20px;padding:10px;">
+
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box ">
+                <div class="icon bg-light-green">
+                    <i class="material-icons">people</i>
+                </div>
+                <a href="@Url.Action("StudentDatas", "Index")">
+                    <div class="content">
+
+                        <div class="text">Student's</div>
+
+                        <div class="number count-to" data-from="0" data-to="117" data-speed="1000" data-fresh-interval="20">
+                            @student
+                        </div>
+
+                    </div>
+                </a>
+    </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <a href="@Url.Action("CourseFinishAlert", "Default")">
+                    <div class="icon bg-purple">
+                        <i class="material-icons">file_copy</i>
+                    </div>
+                    <div class="content">
+                        <div class="text">Course Alert</div>
+
+                        <div class="number count-to" data-from="0" data-to="117" data-speed="1000" data-fresh-interval="20"><span id="ctl00_cpmain_lblins">@totalcourse</span></div>
+
+                    </div>
+                </a>
+    </div>
+
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <div class="icon bg-indigo">
+                    <i class="material-icons">aspect_ratio</i>
+                </div>
+                <div class="content">
+                    <a href="@Url.Action("Index", "Logs")">
+                        <div class="text">Fee Alert</div>
+                        <div class="number count-to" data-from="0" data-to="257" data-speed="1000" data-fresh-interval="20"> <span id="ctl00_cpmain_lblpair">@feealert</span></div>
+                    </a>
+                        </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header card-header-divider">Top 5 Inquiry<span class="card-subtitle">This is the Current Inquries</span></div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Contact
+                            </th>
+                            <th>
+                               Category
+                            </th>
+
+                        </tr>
+
+                        @foreach (var item in dd)
+                {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.contact)
+                                </td>
+                                <td>
+                                    @{ Category cc = db.Categories.FirstOrDefault(x => x.Categoryid == item.Categoryid);}
+                                    @cc.Name
+                                </td>
+
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header card-header-divider">Inquiry Alert<span class="card-subtitle">This is the Alert for Inquries</span></div>
+                <div class="card-body">
+                    <table class="table table-striped table-bordered table-hover" id="table1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Contact
+                                </th>
+                                <th>
+                                    Last Feedback
+                                </th>
+                                <th>
+
+                                </th>
+                            </tr>
+                            </thead>
+                            @foreach (var item in feed)
+                            {
+                                <tr>
+                                    <td>
+                                        @{ tblinquiry cc = db.tblinquiries.FirstOrDefault(x => x.inquiryid == item.inquiryid);}
+                                        @cc.name
+
+                                    </td>
+                                    <td>
+                                        @cc.contact
+                                    </td>
+                                    <td>
+                                        @item.feedback
+                                    </td>
+                                    <td>
+
+                                        <a href="javascript:void(0);" onclick="AddEditEmployee(@item.Id)">Follow Up</a>
+
+                                    </td>
+
+                                </tr>
+                                            }
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        @*<div class="modal fade" id="myModal1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <a href="#" class="close" data-dismiss="modal">&times;</a>
+
+                    </div>
+                    <div class="modal-body" id="myModalBodyDiv1">
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>*@<div class="modal fade colored-header colored-header-primary" id="form-bp1" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-header-colored">
+                <h3 class="modal-title">Inquiry Details</h3>
+
+            </div>
+            <div class="modal-body" id="myModalBodyDiv1">
+                a
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary md-close" type="button" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"
+        integrity="sha256-it5nQKHTz+34HijZJQkpNBIHsjpV8b6QzMJs9tmOBSo="
+        crossorigin="anonymous"></script>
+
+<script>
+
+
+        var AddBook = function (Member) {
+            debugger;
+            var url = "/AdminReport/Details?id=" + Member;
+            // var url = "/Model/EmployeePartial";
+            $("#myModalBodyDiv1").load(url, function () {
+
+                $("#form-bp1").modal("show");
+
+            })
+
+        }
+</script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script>
+window.onload = function () {
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	theme: "light1", // "light1", "light2", "dark1", "dark2"
+	exportEnabled: true,
+	animationEnabled: true,
+	title: {
+		text: "Pending fill Status"
+	},
+	subtitles: [{
+		text: ""
+	}],
+	data: [{
+		type: "pie",
+		startAngle: 180,
+		toolTipContent: "<b>{label}</b>: {y}",
+		showInLegend: "true",
+		legendText: "{label}",
+		indexLabel: "{label} - {y}",
+		dataPoints: @Html.Raw(ViewBag.DataPoints)
+	}]
+});
+chart.render();
+var chart2 = new CanvasJS.Chart("chartContainer2", {
+    theme: "light1", // "light1", "light2", "dark1", "dark2"
+    exportEnabled: true,
+    animationEnabled: true,
+    title: {
+        text: "Today Profit/Loss"
+    },
+    subtitles: [{
+        text: ""
+    }],
+    data: [{
+        type: "pie",
+        startAngle: 180,
+        toolTipContent: "<b>{label}</b>: {y}",
+        showInLegend: "true",
+        legendText: "{label}",
+        indexLabel: "{label} - {y}",
+        dataPoints: @Html.Raw(ViewBag.Report)
+    }]
+});
+chart2.render();
+
+}
+  
+</script>
+@*<script>
+window.onload = function () {
+
+var chart2 = new CanvasJS.Chart("chartContainer2", {
+	theme: "light1", // "light1", "light2", "dark1", "dark2"
+	exportEnabled: true,
+	animationEnabled: true,
+	title: {
+		text: "Pending fill Status"
+	},
+	subtitles: [{
+		text: ""
+	}],
+	data: [{
+	    type: "pie",
+	    startAngle: 180,
+	    toolTipContent: "<b>{label}</b>: {y}",
+	    showInLegend: "true",
+	    legendText: "{label}",
+	    indexLabel: "{label} - {y}",
+	    dataPoints: @Html.Raw(ViewBag.Report)
+	    }]
+});
+chart2.render();
+
+}
+
+</script>*@

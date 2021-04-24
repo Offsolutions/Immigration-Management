@@ -1,0 +1,51 @@
+﻿@model Consoller.Areas.Auth.Models.SubmitFile
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/Process.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SubmitFile</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SubmitDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SubmitDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SubmitBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SubmitBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FileDoc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FileDoc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicationNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApplicationNo)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Sid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

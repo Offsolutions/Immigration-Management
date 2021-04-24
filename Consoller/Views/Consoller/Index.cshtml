@@ -1,0 +1,141 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.Assign>
+@using Consoller.Areas.Auth.Models
+@using Consoller.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/main.cshtml";
+    int i = 0;
+    dbcontext db = new dbcontext();
+    Helper help = new Helper();
+    var franchise = help.Consoller();
+}
+
+
+<div class="card">
+    <div class="card-body">
+        <h4>Inquiry List</h4>
+        <hr />  
+        <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+            <thead>
+                <tr>
+                    <th>
+                        S.No
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Date)
+                    </th>
+
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Mobile
+                    </th>
+
+                    <th>
+                        City
+                    </th>
+                    <th>
+                        Leads
+                    </th>
+                    
+                    <th>
+                        Status
+                    </th>
+                    
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                online on = db.onlines.FirstOrDefault(x => x.inquiryid == item.inquiryid && x.franchid==franchise);
+                <tr>
+                    <td>
+                        @{
+
+                            i = i + 1;
+                        }
+                        @i
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+
+                    <td>
+                        @on.Name
+                    </td>
+                    <td>
+                        @on.Mobile
+                    </td>
+
+                    <td>
+                        @on.City
+                    </td>
+                    <td align="center">
+                        @if(on.Country=="Canada" || on.Country=="CANADA")
+                        {
+                            <img src="~/image/canada.png" width="20" />
+                        }
+                        @on.VisaType
+                    </td>
+
+                    <td>
+                       <span class="badge badge-pill badge-soft-danger font-size-12">@item.Status</span> 
+                    </td>
+                    @*<td>
+                       @Html.ActionLink("DashBoard", "Create", "Application", new { id = item.inquiryid }, new { @class = "btn btn-primary btn-sm" })
+                    </td>*@
+                    <td>
+                        @*@Html.ActionLink("Edit", "Edit", new { id = item.Oid }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Oid }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Oid }) |*@
+                        
+                        <a href="javascript:void(0);" onclick="AddBook(@item.inquiryid)" class="btn btn-success btn-sm">Details</a> 
+                        @Html.ActionLink("Logs History", "LogHistory", new { id = item.inquiryid }, new { @class = "btn btn-danger btn-sm" }) 
+
+                    </td>
+                </tr>
+                            }
+
+        </table>
+
+    </div>
+    </div>
+
+    <div class="modal fade colored-header colored-header-primary" id="form-bp1" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-colored">
+                    <h3 class="modal-title">Inquiry Details</h3>
+
+                </div>
+                <div class="modal-body" id="myModalBodyDiv1">
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary md-close" type="button" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-1.10.2.js"
+            integrity="sha256-it5nQKHTz+34HijZJQkpNBIHsjpV8b6QzMJs9tmOBSo="
+            crossorigin="anonymous"></script>
+
+    <script>
+
+
+        var AddBook = function (Member) {
+            debugger;
+            var url = "/Consoller/IDetails?id=" + Member;
+            // var url = "/Model/EmployeePartial";
+            $("#myModalBodyDiv1").load(url, function () {
+
+                $("#form-bp1").modal("show");
+
+            })
+
+        }
+    </script>

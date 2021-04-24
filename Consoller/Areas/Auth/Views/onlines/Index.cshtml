@@ -1,0 +1,148 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.online>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+
+}
+
+
+
+<div class="card">
+    <div class="card-body">
+        <div class="col-md-12 padding-l-0">
+            <p>
+                @Html.ActionLink("Create New", "Create")
+            </p>
+            <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Date)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Mobile)
+                        </th>
+
+                        <th>
+                            From
+                        </th>
+                        <th>
+                            Leads
+                        </th>
+
+                        <th></th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Mobile)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.City)
+                        </td>
+                        <td style="text-align:center">
+                            @if(item.Country=="Canada" || item.Country=="CANADA")
+                            {
+                                <img src="~/image/canada.png" />
+                            }
+                        </td>
+
+                        <td>
+                            
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Oid }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.Oid }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Oid }) |
+                            @if (item.teacher == null)
+                            {
+                                <a href="javascript:void(0);" onclick="AddBook(@item.inquiryid)" class="label label-danger">Assign</a>
+
+                            }
+                            else
+
+                            {
+                                <a href="javascript:void(0);" onclick="ReAssign(@item.inquiryid)" class="label label-danger">Re-Assign</a>
+
+                            }
+
+                        </td>
+                    </tr>
+                }
+
+            </table>
+
+        </div>
+
+
+
+
+    </div>
+
+</div>
+
+<div class="modal fade colored-header colored-header-primary" id="form-bp1" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-header-colored">
+                <h3 class="modal-title">Assign Consoller</h3>
+
+            </div>
+            <div class="modal-body" id="myModalBodyDiv1">
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary md-close" type="button" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"
+        integrity="sha256-it5nQKHTz+34HijZJQkpNBIHsjpV8b6QzMJs9tmOBSo="
+        crossorigin="anonymous"></script>
+
+<script>
+
+
+    var AddBook=function(Member){
+        debugger;
+        var url = "/onlines/Assign?id=" + Member;
+        // var url = "/Model/EmployeePartial";
+        $("#myModalBodyDiv1").load(url, function () {
+
+            $("#form-bp1").modal("show");
+
+        })
+
+    }
+</script>
+
+<script>
+
+
+    var ReAssign=function(Member){
+        debugger;
+        var url = "/onlines/ReAssign?id=" + Member;
+        // var url = "/Model/EmployeePartial";
+        $("#myModalBodyDiv1").load(url, function () {
+
+            $("#form-bp1").modal("show");
+
+        })
+
+    }
+</script>

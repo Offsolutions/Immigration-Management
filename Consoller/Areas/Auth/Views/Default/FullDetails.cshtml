@@ -1,0 +1,60 @@
+﻿@model Consoller.Areas.Auth.Models.FranchDetails
+@using Consoller.Areas.Auth.Models
+@{
+    ViewBag.Title = "FullDetails";
+    Layout = "~/Areas/Auth/Views/Shared/Admin.cshtml";
+    dbcontext db = new dbcontext();
+    string id = TempData["Fid"].ToString();
+    tblreceptionist ff = db.tblreceptionists.FirstOrDefault(x => x.rid == id);
+
+}
+
+<h2>@ff.name</h2>
+<hr />
+
+<div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box ">
+            <div class="icon bg-light-green">
+                <i class="material-icons">people</i>
+            </div>
+            <a href="#">
+                <div class="content">
+
+                    <div class="text">Total Student</div>
+
+                    <div class="number count-to" data-from="0" data-to="117" data-speed="1000" data-fresh-interval="20">
+                      @Model.Totalstudent(ff.rid)
+                    </div>
+
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <div class="icon bg-purple">
+                <i class="material-icons">file_copy</i>
+            </div>
+            <div class="content">
+                <div class="text">Total Enquiry</div>
+                <a href="@Url.Action("CourseFinishAlert", "Default")">
+                    <div class="number count-to" data-from="0" data-to="117" data-speed="1000" data-fresh-interval="20"><span id="ctl00_cpmain_lblins">@Model.TotalEnquiry(ff.rid)</span></div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <div class="icon bg-indigo">
+                <i class="material-icons">aspect_ratio</i>
+            </div>
+            <div class="content">
+                <a href="@Url.Action("Index", "Logs")">
+                    <div class="text">Today Payment</div>
+                    <div class="number count-to" data-from="0" data-to="257" data-speed="1000" data-fresh-interval="20"> <span id="ctl00_cpmain_lblpair">@Model.TodayPayment(ff.rid)</span></div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

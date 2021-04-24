@@ -1,0 +1,40 @@
+﻿@model Consoller.Areas.Auth.Models.Logs
+<div class="widget white with-padding">
+    <div class="col-md-12 padding-l-0">
+        @using (Html.BeginForm("UpdateLogs", "Consoller"))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.Lid)
+            @Html.HiddenFor(model => model.inquiryid)
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group1 col-md-12">
+
+                    @Html.LabelFor(model => Model.Description, htmlAttributes: new { @class = "control-label" })
+                    @Html.TextAreaFor(model => model.Description, 10, 10, htmlAttributes: new { style = "width: 100%; max-width: 100%;" }) 
+                             
+                    @Html.ValidationMessageFor(model => Model.Description, "", new { @class = "text-danger" })
+
+
+
+                </div>
+                <div class="form-group1 col-md-4">
+                    <label>Status</label>
+                    @Html.DropDownListFor(model => Model.Status,
+                                new SelectList(Enum.GetValues(typeof(Consoller.Areas.Auth.Models.ConsollerStatus))),
+                                "Select Status",
+                                new { @class = "form-control" })
+                </div>
+
+                <div class="form-group1" style="padding-top:20px">
+                    <div class="col-md-10">
+                        <input type="submit" value="Create" class="btn btn-danger" />
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-danger" })
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

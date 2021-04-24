@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.tblinquiry>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@if (ViewBag.EmployeeList != null)
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Category.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.inquiryid)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.contact)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.referedby)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.franchid)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.inquiryid)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.contact)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.referedby)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.franchid)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+}

@@ -1,0 +1,150 @@
+﻿@model Consoller.Areas.Auth.Models.online
+@using Consoller.Areas.Auth.Models
+@using Consoller.Models
+
+@{
+    dbcontext db = new dbcontext();
+    Data dd = new Data();
+    ViewBag.Mid = new SelectList(db.Months.ToList(), "Mid", "Name");
+    ViewBag.Yid = new SelectList(db.Years.ToList(), "Yid", "Name");
+    Offerletter off = new Offerletter();
+}
+
+<div class="col-lg-12 col-md-6">
+    <div class="save-draft">
+    @using (Html.BeginForm())
+    {
+            <div class="row" style="padding:5px">
+                <div class="col-md-12">
+                    <select name="country" class="form-control" id="countryid" onchange="getCityList()">
+                        <option>
+                            Select Country
+                        </option>
+                        @foreach (var item in dd.counrtry)
+                        {
+                            <option value="@item.Cid">@item.CountryName</option>
+                        }
+                    </select>
+                </div>
+
+            </div>
+            <div class="row" style="padding:5px">
+                <div class="col-md-6">
+                    <select id="cityDropDown" name="college" class="form-control" onchange="Courses()">
+                        <option>Select College</option>
+                    </select>
+                  
+                </div>
+                <div class="col-md-6">
+                    <select id="ddlcourse" name="course" class="form-control">
+                        <option>Select Course</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row" style="padding:5px">
+                <div class="col-md-6">
+                    @Html.DropDownListFor(model => off.Yid, (SelectList)ViewBag.Yid, htmlAttributes: new { @class = "form-control" })
+                </div>
+                <div class="col-md-6">
+                    @Html.DropDownListFor(model => off.Mid, (SelectList)ViewBag.Mid, htmlAttributes: new { @class = "form-control" })
+
+
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <input class="red-bg" type="submit" value="Save now" onclick="SaveEmployee()">
+            </div>
+
+
+
+
+
+
+     }
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"
+        integrity="sha256-it5nQKHTz+34HijZJQkpNBIHsjpV8b6QzMJs9tmOBSo="
+        crossorigin="anonymous"></script>
+<script>
+    function getCityList() {
+       
+        var stateId = $("#countryid").val();
+        debugger;
+        $.ajax
+        ({
+            url: '/Application/GetCityList',
+            type: 'POST',
+            datatype: 'application/json',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                stateId: +stateId
+            }),
+            success: function (result) {
+                debugger;
+                $("#cityDropDown").html("");
+                $("#cityDropDown").append($('<option>Select College</option>'));
+                $.each($.parseJSON(result), function (i, city) {
+                    debugger;
+                    var a = city.id;
+                    $("#cityDropDown").append($('<option></option>').val(city.Oid).html(city.Name))
+                })
+
+            },
+            error: function () {
+                alert("Whooaaa! Something went wrong..")
+            },
+        });
+    }
+</script>
+<script>
+    function Courses() {
+        debugger;
+        var stateId = $("#cityDropDown").val();
+
+        $.ajax
+        ({
+            url: '/Application/Course',
+            type: 'POST',
+            datatype: 'application/json',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                stateId: +stateId
+            }),
+            success: function (result) {
+                debugger;
+                $("#ddlcourse").html("");
+                $("#ddlcourse").append($('<option>Select Course</option>'));
+                $.each($.parseJSON(result), function (i, city) {
+                    debugger;
+                    var a = city.id;
+                    $("#ddlcourse").append($('<option></option>').val(city.Oid).html(city.Name))
+                })
+
+            },
+            error: function () {
+                alert("Whooaaa! Something went wrong..")
+            },
+        });
+    }
+</script>
+
+<script type="text/javascript">
+
+    function SaveEmployee() {
+        var Country = $("#countryid").val();
+        var College = $("#cityDropDown").val();
+        var Course = $("#ddlcourse").val();
+
+        var Employee = {
+            "Cid": Country, "Oid": College,
+            "CCid": Course
+        };
+
+        $.post("/Application/InsertOffer", Employee,
+        function (data) { if (data == 0) { location = location.href; } }, 'json');
+    }
+</script>

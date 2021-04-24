@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.Expense>
+
+@{
+    ViewBag.Title = "Expense";
+    Layout = "~/Views/Shared/Process.cshtml";
+}
+
+<h2>Expense</h2>
+
+<div class="panel panel-default">
+
+    <div class="panel-title">Expense</div>
+
+    <div class="panel-body">
+
+        <div class="card">
+            <div class="card-body">
+                <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Date)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Item)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Amount)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Method)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Ref)
+                            </th>
+
+                            <th></th>
+                        </tr>
+                        </thead>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Date)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Item)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Amount)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Method)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Ref)
+                                </td>
+
+
+                            </tr>
+                        }
+
+                </table>
+            </div>
+            </div>
+</div>
+
+
+
+        </div>

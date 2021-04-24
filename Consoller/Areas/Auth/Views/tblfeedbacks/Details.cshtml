@@ -1,0 +1,83 @@
+﻿@model Consoller.Areas.Auth.Models.tblfeedback
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>tblfeedback</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.inquiryid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.inquiryid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.feedback)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.feedback)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.days)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.days)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nextfollow)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nextfollow)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.loginid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.loginid)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

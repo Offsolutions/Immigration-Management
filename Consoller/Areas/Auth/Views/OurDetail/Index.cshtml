@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.tbldetail>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+}
+
+<h2><b>Institute Details</b></h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", "", new { @class = "btn btn-primary" })
+</p>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.phone)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.logo)
+                </th>
+                <th></th>
+            </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.phone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.email)
+                    </td>
+                    <td>
+                        <img src="~/UploadedFiles/@item.logo" width="70" />
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.id }, new { @class = "label label-warning" }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.id }, new { @class = "label label-primary" }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.id }, new { @class = "label label-danger" })
+                    </td>
+                </tr>
+            }
+
+    </table>
+    </div>

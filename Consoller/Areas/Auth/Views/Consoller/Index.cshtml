@@ -1,0 +1,131 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.Assign>
+@using Consoller.Areas.Auth.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Auth/Views/Shared/Teacher.cshtml";
+    int i = 0;
+    dbcontext db = new dbcontext();
+
+}
+
+<h2>Index</h2>
+
+<div class="panel panel-default">
+
+    <div class="panel-title">Inquiry</div>
+
+    <div class="panel-body">
+
+        <div class="col-md-12 padding-l-0">
+            <table id="example0" class="table display">
+                <tr>
+                    <th>
+                        S.No
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Date)
+                    </th>
+
+                    <th>
+                      Name
+                    </th>
+                    <th>
+                        Mobile
+                    </th>
+
+                    <th>
+                        City
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    online on = db.onlines.FirstOrDefault(x => x.inquiryid == item.inquiryid);
+                    <tr>
+                        <td>
+                            @{
+
+                                i = i + 1;
+                            }
+                            @i
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </td>
+
+                        <td>
+                            @on.Name
+                        </td>
+                        <td>
+                            @on.Mobile
+                        </td>
+
+                        <td>
+                            @on.City
+                        </td>
+                        <td>
+                            @item.Status
+                        </td>
+
+                        <td>
+                            @*@Html.ActionLink("Edit", "Edit", new { id = item.Oid }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.Oid }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Oid }) |*@
+                            <a href="javascript:void(0);" onclick="AddBook(@item.inquiryid)" class="label label-danger">Details</a> |
+                            @Html.ActionLink("Logs History", "LogHistory", new { id = item.inquiryid }) |
+                           
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+
+
+
+
+    </div>
+
+</div>
+
+<div class="modal fade colored-header colored-header-primary" id="form-bp1" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-header-colored">
+                <h3 class="modal-title">Inquiry Details</h3>
+
+            </div>
+            <div class="modal-body" id="myModalBodyDiv1">
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary md-close" type="button" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"
+        integrity="sha256-it5nQKHTz+34HijZJQkpNBIHsjpV8b6QzMJs9tmOBSo="
+        crossorigin="anonymous"></script>
+
+<script>
+
+
+    var AddBook=function(Member){
+        debugger;
+        var url = "/Consoller/IDetails?id=" + Member;
+       // var url = "/Model/EmployeePartial";
+        $("#myModalBodyDiv1").load(url, function () {
+
+            $("#form-bp1").modal("show");
+
+        })
+
+    }
+</script>

@@ -1,0 +1,75 @@
+﻿@model Consoller.Areas.Auth.Models.MorningAttendence
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MorningAttendence</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rollno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rollno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Reading)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Reading)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Speaking)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Speaking)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Role)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Role)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Timing)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Timing)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.franchid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.franchid)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Aid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

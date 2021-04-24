@@ -1,0 +1,138 @@
+﻿@model Consoller.Areas.Auth.Models.GIC
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/main.cshtml";
+}
+
+<h2>Details</h2>
+
+<div class="card">
+    <div class="card-body">
+        <h4>GIC</h4>
+        <hr />
+        <table class="table table-nowrap mb-0">
+            <tbody>
+                <tr>
+                    <th scope="row">@Html.DisplayNameFor(model => model.Date)</th>
+                    <td> @Html.DisplayFor(model => model.Date)</td>
+
+                </tr>
+                @*<tr>
+                        <th scope="row">@Html.DisplayNameFor(model => model.Applied)</th>
+                        <td>
+                            @if (Model.Applied == null)
+                            {
+                                <a href="@Url.Action("Edit","Offerletters",new { id=Model.Lid})">Click Here Update Applied Date</a>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(model => model.Applied)
+                            }
+
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row">@Html.DisplayNameFor(model => model.Received)</th>
+                        <td>
+                            @if (Model.Received == null)
+                            {
+                                <a href="@Url.Action("Edit","Offerletters",new { id=Model.Lid})" class="badge badge-danger">Click Here Update Received Date</a>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(model => model.Received)
+                            }
+                        </td>
+
+                    </tr>*@
+                <tr>
+                    <th scope="row">Account</th>
+                    <td> @Html.DisplayNameFor(model => model.AccountNo)</td>
+
+                </tr>
+                <tr>
+                    <th scope="row">Bank Name</th>
+                    <td> @Html.DisplayFor(model => model.BankName)</td>
+
+                </tr>
+                <tr>
+                    <th scope="row">Amount</th>
+                    <td>@Html.DisplayFor(model => model.Amount)</td>
+
+                </tr>
+                <tr>
+                    <th scope="row">Created By</th>
+                    <td> @Html.DisplayFor(model => model.CreatedBy)</td>
+
+                </tr>
+                <tr>
+                    <th scope="row">TT</th>
+                    @if (Model.Files != null)
+                    {
+                        <td> <a href="~/Uploadfile/@Model.Files"><i class="far fa-file-pdf" style="font-size: 30px;"></i></a></td>
+                    }
+                    else
+                    {
+                        <td>File Not Found</td>
+                    }
+
+                </tr>
+                <tr>
+                    <th scope="row">Certificate</th>
+                    @if (Model.Certificate != null)
+                    {
+                        <td><a href="~/Uploadfile/@Model.Certificate"><i class="far fa-file-pdf" style="font-size: 30px;"></i></a></td>
+
+                    }
+                    else
+                    {
+                        <td>File Not Found</td>
+
+                    }
+
+                </tr>
+                <tr>
+                    <th scope="row">Caq</th>
+                    @if (Model.Caq != null)
+                    {
+                        <td> <a href="~/Uploadfile/@Model.Caq"><i class="far fa-file-pdf" style="font-size: 30px;"></i></a></td>
+
+                    }
+                    else
+                    {
+                        <td>File Not Found</td>
+                    }
+
+
+                </tr>
+                <tr>
+                    <th scope="row">User Name</th>
+                    <td> @Html.DisplayFor(model => model.UserName)</td>
+
+                </tr>
+                <tr>
+                    <th scope="row">Password</th>
+                    <td> @Html.DisplayFor(model => model.Password)</td>
+
+                </tr>
+                <tr>
+                    <th scope="row">Question</th>
+                    <td> @Html.DisplayFor(model => model.SecurityQuestion)</td>
+
+                </tr>
+                <tr>
+                    <th scope="row">Password</th>
+                    <td> @Html.DisplayFor(model => model.Password)</td>
+
+                </tr>
+            </tbody>
+        </table>
+
+        <p>
+            @Html.ActionLink("Back to List", "Create", "Application", new { id = Model.ApplicationNo })
+        </p>
+
+    </div>
+</div>

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.Timing>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+}
+
+    <div class="panel panel-default">
+
+        <div class="panel-title">Timings</div>
+
+        <div class="panel-body">
+
+            <div class="col-md-12 padding-l-0">
+                <p>
+                    @Html.ActionLink("Create New", "Create")
+                </p>
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BatchTime)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.franchid)
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BatchTime)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.franchid)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Tid }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.Tid }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Tid })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+
+
+
+
+        </div>
+
+    </div>
+
+

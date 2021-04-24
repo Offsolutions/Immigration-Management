@@ -1,0 +1,64 @@
+﻿@model Consoller.Areas.Auth.Models.Country
+@{
+    ViewBag.Title = "CourseUpdate";
+    Layout = "~/Views/Shared/Process.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="form-group1 col-md-4">
+                @Html.Label("Country", htmlAttributes: new { @class = "control-label" })
+
+                @Html.DropDownList("Cid", (IEnumerable<SelectListItem>)ViewBag.Cid, "Select Country", htmlAttributes: new { @class = "form-control", @onchange = "getCityList()", @id = "countryid" })
+
+
+
+
+            </div>
+            <div class="form-group1 col-md-4">
+                <label>Colleges</label>
+                <select id="cityDropDown" name="college" class="form-control" onchange="Courses()">
+                    <option>Select College</option>
+                </select>
+
+
+
+            </div>
+        </div>
+        </div>
+</div>
+<script src="https://code.jquery.com/jquery-1.10.2.js"
+        integrity="sha256-it5nQKHTz+34HijZJQkpNBIHsjpV8b6QzMJs9tmOBSo="
+        crossorigin="anonymous"></script>
+<script>
+    function getCityList() {
+
+        var stateId = $("#countryid").val();
+        debugger;
+        $.ajax
+        ({
+            url: '/Application/GetCityList',
+            type: 'POST',
+            datatype: 'application/json',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                stateId: +stateId
+            }),
+            success: function (result) {
+
+                $("#cityDropDown").html("");
+                $("#cityDropDown").append($('<option>Select College</option>'));
+                $.each($.parseJSON(result), function (i, city) {
+
+                    var a = city.id;
+                    $("#cityDropDown").append($('<option></option>').val(city.Oid).html(city.Name))
+                })
+
+            },
+            error: function () {
+                alert("Whooaaa! Something went wrong..")
+            },
+        });
+    }
+</script>

@@ -1,0 +1,87 @@
+﻿@model Consoller.Areas.Auth.Models.Offerletter
+@using Consoller.Areas.Auth.Models
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/main.cshtml";
+    dbcontext db = new dbcontext();
+
+}
+
+<h2>Details</h2>
+
+<div>
+
+    <div class="card">
+        <div class="card-body">
+
+            <h4>Offer letter</h4>
+            <hr />
+            <table class="table table-nowrap mb-0">
+                <tbody>
+                    <tr>
+                        <th scope="row">@Html.DisplayNameFor(model => model.ApplicationNo)</th>
+                        <td> @Html.DisplayFor(model => model.ApplicationNo)</td>
+                      
+                    </tr>
+                    <tr>
+                        <th scope="row">@Html.DisplayNameFor(model => model.Applied)</th>
+                        <td> 
+                            @if (Model.Applied == null)
+                            {
+                                <a href="@Url.Action("Edit","Offerletters",new { id=Model.Lid})">Click Here Update Applied Date</a>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(model => model.Applied)
+                            }
+                           
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <th scope="row">@Html.DisplayNameFor(model => model.Received)</th>
+                        <td> @if (Model.Received == null)
+                        {
+                            <a href="@Url.Action("Edit","Offerletters",new { id=Model.Lid})" class="badge badge-danger">Click Here Update Received Date</a>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(model => model.Received)
+                        }</td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row">Country</th>
+                        <td> @db.Countries.First(x=>x.Cid==Model.Cid).CountryName</td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row">College</th>
+                        <td> @db.Colleges.First(x => x.Oid == Model.Oid).Name</td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row">Course</th>
+                        <td>@db.CollegeCourses.First(x => x.Code == Model.CCid).Name</td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row">Intake</th>
+                        <td> @db.Months.First(x => x.Mid == Model.Mid).Name-@db.Years.First(x => x.Yid == Model.Yid).Name</td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row">Fees</th>
+                        <td> @Html.DisplayFor(model => model.Amount)</td>
+
+                    </tr>
+                </tbody>
+            </table>
+            
+            </div>
+        </div>
+        </div>
+        <p>
+          
+            @Html.ActionLink("Back to List", "Create","Application",new {id=Model.ApplicationNo })
+        </p>

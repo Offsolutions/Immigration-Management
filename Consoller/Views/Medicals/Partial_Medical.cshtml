@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.Medicals>
+@using Consoller.Areas.Auth.Models
+@{ 
+    dbcontext db = new dbcontext();
+}
+
+
+        <table class="table">
+            <tr>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HospitalName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BookedBy)
+                </th>
+
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HospitalName)
+                    </td>
+                    <td>
+                        @db.tblreceptionists.FirstOrDefault(x=>x.rid==item.BookedBy).name
+                    </td>
+
+                    <td>
+                        <a href="@Url.Action("Edit","Medicals",new {id=item.Mid })" class="badge badge-primary">Edit</a> |
+                        <a href="@Url.Action("Delete","Medicals",new {id=item.Mid })" class="badge badge-danger">Delete</a>
+                        @Html.ActionLink("Preview", "Details", "Medicals", new { id = item.Mid }, new { @class = " badge badge-warning" }) |
+
+                    </td>
+                </tr>
+            }
+
+        </table>

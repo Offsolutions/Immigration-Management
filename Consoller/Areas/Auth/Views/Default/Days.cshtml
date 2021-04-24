@@ -1,0 +1,48 @@
+﻿@model Consoller.Areas.Auth.Models.StudentCourse
+@using Consoller.Areas.Auth.Models;
+
+@using onlineportal.Areas.AdminPanel.Models;
+@{ 
+    Helper help = new Helper();
+    dbcontext db = new dbcontext();
+    string a = User.IsInRole("Franchisee") ? help.Franchisee() : help.Receptionist();
+    Course cc = db.Courses.FirstOrDefault(x => x.CourseId == Model.CourseId && x.franchid == a);
+}
+<style>
+    .pad .form-group {
+        padding: 0px 12px;
+    }
+</style>
+@using (Html.BeginForm("AddDays", "Default"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal pad">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.CourseId)
+        @Html.HiddenFor(model => model.Token)
+        @Html.HiddenFor(model => model.RollNo)
+        @Html.HiddenFor(model => model.Id)
+        <div class="form-group">
+            <label>Course Name</label>
+           
+            @Html.EditorFor(model => cc.CourseName, new { htmlAttributes = new { @class = "form-control",@enable=false } })
+           
+
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Days, htmlAttributes: new { @class = "control-label" })
+
+            @Html.EditorFor(model => model.Days, new { htmlAttributes = new { @class = "form-control" } })
+            <span>Enter The Days E.g: 15 For Increase Student days</span>
+            @Html.ValidationMessageFor(model => model.Days, "", new { @class = "text-danger" })
+
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}

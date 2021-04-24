@@ -1,0 +1,574 @@
+﻿@model Consoller.Areas.Auth.Models.Application
+@using Consoller.Areas.Auth.Models
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/Process.cshtml";
+    dbcontext db = new dbcontext();
+    online onlines = db.onlines.FirstOrDefault(x => x.inquiryid == Model.InquiryId && x.franchid == Model.Franchid);
+    IEnumerable<Offerletter> off = db.Offerletter.Where(x => x.ApplicationNo == Model.ApplicationNo);
+    ViewBag.Aid = new SelectList(db.Agents.ToList(), "Aid", "Name");
+    Agent ag = new Agent();
+    Document doc = new Document();
+    GIC gic = new GIC();
+    IEnumerable<GIC> giclist = db.Gic.Where(x => x.ApplicationNo == Model.ApplicationNo).ToList();
+    IEnumerable<Medicals> Medical = db.Medicals.Where(x => x.ApplicationNo == Model.ApplicationNo).ToList();
+    IEnumerable<SubmitFile> submit = db.SubmitFiles.Where(x => x.ApplicationNo == Model.ApplicationNo).ToList();
+    Medicals med = new Medicals();
+    SubmitFile file = new SubmitFile();
+}
+
+<div class="row">
+    <div class="col-lg-4 col-md-6">
+
+        <div class="card overflow-hidden">
+            <div class="bg-soft-primary">
+                <div class="row">
+                    <div class="col-7">
+                        <div class="text-primary p-3">
+                            <h5 class="text-primary">Welcome Back !</h5>
+                            <p>@onlines.Name</p>
+                        </div>
+                    </div>
+                    <div class="col-5 align-self-end">
+                        <img src="assets/images/profile-img.png" alt="" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="avatar-md profile-user-wid mb-4">
+                            <img src="assets/images/users/avatar-1.jpg" alt="" class="img-thumbnail rounded-circle">
+                        </div>
+                        <h5 class="font-size-15 text-truncate" title="@onlines.Name">@onlines.Name</h5>
+                        <p class="text-muted mb-0 text-truncate" title="@onlines.City">@onlines.City</p>
+                    </div>
+
+                    <div class="col-sm-8">
+                        <div class="pt-4">
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <h5 class="font-size-15">@onlines.Qualification</h5>
+                                    <p class="text-muted mb-0">Qualtification</p>
+                                </div>
+                                <div class="col-6">
+                                    <h5 class="font-size-15">@onlines.Percentage</h5>
+                                    <p class="text-muted mb-0">Percentage</p>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <a href="@Url.Action("Create","TrackingLogs",new { id=Model.ApplicationNo})" class="btn btn-primary waves-effect waves-light btn-sm">FileLogs <i class="mdi mdi-arrow-right ml-1"></i></a>
+                                <a href="#" class="btn btn-danger waves-effect waves-light btn-sm" data-toggle="modal" data-target=".bs-example-modal-center">Assign Agent <i class="mdi mdi-arrow-right ml-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Personal Information</h4>
+
+                <p class="text-muted mb-4">Hi I'm Cynthia Price,has been the industry's standard dummy text To an English person, it will seem like simplified English, as a skeptical Cambridge.</p>
+                <div class="table-responsive">
+                    <table class="table table-nowrap mb-0">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Applied For :</th>
+                                <td>@onlines.Country</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Refusal</th>
+                                <td>@onlines.RefusalCountry</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Band</th>
+                                <td>@onlines.Band</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Widget Area -->
+    </div>
+
+    <div class="col-lg-8 col-md-6">
+        @if (Model.Agent != null)
+        {
+            <div class="alert alert-danger" role="alert">
+               File Assign To <span>@db.Agents.Find(Model.Agent).CompanyName</span>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-success" role="alert">
+               Please Assign Agent
+            </div>
+        }
+
+        <div class="card">
+            <div class="card-body">
+
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#home1" role="tab" aria-selected="true">
+                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                            <span class="d-none d-sm-block">Offer Letter </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#messages2" role="tab" aria-selected="false">
+                            <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                            <span class="d-none d-sm-block">GIC</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#messages3" role="tab" aria-selected="false">
+                            <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                            <span class="d-none d-sm-block">Medical</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#messages4" role="tab" aria-selected="false">
+                            <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                            <span class="d-none d-sm-block">Submit</span>
+                        </a>
+                    </li>
+                   
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#messages1" role="tab" aria-selected="false">
+                            <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                            <span class="d-none d-sm-block">Documents</span>
+                        </a>
+                    </li>
+
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content p-3 text-muted">
+                    <div class="tab-pane active" id="home1" role="tabpanel">
+
+                        <table class="table table-striped table-hover table-fw-widget" id="table3">
+                            <thead>
+                                <tr>
+
+                                    <th>
+                                        Country
+                                    </th>
+                                    <th>
+                                        College
+                                    </th>
+                                    <th>
+                                        Course
+                                    </th>
+                                    <th>
+                                        Intake
+                                    </th>
+                                    <th>
+                                        Applied
+                                    </th>
+                                    <th>
+                                        Recived
+                                    </th>
+
+
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in off)
+                                {
+                                    <tr>
+
+                                        <td>
+                                            @db.Countries.Find(item.Cid).CountryName
+                                        </td>
+                                        <td>
+                                            @db.Colleges.Find(item.Oid).Name
+                                        </td>
+                                        <td>
+                                            @db.CollegeCourses.Find(item.CCid).Name
+                                        </td>
+                                        <td>
+                                            @db.Months.Find(item.Mid).Name - @db.Years.Find(item.Yid).Name
+                                        </td>
+                                        <td>
+                                            @item.Applied
+                                        </td>
+                                        <td>
+                                            @item.Received
+                                        </td>
+
+                                        <td>
+                                          <a href="javascript:void(0);" onclick="updateoffer(@item.Lid)" class="badge badge-primary">Update</a>
+
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        
+
+                        
+                    </div>
+                    <div class="tab-pane" id="messages3" role="tabpanel">
+                        <div class="row">
+
+
+                            @*<a href="javascript:void(0);" onclick="AddBook(@Model.inquiryid)" class="red-bg">Add Offer Letter</a>*@
+
+                            @*@using (Html.BeginForm())*@
+                            <div class="col-md-6">
+                                <label>Date</label>
+                                @Html.EditorFor(model => med.Date, new { htmlAttributes = new { @class = "form-control", id = "Date", placeholder = "Date" } })
+
+
+                            </div>
+                            <div class="col-md-6">
+                                <input type="hidden" value="@Model.ApplicationNo" name="application" id="application" />
+                                <label>Hospital Name</label>
+                                @Html.EditorFor(model => med.HospitalName, new { htmlAttributes = new { @class = "form-control", id = "Hospital", placeholder = "Hospital Name" } })
+
+                            </div>
+                            </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                
+                                <label>Note</label>
+                                @Html.EditorFor(model => med.Note, new { htmlAttributes = new { @class = "form-control", id = "Note", placeholder = "Description" } })
+
+                            </div>
+                            <div class="col-md-6" style="padding: 33px 15px;">
+
+                                <input type="checkbox" name="sms" id="medsms" /> Sms | <input type="checkbox" name="email" id="medEmail" /> Email | <input type="checkbox" name="view" id="medView" /> View
+
+
+                            </div>
+
+                            <div class="col-md-4">
+
+                                <input class="red-bg btn btn-primary" type="submit" value="Submit" onclick="SaveMedical()">
+
+                            </div>
+                           <br />
+                            @Html.Partial("~/Views/Medicals/Partial_Medical.cshtml", Medical)
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="messages4" role="tabpanel">
+                        <div class="row">
+
+
+                            @*<a href="javascript:void(0);" onclick="AddBook(@Model.inquiryid)" class="red-bg">Add Offer Letter</a>*@
+
+                            @*@using (Html.BeginForm())*@
+                            <div class="col-md-6">
+                                <label>Date</label>
+                                @Html.EditorFor(model => file.SubmitDate, new { htmlAttributes = new { @class = "form-control", id = "SubmitDate", placeholder = "Date" } })
+
+
+                            </div>
+                            <div class="col-md-6">
+                                <input type="hidden" value="@Model.ApplicationNo" name="application" id="application" />
+                                <label>Submit By</label>
+                                @Html.EditorFor(model => file.SubmitBy, new { htmlAttributes = new { @class = "form-control", id = "Submitby", placeholder = "Submit By" } })
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6" style="padding: 33px 15px;">
+
+                                <label>Docs</label>
+                                <input type="file" id="Submitfile" />
+
+                            </div>
+                            <div class="col-md-6" style="padding: 33px 15px;">
+                                <input type="checkbox" name="sms" id="filesms" /> Sms | <input type="checkbox" name="email" id="fileEmail" /> Email | <input type="checkbox" name="view" id="fileView" /> View
+
+                            </div>
+
+
+                            <br />
+                         
+                        </div><br />
+                        <div class="col-md-4">
+                            <input class="red-bg btn btn-primary" type="submit" value="Submit" onclick="SaveFile()">
+
+                        </div>
+                        @Html.Partial("~/Views/SubmitFiles/Partial_Submit.cshtml", submit)
+                    </div>
+                    <div class="tab-pane" id="messages2" role="tabpanel">
+                        <div class="row">
+
+
+                            @*<a href="javascript:void(0);" onclick="AddBook(@Model.inquiryid)" class="red-bg">Add Offer Letter</a>*@
+
+                            @*@using (Html.BeginForm())*@
+                            <div class="col-md-4">
+                                <label>Date</label>
+                                @Html.EditorFor(model => gic.Date, new { htmlAttributes = new { @class = "form-control", id = "GicDate", placeholder = "Date" } })
+
+
+                            </div>
+                            <div class="col-md-4">
+                                <input type="hidden" value="@Model.ApplicationNo" name="application" id="application" />
+                                <label>Account No</label>
+                                @Html.EditorFor(model => gic.AccountNo, new { htmlAttributes = new { @class = "form-control", id = "Account", placeholder = "Account No" } })
+
+                            </div>
+                            <div class="col-md-4">
+                                <label>Bank Name</label>
+                                @Html.EditorFor(model => gic.BankName, new { htmlAttributes = new { @class = "form-control", id = "Bank", placeholder = "Bank Name" } })
+
+
+                            </div>
+                           </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Amount</label>
+                                @Html.EditorFor(model => gic.Amount, new { htmlAttributes = new { @class = "form-control", id = "Amount", placeholder = "Bank Name" } })
+
+
+                            </div>
+                            <div class="col-md-6" style="padding: 33px 15px;">
+                                <input type="checkbox" name="sms" id="gicsms" /> Sms | <input type="checkbox" name="email" id="gicEmail" /> Email | <input type="checkbox" name="view" id="gicView" /> View
+
+                            </div>
+                          
+                        </div>
+                        <div class="col-md-4">
+                            <input class="red-bg btn btn-primary" type="submit" value="Submit" onclick="SaveGic()">
+
+                        </div>
+
+                        @Html.Partial("~/Views/Processing/Partial_Gic.cshtml", giclist)
+                    </div>
+                    <div class="tab-pane" id="messages1" role="tabpanel">
+                        <div class="row">
+
+
+                            @*<a href="javascript:void(0);" onclick="AddBook(@Model.inquiryid)" class="red-bg">Add Offer Letter</a>*@
+
+                            @*@using (Html.BeginForm())*@
+
+                            <div class="col-md-4">
+                                <input type="hidden" value="@Model.ApplicationNo" name="application" id="application" />
+                                @Html.EditorFor(model => doc.FileName, new { htmlAttributes = new { @class = "form-control", id = "FileName", placeholder = "File Name" } })
+
+                            </div>
+                            <div class="col-md-4">
+                                <input type="file" id="UploadImg" />
+
+                            </div>
+                            <div class="col-md-4">
+                                <input class="red-bg btn btn-primary" type="submit" value="Submit" onclick="Savedocument()">
+
+                            </div>
+                            <div id="document" class="col-lg-12">
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+
+<div class="modal fade colored-header colored-header-primary" id="form-bp1" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-header-colored">
+                <h3 class="modal-title">Assign Consoller</h3>
+
+            </div>
+            <div class="modal-body" id="myModalBodyDiv1">
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary md-close" type="button" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"
+        integrity="sha256-it5nQKHTz+34HijZJQkpNBIHsjpV8b6QzMJs9tmOBSo="
+        crossorigin="anonymous"></script>
+
+
+<script>
+
+    var updateoffer=function(Member){
+        debugger;
+        var url = "/Processing/UpdateOffer?id=" + Member;
+        // var url = "/Model/EmployeePartial";
+        $("#myModalBodyDiv1").load(url, function () {
+
+            $("#form-bp1").modal("show");
+
+        })
+
+    }
+</script>
+<div class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0">Center modal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-lg-12" data-select2-id="11">
+                    <div class="card" data-select2-id="10">
+                        <div class="card-body" data-select2-id="9">
+                            
+                            @using (Html.BeginForm("AlterAgent", "Processing"))
+                            {
+                                <input type="text" value="@Model.ApplicationNo" id="app" name="app" />
+                                @Html.EditorFor(model => model.ApplicationNo, new { htmlAttributes = new { @class = "form-control" } })
+                                <div class="form-group" data-select2-id="7">
+                                    <label class="control-label">Assign Agent</label>
+                                    @Html.DropDownListFor(model => ag.Aid, (SelectList)ViewBag.Aid, htmlAttributes: new { @class = "form-control" })
+                                </div>
+                                <div class="form-group">
+                                   <input type="submit" class="btn btn-primary" />
+                                </div>
+
+
+                            }
+
+                        </div>
+                    </div>
+                    <!-- end select2 -->
+
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+
+<script src="~/Scripts/Newdata.js"></script>
+
+
+
+@*<script type="text/javascript">
+
+
+    function Savedocument() {
+        debugger;
+        var data = new FormData();
+        var files = $("#UploadImg").get(0).files;
+        var filename = $("#FileName").val();
+        var application = $("#application").val();
+        if (files.length > 0) {
+            data.append("MyImages", files[0]);
+            data.append("FileName", filename);
+            data.append("ApplicationNo", application);
+        }
+
+        $.ajax({
+            url: "/Application/UploadDocs",
+            type: "POST",
+            processData: false,
+            contentType: false,
+            data: data,
+            success: function (response) {
+                //code after success
+                $("#FileName").val("");
+                //    $("#imgPreview").attr('src', '/Upload/' + response);
+                LoadDocument()
+            },
+            error: function (er) {
+                alert(er);
+            }
+
+        });
+
+    }
+</script>
+
+<script type="text/jscript">
+    function LoadHomeRecentPost() {
+
+        var application = $("#application").val();
+        debugger;
+        var url = "/Application/GetOfferLetter?id=" + application;
+        // var url = "/Model/EmployeePartial";
+        $("#dvHomePopularPostBind").load(url, function () {
+
+            //$("#form-bp1").modal("show");
+
+        })
+
+    };
+
+    function LoadHomePopularPost() {
+        $.ajax
+        ({
+            url: "/Recents/PopularPosts",
+            contentType: "application/html; charset=utf-8",
+            type: "GET",
+            cache: !0,
+            datatype: "html",
+            success: function (t) {
+                $("#dvHomePopularPostBind").html(t)
+            },
+            error: function () {
+                $("#dvHomePopularPostBind").html("Post Not Found")
+            }
+        })
+    }
+
+    $(document).ready(function () {
+        debugger;
+        LoadHomeRecentPost()
+    });
+</script>
+
+
+
+<script type="text/jscript">
+    function LoadDocument() {
+
+        var application = $("#application").val();
+        debugger;
+        var url = "/Application/GetDocument?id=" + application;
+        // var url = "/Model/EmployeePartial";
+        $("#document").load(url, function () {
+
+            //$("#form-bp1").modal("show");
+
+        })
+
+    };
+
+
+
+    $(document).ready(function () {
+        debugger;
+        
+        LoadDocument()
+    });
+</script>
+<script type="text/javascript">
+        function codeAddress() {
+            LoadDocument()
+        }
+        window.onload = codeAddress;
+</script>*@

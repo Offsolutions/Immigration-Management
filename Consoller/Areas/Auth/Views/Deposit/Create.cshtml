@@ -1,0 +1,227 @@
+﻿@model Consoller.Areas.Auth.Models.Recipt_Details
+@using Consoller.Areas.Auth.Models;
+@using onlineportal.Areas.AdminPanel.Models;
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Auth/Views/Shared/Profile.cshtml";
+    dbcontext db = new dbcontext();
+    Helper help = new Helper();
+    int rolno = Convert.ToInt32(TempData["roll"].ToString());
+
+    string a = help.Permission();
+    // List<StudentCourse> stucor = db.StudentCourses.Where(x => x.RollNo == rolno && x.Uid == a).Where(x => x.Status == true).ToList();
+
+    //List<tblstudentdata> stu = db.tblstudentdata.Where(x => x.rollno == rolno && x.uid == a).ToList();
+    //  var name = stu.FirstOrDefault().name;
+    var name = db.tblstudentdata.FirstOrDefault(x => x.rollno == rolno && x.uid == a && x.Status == true).name;
+    int pending = 0, paidfee = 0, totalfee = 0;
+    List<Fees_Master> fees = db.Fees_Master.Where(x => x.RollNo == rolno && x.franchid == a && x.Status == true).ToList();
+    if (fees.Count > 0)
+    {
+        totalfee = fees.FirstOrDefault().TotalFees;
+        pending = fees.FirstOrDefault().TotalFees - (fees.FirstOrDefault().PaidFees + Convert.ToInt32(fees.FirstOrDefault().discount));
+        paidfee = fees.FirstOrDefault().PaidFees + Convert.ToInt32(fees.FirstOrDefault().discount);
+    }
+    else
+    {
+        pending = 0;
+        paidfee = 0;
+    }
+
+}
+<div class="card">
+    <div class="card-body">
+
+        <div class="panel panel-default">
+
+            <div class="panel-title">Fee Deposit</div>
+         
+            <div class="panel-body">
+
+                <div class="col-md-12 padding-l-0">
+                    @using (Html.BeginForm("Create", "Deposit", FormMethod.Post, new { name = "myform", onsubmit = "return validateForm()" }))
+            {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group" style="display:none">
+                                @Html.LabelFor(model => model.ReciptNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.Label(ViewData["Receipt"].ToString(), htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.ReciptNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group" style="display:none">
+                                @Html.LabelFor(model => model.RollNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.Label(TempData["roll"].ToString(), htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.RollNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.Label(name, htmlAttributes: new { @class = "form-control" })
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                @Html.Label("Course", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("CourseId", null, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Total Fee", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.Label(totalfee.ToString(), htmlAttributes: new { @class = "form-control" })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="display:none">
+                                @Html.Label("Paid Fee", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.Label(paidfee.ToString(), htmlAttributes: new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="display:none">
+                                @Html.Label("Pending Fee", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <input id="Pending" type="text" name="Pending" class="form-control" value="@pending.ToString()" readonly />
+                                    @*@Html.Label(pending.ToString(), htmlAttributes: new { @class = "form-control" })*@
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Paid", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <input id="Amount" type="text" name="Amount" class="form-control" />
+                                    @*@Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })*@
+                                    @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Discount", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <input id="Discount" type="text" value="0" name="Discount" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Balance", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <input id="Balance" type="text" name="Balance" class="form-control" value="@pending.ToString()" readonly />
+                                    <input type="hidden" id="hidebal" name="hidebal" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Alert Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <input id="Alert" type="date" name="Alert" class="form-control" value="@System.DateTime.Now.ToString("MM/dd/yyyy")" />
+                                    <span>if student not deposit full fee</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Type</label>
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.Type,
+                                new SelectList(Enum.GetValues(typeof(Consoller.Areas.Auth.Models.Payment))),
+                                "Select Type",
+                                new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                          
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <div class="checkbox">
+                                        @Html.EditorFor(model => model.Active, new { @checked = "checked" })
+                                        @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Create" class="btn btn-danger" onclick="return validateForm()" />
+                                    @*@Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-danger" })*@
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+
+
+
+
+            </div>
+
+        </div>
+
+
+        <div>
+
+        </div>
+        </div>
+    </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+
+                $("#Amount").keyup(function () {
+
+                    //alert('pressed')
+                    var a = $("#Pending").val();
+
+                    var totalc = $("#Pending").val() - $(this).val();
+                    var totalcost = totalc - $("#Discount").val();
+                    $("#Balance").val(totalcost);
+                    $("#hidebal").val(totalcost);
+
+
+                })
+            });
+            $(document).ready(function () {
+
+                $("#Discount").keyup(function () {
+
+                    //alert('pressed')
+                    var a = $("#Pending").val();
+
+                    //var totalcost2 = $("#hidebal").val() - ($(this).val()+$("#Amount").val())
+                    var cost = $("#Pending").val() - $(this).val();
+                    var totalcost2 = cost - $("#Amount").val();
+                    $("#Balance").val(totalcost2);
+                })
+            });
+        </script>
+        <script>
+            function validateForm() {
+
+                var x = document.getElementById("Amount");
+                debugger;
+                if (x.value == "" || x.value == null || x.value == 0) {
+                    alert("Ammount must be filled out");
+                    return false;
+                }
+            }
+        </script>

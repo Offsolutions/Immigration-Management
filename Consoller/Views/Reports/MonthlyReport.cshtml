@@ -1,0 +1,67 @@
+﻿
+@using System.Data
+@{
+    ViewBag.Title = "MonthlyReport";
+    Layout = "~/Views/Shared/main.cshtml";
+    DataTable dt = new DataTable();
+}
+
+<div class="card">
+    <div class="card-body">
+        <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+            <tr>
+                <th>
+                    Date
+                </th>
+                <th>
+                  Application No
+                </th>
+                <th>
+                    Leader
+                </th>
+                <th>
+                 Type
+                </th>
+                <th>
+                   Reciptno
+                </th>
+                <th>
+                    Amount
+                </th>
+
+            </tr>
+
+            @foreach (DataRow item in dt.Rows)
+            {
+                <tr>
+                    <td>
+
+                        @item["Date"].ToString()
+                    </td>
+                    <td>
+
+                        @item["ApplicationNo"].ToString()
+                    </td>
+                    <td>
+
+                        @item["Leader"].ToString()
+                    </td>
+                    <td>
+
+                        @item["Type"].ToString()
+                    </td>
+                    <td>
+
+                        @item["ReciptNo"].ToString()
+                    </td>
+                    <td>
+
+                        @item["Amount"].ToString()
+                    </td>
+
+                </tr>
+            }
+
+        </table>
+        </div>
+</div>

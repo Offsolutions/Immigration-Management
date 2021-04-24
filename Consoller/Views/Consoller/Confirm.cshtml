@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.online >
+
+@{
+    ViewBag.Title = "Confirm";
+    Layout = "~/Views/Shared/main.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h4>Confirm Application</h4>
+        <hr />
+        <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Date)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Mobile)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.City)
+                    </th>
+
+                  
+                    <th>
+                        Leads
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.Sign)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Mobile)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.City)
+                    </td>
+
+                    <td>
+                        @if (item.Country == "Canada" || item.Country == "CANADA")
+                        {
+                            <img src="~/image/canada.png" width="20" />
+                        }
+                        @item.VisaType
+                    </td>
+
+                    <td>
+                        <span class="badge badge-pill badge-soft-success font-size-12">@Html.DisplayFor(modelItem => item.Sign)</span>
+                    </td>
+                    <td>
+                        @Html.ActionLink("DashBoard", "Create", "Application", new { id = item.inquiryid }, new { @class = "btn btn-primary btn-sm" })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>

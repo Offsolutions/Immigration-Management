@@ -1,0 +1,79 @@
+﻿@using Consoller.Areas.Auth.Models
+@model IEnumerable<Consoller.Areas.Auth.Models.tblstudentdata>
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+    Timing tn = new Timing();
+    MorningAttendence ma = new MorningAttendence();
+    var colors = new List<string>() { "P", "A", "L" };
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-inline">
+                        <label class="sr-only" for="inlineFormInputName2">Date</label>
+                        @Html.DropDownListFor(model => tn.BatchTime, (SelectList)ViewBag.TimeId, htmlAttributes: new { @class = "form-control" })
+
+                        <input type="submit" class="btn btn-primary mb-2" name="Search" />
+
+                    </div>
+
+                    <div class="input-group mb-2 mr-sm-4">
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.RadioButton("Fruit", "Present", new { @id = 1 })
+    @Html.RadioButton("Fruit", "Absent", new { @id = 2 })
+    @Html.RadioButton("Fruit", "Leave", new { @id = 3 })
+}
+
+@if (Model != null)
+{
+    <div class="card">
+        <div class="card-body">
+            <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Name
+                    </th>
+
+
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+
+                            @item.name
+                        </td>
+                        <td>
+                            @Html.RadioButton("Fruit", "Present", new { @id = 1 })
+                            @Html.RadioButton("Fruit", "Absent", new { @id = 2 })
+                            @Html.RadioButton("Fruit", "Leave", new { @id = 3 })
+                        </td>
+
+
+                    </tr>
+                }
+
+
+
+
+            </table>
+        </div>
+    </div>
+}

@@ -1,0 +1,118 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+}
+<script src="https://code.jquery.com/jquery-1.10.2.js"
+        integrity="sha256-it5nQKHTz+34HijZJQkpNBIHsjpV8b6QzMJs9tmOBSo="
+        crossorigin="anonymous"></script>
+@section scripts
+{
+   <script>
+
+
+    var AddEditEmployee=function(employeeId){
+        debugger;
+        var url = "/Model/EmployeePartial?stateID=" + employeeId;
+       // var url = "/Model/EmployeePartial";
+        $("#myModalBodyDiv1").load(url, function () {
+
+            $("#myModal1").modal("show");
+
+        })
+
+    }
+</script>
+<script>
+    function getCityList() {
+        debugger;
+        var stateId = "1";
+
+        $.ajax
+        ({
+            url: '/Model/EmployeePartial',
+            type: 'POST',
+            datatype: 'application/json',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                stateId: +stateId
+            }),
+            success: function (result) {
+                debugger;
+                $('#myModalContent').html(result);
+                $('#myModal').modal('show');
+
+            },
+            error: function () {
+                alert("Whooaaa! Something went wrong..")
+            },
+        });
+        $("#closbtn").click(function () {
+            debugger;
+            $('#myModal').modal('hide');
+        });
+    }
+</script>
+}
+<table style="background-color:orange; width:100%; border:solid 5px green; padding:20px;">
+
+    <tr>
+        <td align="center" style="padding:20px;">
+            <a href="javascript:void(0);" class="getAllEMP" onclick="AddEditEmployee(1)" style="font-size:20pt;">Get All Employee Inforamtion</a>
+        </td>
+    </tr>
+</table>
+
+<div id='myModal' class='modal' style="text-align:right; ">
+    <div class="modal-dialog" style="width:900px; height:400px; padding:10px;">
+        <div class="modal-content" >
+            <button type="button" id="closbtn">x</button>
+            <div style="height:10px;"></div>
+            <div id='myModalContent'>
+                @*@{Html.Partial("_EmpPartial");}*@
+                <table>
+                    @if (ViewBag.EmployeeList != null)
+                    {
+
+                        foreach (var item in ViewBag.EmployeeList)
+                        {
+                            <tr>
+                                <td><b>Name</b></td>
+                                <td>@item.Name</td>
+                            </tr>
+                            <tr>
+                                <td><b>DepartmentName</b></td>
+                                <td>@item.DepartmentName</td>
+                            </tr>
+                            <tr>
+                                <td><b>Address</b></td>
+                                <td>@item.Address</td>
+                            </tr>
+                        }
+                    }
+
+
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h3 class="modal-title">AddEdit Employee</h3>
+            </div>
+            <div class="modal-body" id="myModalBodyDiv1">
+
+                @*@{Html.RenderPartial("partial2");}*@
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>

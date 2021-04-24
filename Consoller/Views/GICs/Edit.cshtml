@@ -1,0 +1,197 @@
+﻿@model Consoller.Areas.Auth.Models.GIC
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/main.cshtml";
+}
+
+
+<div class="card">
+    <div class="card-body">
+      @using (Html.BeginForm("Edit", "GICs", FormMethod.Post, new { enctype = "multipart/form-data" }))
+      {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <h4>GIC</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Gid)
+                @Html.HiddenFor(model => model.CreatedBy)
+                @Html.HiddenFor(model => model.ApplicationNo)
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.AccountNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.AccountNo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.AccountNo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BankName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.BankName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.BankName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+               
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Fundstatus, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Fundstatus, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Fundstatus, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Files, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <input id="file" type="file" title="search image" class="form-control" name="file" />
+                        <small class="text-danger">Upload only pdf file</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Certificate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <input id="thumb" type="file" title="search image" class="form-control" name="thumb" />
+                        <small class="text-danger">Upload only pdf file</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Caq, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <input id="caq" type="file" title="search image" class="form-control" name="caq" />
+                        <small class="text-danger">Upload Caq only for Quebec</small> | <small class="text-danger">Upload only pdf file</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CaqUser, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CaqUser, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CaqUser, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                 <div class="form-group">
+                    @Html.LabelFor(model => model.CaqPassword, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CaqPassword, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CaqPassword, "", new { @class = "text-danger" })
+                    </div>
+                </div> 
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ArrimaUser, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ArrimaUser, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ArrimaUser, "", new { @class = "text-danger" })
+                    </div>
+                </div> 
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ArrimaPassword, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ArrimaPassword, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ArrimaPassword, "", new { @class = "text-danger" })
+                    </div>
+                </div> 
+                <div class="form-group">
+                    <label class="col-md-2">Gic Username</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2">Gic Password</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+               
+               
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SecurityQuestion, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.SecurityQuestion, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.SecurityQuestion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Answer, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Answer, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Answer, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EmailId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.EmailId, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EmailPassword, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.EmailPassword, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.EmailPassword, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+              
+                @if (Model.Files != null || Model.Certificate != null)
+                {
+                    <div class="form-group">
+                        @if (Model.Files != null)
+                        {
+                            <a href="~/Uploadfile/@Model.Files" target="_blank">TT Recipt</a>
+                        }
+                        @if (Model.Certificate != "False")
+                        {
+                            <span> | </span>  <a href="~/Uploadfile/@Model.Certificate" target="_blank">Gic Certificate</a>
+                        }
+                        @if (Model.Caq != "False")
+                        {
+                            <span> | </span>  <a href="~/Uploadfile/@Model.Caq" target="_blank">Caq</a>
+                        }
+                    </div>
+                }
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.Status)
+                            @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    </div>
+</div>

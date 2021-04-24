@@ -1,0 +1,101 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.Application>
+@using Consoller.Areas.Auth.Models
+@using Consoller.Models
+@{
+    ViewBag.Title = "AllApplication";
+    Layout = "~/Views/Shared/Process.cshtml";
+    int i = 0;
+    dbcontext db = new dbcontext();
+    Helper help = new Helper();
+    var franchise = help.Consoller();
+}
+
+<div class="card">
+    <div class="card-body">
+        <h4>Confirm applications</h4>
+        <hr />
+        <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+            <thead>
+                <tr>
+                    <th>
+                        S.No
+                    </th>
+                    <th>
+                        Application No
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Date)
+                    </th>
+
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Mobile
+                    </th>
+
+                    <th>
+                        City
+                    </th>
+                    <th>
+                        Status
+                    </th>
+
+                    <th>
+                        Application
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                online on = db.onlines.FirstOrDefault(x => x.inquiryid == item.InquiryId && x.franchid == item.Franchid);
+                <tr>
+                    <td>
+                        @{
+
+                            i = i + 1;
+                        }
+                        @i
+
+                    </td>
+                    <td>
+                        @item.ApplicationNo
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+
+                    <td>
+                        @on.Name
+                    </td>
+                    <td>
+                        @on.Mobile
+                    </td>
+
+                    <td>
+                        @on.City
+                    </td>
+                    <td>
+                        <span class="badge badge-pill badge-soft-danger font-size-12">@item.Status</span>
+                    </td>
+                    <td>
+                        @Html.ActionLink("DashBoard", "Create", "Application", new { id = item.InquiryId }, new { @class = "btn btn-primary btn-sm" })
+                    </td>
+                    <td>
+                        @*@Html.ActionLink("Edit", "Edit", new { id = item.Oid }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.Oid }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Oid }) |*@
+
+                        <a href="javascript:void(0);" onclick="AddBook(@item.InquiryId)" class="btn btn-success btn-sm">Profile</a>
+                        <a href="@Url.Action("Profile","Application",new { id=item.ApplicationNo})" class="btn btn-danger btn-sm">Full Detail</a>
+                    </td>
+                </tr>
+                            }
+
+        </table>
+
+    </div>
+</div>
+

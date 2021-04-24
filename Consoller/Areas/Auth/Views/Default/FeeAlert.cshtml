@@ -1,0 +1,116 @@
+﻿@*@model IEnumerable<Consoller.Areas.Auth.Models.Fees_Master>*@
+@using Consoller.Areas.Auth.Models
+@{
+    ViewBag.Title = "FeeAlert";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+    dbcontext db = new dbcontext();
+    var ab = System.DateTime.Now.AddDays(-3);
+    var c = Convert.ToDateTime(ab);
+    var feemaster = from Fees_Master in db.Fees_Master
+                    join tblstudentdata in db.tblstudentdata.Where(x => x.Status == true) on Fees_Master.RollNo equals tblstudentdata.rollno
+                    where tblstudentdata.Status == true && Fees_Master.AlertDate <= c
+                    select new
+                    {
+                        ID = Fees_Master.Id,
+                        Fees_Master.RollNo,
+                        Fees_Master.PaidFees,
+                        Fees_Master.AlertDate,
+                        Fees_Master.discount,
+                        Fees_Master.TotalFees,
+                        tblstudentdata.name,
+                        tblstudentdata.fathername,
+                        tblstudentdata.phone
+                    };
+}
+<div class="card">
+    <div class="card-body">
+        <h2><b>Fees Alert</b></h2>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                <thead>
+                    <tr>
+
+                        <th>
+                            RollNo
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Father Name
+                        </th>
+                        <th>
+                            Contact No.
+                        </th>
+                        <th>
+                            Total Fees
+                        </th>
+                        <th>
+                            Paid Fees
+                        </th>
+                        <th>
+                            Discount
+                        </th>
+                        <th>
+                            Balance
+                        </th>
+                        <th>
+                            Alert Date
+                        </th>
+                    </tr>
+                </thead>
+                @foreach (var item in feemaster)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RollNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+
+            </td>
+            <td>
+
+                @Html.DisplayFor(modelItem => item.fathername)
+            </td>
+            <td>
+
+                @Html.DisplayFor(modelItem => item.phone)
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.TotalFees)*@
+                @{
+                        StudentCourse cc = db.StudentCourses.Where(x => x.RollNo == item.RollNo).FirstOrDefault();
+                        DateTime Date1 =Convert.ToDateTime(cc.Admitdate);
+                        DateTime Date2 = Convert.ToDateTime(cc.enddate);
+
+                        int a = ((Date1.Year - Date2.Year) * 12) + Date1.Month - Date2.Month;
+                        int b = (Convert.ToInt32(item.TotalFees) * Convert.ToInt32(a) * Convert.ToInt32(-1));
+                }
+                @b
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaidFees)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.discount)
+            </td>
+            <td>
+                @{ int pending = b - (item.PaidFees + item.discount);
+                }
+                @pending
+            </td>
+            <td>
+                @Convert.ToDateTime(item.AlertDate).ToString("dd-MM-yyyy")
+
+            </td>
+
+        </tr>
+                        }
+
+            </table>
+        </div>
+        </div>
+</div>

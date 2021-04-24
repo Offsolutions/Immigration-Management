@@ -1,0 +1,83 @@
+﻿@model Consoller.Areas.Auth.Models.Medicals
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/main.cshtml";
+}
+
+
+<div class="card">
+    <div class="card-body">
+       @using (Html.BeginForm("Edit", "Medicals", FormMethod.Post, new { enctype = "multipart/form-data" }))
+       {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <h4>Medicals</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Mid)
+                @Html.HiddenFor(model => model.ApplicationNo)
+               @Html.HiddenFor(model => model.BookedBy)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.HospitalName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.HospitalName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.HospitalName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BookedBy, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.BookedBy, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.BookedBy, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Files, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <input id="file" type="file" title="search image" class="form-control" name="file" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                @if (Model.Files != null)
+                {
+                    <div class="form-group">
+                        @if (Model.Files != "False")
+                        {
+                            <a href="~/Uploadfile/@Model.Files" target="_blank">Medical</a>
+                        }
+                        
+                    </div>
+                }
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Update" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div>
+            @Html.ActionLink("Back to List", "Create","Application",new { id=Model.ApplicationNo})
+        </div>
+
+</div>
+</div>

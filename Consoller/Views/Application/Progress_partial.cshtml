@@ -1,0 +1,73 @@
+﻿@model Consoller.Areas.Auth.Models.Process
+
+
+
+<ul class="progressbar">
+    @if (Model.Registration == true)
+    {
+        <li class="active">Registration</li>
+    }
+    else
+    {
+        <li>Registration</li>
+    }
+@if (Model.Offerletter == true)
+{
+    <li class="active">Offer Letter</li>
+
+}
+else
+{
+    <li>Offer Letter</li>
+}
+    @if (Model.Gic == true)
+    {
+        <li class="active">Gic</li>
+
+    }
+    else
+    {
+        <li>Gic</li>
+    }
+    @if (Model.Medical == true)
+    {
+        <li class="active">Medical</li>
+
+    }
+    else
+    {
+        <li>Medical</li>
+    }
+    @if (Model.Filling == true)
+    {
+
+        <li class="active">Filling</li>
+    }
+    else
+    {
+        <li>Filling</li>
+    }
+    @if (Model.SubmitFile == true)
+    {
+        <li class="active">Submit</li>
+
+
+    }
+    else
+    {
+        <li>Submit</li>
+    }
+    @if (Model.FinalResult == true)
+    {
+        <li class="active">Result</li>
+    }
+    else
+    {
+        <li>Result</li>
+    }
+   
+ 
+
+      
+      
+    </ul>

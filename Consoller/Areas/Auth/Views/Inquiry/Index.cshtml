@@ -1,0 +1,149 @@
+﻿@model IEnumerable<Consoller.Areas.Auth.Models.tblinquiry>
+@using Consoller.Areas.Auth.Models
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Auth/Views/Shared/Layout.cshtml";
+    dbcontext db = new dbcontext();
+    var active = "Active";
+    var Deactive = "Deactive";
+}
+
+
+
+<div class="card">
+    <div class="card-body">
+        <div class="col-md-12 padding-l-0">
+            <p>
+                @Html.ActionLink("Create New", "Create", "", new { @class = "btn btn-primary" })
+            </p>
+            <div class="table-responsive">
+                <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.date)
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.fname)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.contact)
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.Categoryid)
+                            </th>
+
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Convert.ToDateTime(@item.date).ToString("dd-MM-yyyy")
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.fname)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.contact)
+                            </td>
+
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Category.Name)
+                            </td>
+
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "label label-warning" }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "label label-primary" }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "label label-danger" }) |
+                                @Html.ActionLink("Logs", "Index", "tblfeedbacks", new { id = item.inquiryid }, new { @class = "label label-danger" }) |
+                                @if (item.teacher == null)
+                                {
+                                    <a href="javascript:void(0);" onclick="AddBook(@item.inquiryid)" class="label label-danger">Assign</a>
+
+                                }
+                                else
+
+                                {
+                                    <a href="javascript:void(0);" onclick="ReAssign(@item.inquiryid)" class="label label-danger">Re-Assign</a>
+
+                                }
+
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+</div>
+<div class="modal fade colored-header colored-header-primary" id="form-bp1" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-header-colored">
+                <h3 class="modal-title">Assign Consoller</h3>
+
+            </div>
+            <div class="modal-body" id="myModalBodyDiv1">
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary md-close" type="button" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"
+        integrity="sha256-it5nQKHTz+34HijZJQkpNBIHsjpV8b6QzMJs9tmOBSo="
+        crossorigin="anonymous"></script>
+
+<script>
+
+
+    var AddBook=function(Member){
+        debugger;
+        var url = "/Inquiry/Assign?id=" + Member;
+        // var url = "/Model/EmployeePartial";
+        $("#myModalBodyDiv1").load(url, function () {
+
+            $("#form-bp1").modal("show");
+
+        })
+
+    }
+</script>
+
+<script>
+
+
+    var ReAssign=function(Member){
+        debugger;
+        var url = "/Inquiry/ReAssign?id=" + Member;
+        // var url = "/Model/EmployeePartial";
+        $("#myModalBodyDiv1").load(url, function () {
+
+            $("#form-bp1").modal("show");
+
+        })
+
+    }
+</script>
