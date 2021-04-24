@@ -142,7 +142,7 @@ namespace Consoller.Controllers
                     #endregion
                     TempData["Success"] = "Logs Submitted Sucessfully";
 
-                    help.sendsms(online.Mobile, "Thank You " + online.Name + " for Coming BlueBird Immigration. Your Trackingid is:"+app.TrackingId+" and password:12345  visit on bluebirdimmigrations.com");
+                    help.sendsms(online.Mobile, "Dear, Thank You " + online.Name + " for Coming BlueBird Immigration. Your Trackingid is:"+app.TrackingId+" and password:12345  visit on bluebirdimmigrations.com");
                     return RedirectToAction("Index", "Consoller");
                 }
                 catch (Exception e)
@@ -267,7 +267,7 @@ namespace Consoller.Controllers
                     #endregion
                     TempData["Success"] = "Logs Submitted Sucessfully";
 
-                    help.sendsms(result.Mobile, "Thank You " + result.Name + " for Coming BlueBird Immigration. Your Trackingid is:" + app.TrackingId + " and password:12345  visit on bluebirdimmigrations.com");
+                    help.sendsms(result.Mobile, "Dear, Thank You " + result.Name + " for Coming BlueBird Immigration. Your Trackingid is:" + app.TrackingId + " and password:12345  visit on bluebirdimmigrations.com");
                     return RedirectToAction("NoLog", "Consoller", new { id = log.inquiryid });
                 }
                 catch (Exception e)

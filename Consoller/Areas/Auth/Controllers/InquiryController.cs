@@ -103,7 +103,7 @@ namespace Consoller.Areas.Auth.Controllers
             {
                 if (sms != null)
                 {
-                    string msg = "Dear " + Convert.ToString(tblinquiry.name) + ". It was a pleasure to meet you, Thanks for your visit, and I hope to see you soon!";
+                    string msg = "Dear, " + Convert.ToString(tblinquiry.name) + ". It was a pleasure to meet you, Thanks for your visit, and I hope to see you soon!";
                     string result = Help.apicall("http://sms.sms.officialsolutions.in/sendSMS?username=" + sms.Username + "&message=" + msg + "&sendername=" + sms.Senderid + "&smstype=TRANS&numbers=" + tblinquiry.contact + "&apikey=" + sms.Api + "");
 
                     TempData["Success"] = "SMS Send Successfully";

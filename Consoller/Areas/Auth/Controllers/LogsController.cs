@@ -77,7 +77,7 @@ namespace Consoller.Areas.Auth.Controllers
             float pending = fm.TotalFees - fm.PaidFees;
             if (ss.phone != null)
             {
-                string msg = "Dear " + Convert.ToString(ss.name) + ". Reminder That Your Course Fee is still Due Rs."+pending+". Thanks for Joining Us. visit www.englishtreemoga.com.";
+                string msg = "Dear, " + Convert.ToString(ss.name) + ". Reminder That Your Course Fee is still Due Rs."+pending+". Thanks for Joining Us. visit www.englishtreemoga.com.";
                 string result = Help.apicall("http://sms.officialsolutions.in/sendSMS?username=" + sms.Username + "&message=" + msg + "&sendername=" + sms.Senderid + "&smstype=TRANS&numbers=" + ss.phone + "&apikey=" + sms.Api + "");
 
                 TempData["Success"] = "SMS Send Successfully";

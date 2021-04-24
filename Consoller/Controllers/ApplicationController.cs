@@ -146,7 +146,7 @@ namespace Consoller.Controllers
                     if (Recipt.sms == true)
                     {
 
-                        help.sendsms(onlines.Mobile, "Hello," + onlines.Name + " Thank you For Deposit  ");
+                        help.sendsms(onlines.Mobile, "Dear," + onlines.Name + " Thank you For Deposit  ");
                     }
                     transaction.Commit();
                     return Json(Recipt, JsonRequestBehavior.AllowGet);
@@ -337,7 +337,7 @@ namespace Consoller.Controllers
                         if (gic.Sms == true)
                         {
 
-                            help.sendsms(onlines.Mobile, "Hello," + onlines.Name + " your Gic Account Has Open Sucessfully ");
+                            help.sendsms(onlines.Mobile, "Dear," + onlines.Name + " your Gic Account Has Open Sucessfully ");
                         }
                         // return Json(gic, JsonRequestBehavior.AllowGet);
                         TempData["Success"] = "Your Gic Account Add Successfully";
@@ -391,7 +391,7 @@ namespace Consoller.Controllers
                         if (Med.Sms == true)
                         {
 
-                            help.sendsms(onlines.Mobile, "Hello," + onlines.Name + " your Medical Registerd Sucessfully ");
+                            help.sendsms(onlines.Mobile, "Dear," + onlines.Name + " your Medical Registerd Sucessfully ");
                         }
                         return Json(Med, JsonRequestBehavior.AllowGet);
                     }
@@ -466,7 +466,7 @@ namespace Consoller.Controllers
                     if (sub.Sms == true)
                     {
 
-                        help.sendsms(onlines.Mobile, "Hello," + onlines.Name + " your Your File is Ready For Submit ");
+                        help.sendsms(onlines.Mobile, "Dear," + onlines.Name + " your Your File is Ready For Submit ");
                     }
                     return Json("", JsonRequestBehavior.AllowGet);
                 }

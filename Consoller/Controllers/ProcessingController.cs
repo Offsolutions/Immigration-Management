@@ -60,7 +60,7 @@ namespace Consoller.Controllers
                     transaction.Commit();
                     if (off.Sms == true)
                     {
-                        Help.sendsms(Help.contact(off.ApplicationNo), "Hello Your Offerletter has been Applied");
+                        Help.sendsms(Help.contact(off.ApplicationNo), "Dear, Hello Your Offerletter has been Applied");
                     }
                     return RedirectToAction("Dashboard", "Processing", new { id = off.ApplicationNo });
                 }
@@ -103,7 +103,7 @@ namespace Consoller.Controllers
                         if (gic.Sms == true)
                         {
 
-                            help.sendsms(onlines.Mobile, "Hello," + onlines.Name + " your Gic Account Has Open Sucessfully ");
+                            help.sendsms(onlines.Mobile, "Dear," + onlines.Name + " your Gic Account Has Open Sucessfully ");
                         }
                         return Json(gic, JsonRequestBehavior.AllowGet);
                     }
@@ -154,7 +154,7 @@ namespace Consoller.Controllers
                         if (Med.Sms == true)
                         {
 
-                            help.sendsms(onlines.Mobile, "Hello," + onlines.Name + " your Medical Registerd Sucessfully ");
+                            help.sendsms(onlines.Mobile, "Dear," + onlines.Name + " your Medical Registerd Sucessfully ");
                         }
                         return Json(Med, JsonRequestBehavior.AllowGet);
                     }
@@ -229,7 +229,7 @@ namespace Consoller.Controllers
                     if (sub.Sms == true)
                     {
 
-                        help.sendsms(onlines.Mobile, "Hello," + onlines.Name + " your Your File is Ready For Submit ");
+                        help.sendsms(onlines.Mobile, "Dear," + onlines.Name + " your Your File is Ready For Submit ");
                     }
                     return Json("", JsonRequestBehavior.AllowGet);
                 }
